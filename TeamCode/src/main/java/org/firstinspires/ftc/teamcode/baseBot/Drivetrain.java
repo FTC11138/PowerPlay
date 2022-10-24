@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.teamcode.outreachBot.Configuration;
+import org.firstinspires.ftc.teamcode.powerplay.Configuration;
 //import org.openftc.revextensions2.ExpansionHubEx;
 //import org.openftc.revextensions2.ExpansionHubMotor;
 

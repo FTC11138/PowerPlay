@@ -5,7 +5,6 @@ import android.util.Log;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "Claw Bot TeleOp", group = "Iterative Opmode")
 //@Disabled
 public class ClawBotTeleOp extends OpMode {
@@ -13,10 +12,10 @@ public class ClawBotTeleOp extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private ClawBot myRobot = new ClawBot();
 
-    /* ------------------------------------ CONSTANTS ------------------------------------ */
+    /* ------------------------------------ OutreachCONSTANTS ------------------------------------ */
     // Servos
-    private double clawPos = Constants.clawOpenB;
-    private double liftPos = Constants.liftDrive;
+    private double clawPos = OutreachConstants.clawOpenB;
+    private double liftPos = OutreachConstants.liftDrive;
     private boolean isClawBotA = false;
     private int aPause = 0;
 
@@ -57,26 +56,26 @@ public class ClawBotTeleOp extends OpMode {
         //Drive motor controls
         double lx = gamepad1.left_stick_x;
         double ly = -gamepad1.left_stick_y;
-        double speedMultiplier = Constants.joyStraight;
-        double rotationMultiplier = Constants.joyTurn;
+        double speedMultiplier = OutreachConstants.joyStraight;
+        double rotationMultiplier = OutreachConstants.joyTurn;
 
         if (gamepad1.dpad_up) {
             ly = 1;
             lx = 0;
-            speedMultiplier = Constants.dpadStraight;
+            speedMultiplier = OutreachConstants.dpadStraight;
         } else if (gamepad1.dpad_down) {
             ly = -1;
             lx = 0;
-            speedMultiplier = Constants.dpadStraight;
+            speedMultiplier = OutreachConstants.dpadStraight;
         }
         if (gamepad1.dpad_left) {
             lx = -1;
             ly = 0;
-            speedMultiplier = Constants.dpadSide;
+            speedMultiplier = OutreachConstants.dpadSide;
         } else if (gamepad1.dpad_right) {
             lx = 1;
             ly = 0;
-            speedMultiplier = Constants.dpadSide;
+            speedMultiplier = OutreachConstants.dpadSide;
         }
 
         // Math
@@ -89,39 +88,39 @@ public class ClawBotTeleOp extends OpMode {
 
         /* ------------------------------------ Change ------------------------------------ */
         if (gamepad1.x) {
-            liftPos = Constants.liftDrive;
+            liftPos = OutreachConstants.liftDrive;
         } else if (gamepad1.y) {
-            liftPos = Constants.liftTop;
+            liftPos = OutreachConstants.liftTop;
         } else if (gamepad1.a) {
-            liftPos = Constants.liftBot;
+            liftPos = OutreachConstants.liftBot;
         }
 
         if (gamepad1.left_bumper) {
             if (isClawBotA) {
-                clawPos = Constants.clawCloseA;
+                clawPos = OutreachConstants.clawCloseA;
             } else {
-                clawPos = Constants.clawCloseB;
+                clawPos = OutreachConstants.clawCloseB;
             }
         } else if (gamepad1.right_bumper) {
             if (isClawBotA) {
-                clawPos = Constants.clawOpenA;
+                clawPos = OutreachConstants.clawOpenA;
             } else {
-                clawPos = Constants.clawOpenB;
+                clawPos = OutreachConstants.clawOpenB;
             }
         }
 
         double lt = gamepad1.left_trigger;
         double rt = gamepad1.right_trigger;
         if (rt > 0.3) {
-            liftPos += rt * Constants.liftRatio;
+            liftPos += rt * OutreachConstants.liftRatio;
         } else if (lt > 0.3) {
-            liftPos -= lt * Constants.liftRatio;
+            liftPos -= lt * OutreachConstants.liftRatio;
         }
 
-        if (liftPos > Constants.liftBot) {
-            liftPos = Constants.liftBot;
-        } else if (liftPos < Constants.liftTop) {
-            liftPos = Constants.liftTop;
+        if (liftPos > OutreachConstants.liftBot) {
+            liftPos = OutreachConstants.liftBot;
+        } else if (liftPos < OutreachConstants.liftTop) {
+            liftPos = OutreachConstants.liftTop;
         }
 
         if (aPause == 0) {
@@ -130,7 +129,7 @@ public class ClawBotTeleOp extends OpMode {
             }
         } else {
           aPause++;
-          aPause %= Constants.buttonDelay;
+          aPause %= OutreachConstants.buttonDelay;
         }
 
 

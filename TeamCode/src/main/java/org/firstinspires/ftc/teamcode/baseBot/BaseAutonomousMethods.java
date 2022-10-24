@@ -15,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.outreachBot.ClawBot;
-import org.firstinspires.ftc.teamcode.outreachBot.Constants;
+import org.firstinspires.ftc.teamcode.powerplay.Constants;
 
 public abstract class BaseAutonomousMethods extends LinearOpMode {
     public ClawBot myRobot = new ClawBot();
@@ -128,7 +128,7 @@ public abstract class BaseAutonomousMethods extends LinearOpMode {
         return output;
     }
 
-    private double loopAround(double output) {
+    double loopAround(double output) {
         if (output > 180) {
             output -= 360;
         }

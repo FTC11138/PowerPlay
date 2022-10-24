@@ -1,12 +1,26 @@
-package org.firstinspires.ftc.teamcode.outreachBot;
+package org.firstinspires.ftc.teamcode.powerplay;
 
 import com.acmerobotics.dashboard.config.Config;
 
-import org.opencv.core.Core;
 import org.opencv.core.Scalar;
 
 @Config
 public class Constants {
+    // PowerPlay Stuff
+    public static double slideIn;
+    public static double slideSide;
+    public static double slideOut;
+    public static double clawOpen;
+    public static double clawClose;
+
+    public static double liftRatio = 1;
+    public static double liftDownRatio = 0.72;
+    public static double extRatio = -0.0053;
+    public static double setRotateMultiplier = 0.25;
+
+    public static int liftOff = 108;
+    public static int liftTop = -3306;
+
     // Drive motor
     public static final double TICKS_PER_REV = 751.8;
     public static final double CIRCUMFERENCE_IN_INCHES = 100 / 25.4 * Math.PI;
@@ -16,22 +30,26 @@ public class Constants {
     public static double kR = 0.084; // PID turn kR
     public static double kD = 0.0072; // PID turn kD
 
-    public static double joyStraight = 0.6;
-    public static double joyTurn = 0.5;
+    public static double tkR = 0.03;
+    public static double setVerticalMinSpeed = 0.18;
+    public static double setVerticalMaxSpeed = 1;
+    public static double setHorizontalMinSpeed = 0.3;
+    public static double setHorizontalMaxSpeed = 1;
+    public static double setDiagonalMinSpeed = 0.3;
+    public static double setDiagonalMaxSpeed = 1;
+    public static double setReadjustMinSpeed = 0.12;
+    public static double setReadjustMaxSpeed = 0.;
 
-    public static double liftTop = 0.28;
-    public static double liftDrive = 0.94;
-    public static double liftBot = 1;
-    public static double liftRatio = 0.001;
 
-    public static double clawOpenB = 0.2;
-    public static double clawCloseB = 0.5;
-    public static double clawOpenA = 0.23;
-    public static double clawCloseA = 0.53;
+    public static double setHorizontalDisCap = 24;
+    public static double setVerticalDisCap = 36;
+    public static double setReadjustDisCap = 24;
+    public static double vertHorRatio = 1.22348112;
 
-    public static double dpadStraight = 0.15;
-    public static double dpadSide = 0.3;
-    public static int buttonDelay = 6;
+    public static double ColorThresh = 0.9;
+    public static double ColorStripAlignmentSpeed = 0.4;
+    public static int ColorStripAlignmentDelay = 5000;
+    public static int gain = 10;
 
     public static int changeThresh = 128;
     public static int colorThresh = 200;
@@ -40,6 +58,7 @@ public class Constants {
     public static int brx = 100; // Bottom right x for rectangle
     public static int bry = 100; // Bottom right y for rectangle
 
+    // Camera stuff
     public static int leftBoundary = 550; // left side of detection zone
     public static int rightBoundary = 750; // right side of detection zone
     public static int middleLine = 618; // detection line y coordinate

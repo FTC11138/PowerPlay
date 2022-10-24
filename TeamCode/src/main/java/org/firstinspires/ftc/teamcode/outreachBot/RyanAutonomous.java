@@ -14,8 +14,8 @@ public class RyanAutonomous extends BaseAutonomousMethods {
     @Override
     public void runOpMode() {
         initializeAuto(hardwareMap, telemetry);
-        myRobot.setLiftServo(Constants.liftDrive);
-        myRobot.setClawServo(Constants.clawOpenB);
+        myRobot.setLiftServo(OutreachConstants.liftDrive);
+        myRobot.setClawServo(OutreachConstants.clawOpenB);
         waitForStart();
         runtime.reset();
 
@@ -25,15 +25,15 @@ public class RyanAutonomous extends BaseAutonomousMethods {
         encoderStraightDrive(24, 0.5);
         encoderTurn(90, 0.5, 1);
         encoderStraightDrive(12, 0.8);
-        myRobot.setLiftServo(Constants.liftBot);
+        myRobot.setLiftServo(OutreachConstants.liftBot);
         sleep(120);
         encoderStraightDrive(5, 0.3);
-        myRobot.setClawServo(Constants.clawCloseB);
+        myRobot.setClawServo(OutreachConstants.clawCloseB);
         sleep(500);
-        myRobot.setLiftServo(Constants.liftTop);
+        myRobot.setLiftServo(OutreachConstants.liftTop);
         sleep(4000);
         encoderStrafeDriveInchesRight(24, 0.8);
-        myRobot.setClawServo(Constants.clawOpenB);
+        myRobot.setClawServo(OutreachConstants.clawOpenB);
         sleep(3000);
 
     }
