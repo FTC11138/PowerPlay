@@ -18,6 +18,20 @@ public class BlueRight extends BaseAutonomousMethods{
 
         sleep(120);
 
+        int signal = 1;
+
         encoderStraightDrive(48, 0.5);
+        // encoderStrafeDriveInchesRight(12, 0.5);
+
+        do {
+            if (runtime.seconds() >= 28) {
+                if (signal == 1) {
+                    encoderStrafeDriveInchesRight(-24, 0.5); // turn left
+                } else if (signal == 3) {
+                    encoderStrafeDriveInchesRight(24, 0.5);
+                }
+                break;
+            }
+        } while (true);
     }
 }
