@@ -51,7 +51,10 @@ public class Constants {
     public static int ColorStripAlignmentDelay = 5000;
     public static int gain = 10;
 
+    public static int imgWidth = 1920;
+    public static int imgHeight = 1080;
     public static int changeThresh = 128;
+    public static int negChangeThresh = -128;
     public static int colorThresh = 200;
     public static int tlx = 0; // Top left x for rectangle
     public static int tly = 0; // Top left y for rectangle

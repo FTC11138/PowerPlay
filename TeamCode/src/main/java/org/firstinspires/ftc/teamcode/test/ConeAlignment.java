@@ -24,8 +24,8 @@ import org.opencv.photo.Photo;
 
 @TeleOp(name = "Webcam Cone Alignment")
 public class ConeAlignment extends OpMode {
-    static final int STREAM_WIDTH = 1920; // modify for your camera
-    static final int STREAM_HEIGHT = 1080; // modify for your camera
+    static final int STREAM_WIDTH = Constants.imgWidth; // modify for your camera
+    static final int STREAM_HEIGHT = Constants.imgHeight; // modify for your camera
     OpenCvWebcam webcam;
     ConeAlignmentPipeline pipeline;
     FtcDashboard dashboard = FtcDashboard.getInstance();
@@ -70,8 +70,8 @@ public class ConeAlignment extends OpMode {
 
 class ConeAlignmentPipeline extends OpenCvPipeline {
     Mat HSV = new Mat();
-    static final int STREAM_WIDTH = 1920; // modify for your camera
-    static final int STREAM_HEIGHT = 1080; // modify for your camera
+    static final int STREAM_WIDTH = Constants.imgWidth; // modify for your camera
+    static final int STREAM_HEIGHT = Constants.imgHeight; // modify for your camera
     FtcDashboard dashboard = FtcDashboard.getInstance();
     TelemetryPacket packet = new TelemetryPacket();
 
@@ -104,10 +104,10 @@ class ConeAlignmentPipeline extends OpenCvPipeline {
         int x4 = 0;
         int y1 = 0;
         int y2 = 0;
-        for (int y = 1079; y >= 20; y -= 20) {
+        for (int y = Constants.imgHeight - 1; y >= 20; y -= 20) {
             y1 = y;
             y2 = y - 20;
-            for (int j = 1; j < 1920; j++) {
+            for (int j = 1; j < Constants.imgWidth; j++) {
                 if ((input.at(Byte.class, y1, j).getV().byteValue() - input.at(Byte.class, y1, j - 1).getV().byteValue()) > Constants.maskChangeThresh) {
                     x1 = j;
                 }
@@ -143,20 +143,20 @@ class ConeAlignmentPipeline extends OpenCvPipeline {
         int x2 = 0;
         int x3 = 0;
         int x4 = 0;
-        int y1 = 1080 - 200;
-        int y2 = 1080 - 250;
-        for (int j = 1; j < 1920; j++) {
+        int y1 = Constants.imgHeight - 200;
+        int y2 = Constants.imgHeight - 250;
+        for (int j = 1; j < Constants.imgWidth; j++) {
 //            //if (input.at(Byte.class, (y2 + y1) / 2, j).getV4c().get_0() - input.at(Byte.class, (y2 + y1) / 2, j - 1).getV4c().get_0() > Constants.changeThresh) {
             if ((input.at(Byte.class, y1, j).getV().byteValue() - input.at(Byte.class, y1, j - 1).getV().byteValue()) > Constants.changeThresh) {
                 x1 = j;
             }
-            if ((input.at(Byte.class, y1, j).getV().byteValue() - input.at(Byte.class, y1, j - 1).getV().byteValue()) < -1 * Constants.changeThresh) {
+            if ((input.at(Byte.class, y1, j).getV().byteValue() - input.at(Byte.class, y1, j - 1).getV().byteValue()) < Constants.negChangeThresh) {
                 x2 = j;
             }
             if ((input.at(Byte.class, y2, j).getV().byteValue() - input.at(Byte.class, y2, j - 1).getV().byteValue()) > Constants.changeThresh) {
                 x3 = j;
             }
-            if ((input.at(Byte.class, y2, j).getV().byteValue() - input.at(Byte.class, y2, j - 1).getV().byteValue()) < -1 * Constants.changeThresh) {
+            if ((input.at(Byte.class, y2, j).getV().byteValue() - input.at(Byte.class, y2, j - 1).getV().byteValue()) < Constants.negChangeThresh) {
                 x4 = j;
             }
         }
@@ -180,11 +180,11 @@ class ConeAlignmentPipeline extends OpenCvPipeline {
 //        Cr.copyTo(input);
         // Detect Red
         if (Constants.isDetectRed) {
-            Core.inRange(HSV, new Scalar(0, 75, 75), new Scalar(5, 255, 255), mask1);
-            Core.inRange(HSV, new Scalar(175, 75, 75), new Scalar(180, 255, 255), mask2);
+            Core.inRange(HSV, new Scalar(0, 50, 50), new Scalar(5, 255, 255), mask1); // low luma from 75 to 50
+            Core.inRange(HSV, new Scalar(175, 50, 50), new Scalar(180, 255, 255), mask2); // low luma from 75 to 50
             Core.bitwise_or(mask1, mask2, input);
         } else { // Detect Blue
-            Core.inRange(HSV, new Scalar(100, 75, 75), new Scalar(140   , 255, 255), input);
+            Core.inRange(HSV, new Scalar(100, 50, 50), new Scalar(140   , 255, 255), input); // low luma from 75 to 50
             Imgproc.GaussianBlur(input, input, new Size(5, 5), 0);
         }
         // Core.inRange(HSV, new Scalar(175, 75, 75), new Scalar(180, 255, 255), mask2);
@@ -208,19 +208,19 @@ class ConeAlignmentPipeline extends OpenCvPipeline {
         coneMiddleX = calConeMiddleX(input);
 
         /*Imgproc.line(input, new Point(960, 0),
-                new Point(960, 1080),
+                new Point(960, Constants.imgHeight),
                 new Scalar(255, 255, 0));*/
 
         Imgproc.line(input, new Point(coneMiddleX, 0),
-                new Point(coneMiddleX, 1080),
+                new Point(coneMiddleX, Constants.imgHeight),
                 new Scalar(0, 0, 0)); // Black line
 
         Imgproc.line(input, new Point(getAverageX1(), 0),
-                new Point(getAverageX1(), 1080),
+                new Point(getAverageX1(), Constants.imgHeight),
                 new Scalar(255, 255, 255)); // White line
 
         Imgproc.line(input, new Point(getAverageX2(), 0),
-                new Point(getAverageX2(), 1080),
+                new Point(getAverageX2(), Constants.imgHeight),
                 new Scalar(255, 255, 255)); // White line
 
 //                input, // Buffer to draw on
