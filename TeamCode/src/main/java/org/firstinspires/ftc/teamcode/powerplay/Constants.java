@@ -7,11 +7,11 @@ import org.opencv.core.Scalar;
 @Config
 public class Constants {
     // PowerPlay Stuff
-    public static double slideIn;
+    public static double slideIn = 1;
     public static double slideSide;
-    public static double slideOut;
-    public static double clawOpen;
-    public static double clawClose;
+    public static double slideOut = 0.1;
+    public static double clawOpen = 0.6;
+    public static double clawClose = 0.5;
 
     public static double liftRatio = 1;
     public static double liftDownRatio = 0.72;
@@ -20,6 +20,17 @@ public class Constants {
 
     public static int liftOff = 108;
     public static int liftTop = -3306;
+
+    // Lift Positions
+    public static int liftHigh = 3050;
+    public static int liftMed = 2200;
+    public static int liftLow = 1400;
+    public static int liftFloor = 300;
+    public static int liftDrive = 50;
+    public static int liftMax = 3100;
+    public static int liftMin = 30;
+    public static double liftkP = 4.8;
+
 
     // Drive motor
     public static final double TICKS_PER_REV = 751.8;

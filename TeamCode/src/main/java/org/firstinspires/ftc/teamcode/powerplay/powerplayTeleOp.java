@@ -139,6 +139,22 @@ public class powerplayTeleOp extends OpMode {
 
 
         /* ------------------------------------ Change ------------------------------------ */
+
+        if (gamepad2.right_bumper) {
+            clawPosition = Constants.clawClose;
+        } else if (gamepad2.left_bumper) {
+            clawPosition = Constants.clawOpen;
+        }
+        myRobot.setClawServo(clawPosition);
+
+        if (gamepad2.b) {
+            slidePosition = Constants.slideIn;
+        } else if (gamepad2.a) {
+            slidePosition = Constants.slideOut;
+        }
+        myRobot.setSlideServo(slidePosition);
+
+
         // Raising lift by power
         double liftJoystick = gamepad2.left_stick_y;
         if (liftJoystick > 0.12) {
@@ -150,6 +166,19 @@ public class powerplayTeleOp extends OpMode {
         } else if (useLiftPower) {
             liftPower = 0;
         }
+
+
+        // Lifting by Position
+        if (gamepad2.dpad_up) {
+            setLiftMotor(Constants.liftHigh, 10, true);
+        } else if (gamepad2.dpad_right) {
+            setLiftMotor(Constants.liftMed, 10, true);
+        } else if (gamepad2.dpad_down) {
+            setLiftMotor(Constants.liftLow, 10, true);
+        } else if (gamepad2.dpad_left) {
+            setLiftMotor(Constants.liftDrive, 10, true);
+        }
+
 
         // Rotating stuff by power
         double armRJoystick = gamepad2.right_stick_x;
@@ -192,7 +221,7 @@ public class powerplayTeleOp extends OpMode {
         telemetry.addData("limits", limits);
         telemetry.update();
 
-        Log.d("AHHHHHH extender", String.valueOf(currentSlidePosition));
+        Log.d("AHHHHHH extender", String.valueOf(slidePosition));
         Log.d("AHHHHHH rotate", String.valueOf(currentRPosition));
         Log.d("AHHHHHH lift", String.valueOf(currentLiftPosition));
         Log.d("AHHHHH imu: ", "" + myRobot.getAngle());
@@ -202,41 +231,42 @@ public class powerplayTeleOp extends OpMode {
     public void stop() {
     }
 
-//    void setLiftMotor(int position, double tolerance, boolean usePID) {
-//        dropPosition = Constants.dropClosePosition;
-//        if (usePID) {
-//            //Undefined constants
-//            double newPower;
-//            //Initial error
-//            double error = (position - currentLiftPosition) / Constants.liftMax;
-//            //Initial Time
-//            telemetry.addData("1", "error: " + error);
-//            if (Math.abs(error) > (tolerance / Constants.liftMax)) {
-//                //Setting p action
-//                newPower = Math.max(Math.min(error * Constants.liftkP, 1), -1);
-////                Log.d("AHHHHHH liftMotor", "PID newPower: " + newPower);
-////                telemetry.addData("liftMotor PID newPower", newPower);
-//
-//                //Set real power
-//                newPower = Math.max(Math.abs(newPower), Constants.liftMin) * Math.signum(newPower);
-//                if (Math.signum(newPower) == 1) {
-//                    newPower = newPower * Constants.liftDownRatio;
-//                }
-//                myRobot.runLiftMotor(newPower);
-//
-//                //Logging
-////                Log.d("AHHHHHH liftMotor", "error: " + (error * Constants.liftMax) + ", power: " + newPower + ", current position: " + currentPosition);
-////                return false;
-//            } else {
-//                useLiftPower = true;
-//                myRobot.runLiftMotor(0);
-////                return true;
-//            }
-//        } else {
-//            myRobot.setLiftMotor(1, position);
-////            return true;
-//        }
-//    }
+    void setLiftMotor(int position, double tolerance, boolean usePID) {
+        double dropPosition = Constants.clawClose;
+        useLiftPower = false;
+        if (usePID) {
+            //Undefined constants
+            double newPower;
+            //Initial error
+            double error = (position - currentLiftPosition) / Constants.liftMax;
+            //Initial Time
+            telemetry.addData("1", "error: " + error);
+            if (Math.abs(error) > (tolerance / Constants.liftMax)) {
+                //Setting p action
+                newPower = Math.max(Math.min(error * Constants.liftkP, 1), -1);
+//                Log.d("AHHHHHH liftMotor", "PID newPower: " + newPower);
+//                telemetry.addData("liftMotor PID newPower", newPower);
+
+                //Set real power
+                newPower = Math.max(Math.abs(newPower), Constants.liftMin) * Math.signum(newPower);
+                if (Math.signum(newPower) == 1) {
+                    newPower = newPower * Constants.liftDownRatio;
+                }
+                myRobot.runLiftMotor(newPower);
+
+                //Logging
+//                Log.d("AHHHHHH liftMotor", "error: " + (error * Constants.liftMax) + ", power: " + newPower + ", current position: " + currentPosition);
+//                return false;
+            } else {
+                useLiftPower = true;
+                myRobot.runLiftMotor(0);
+//                return true;
+            }
+        } else {
+            myRobot.setLiftMotor(1, position);
+//            return true;
+        }
+    }
 
     public void setRotationPosition(double speed, int position) {
 //        if ((currentLiftPosition < Constants.armSpin) ||
