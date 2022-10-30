@@ -82,6 +82,9 @@ class SignalDetectionPipeline extends OpenCvPipeline {
 @Autonomous(name = "BlueRight", group = "Linear Opmode")
 public class BlueRight extends BaseAutonomousMethods{
 
+    static final int STREAM_WIDTH = 1920; // modify for your camera
+    static final int STREAM_HEIGHT = 1080; // modify for your camera
+
     private ElapsedTime runtime = new ElapsedTime();
 
     OpenCvWebcam webcam;
@@ -89,33 +92,9 @@ public class BlueRight extends BaseAutonomousMethods{
     int signal = 1;
     FtcDashboard dashboard = FtcDashboard.getInstance();
     TelemetryPacket packet = new TelemetryPacket();
-    /*
-    @Override
-    public void loop() {
-//        telemetry.addData("Image Analysis:",pipeline.getAnalysis());
-//        telemetry.addData("Image number:", pipeline.getRectA_Analysis());
-        telemetry.addData("Image number:", signalDetectionPipeline.getCounter());
-        telemetry.update();
-
-        TelemetryPacket pack = new TelemetryPacket();
-        pack.put("Image number:", signalDetectionPipeline.getCounter());
-        dashboard.sendTelemetryPacket(pack);
-    }*/
-
-    /*
-     * Code to run ONCE when the driver hits INIT
-     */
-    /*@Override
-    public void init() {
-        telemetry.addData("Status", "Initialized");
-
-
-    }*/
 
     @Override
-    public void runOpMode() throws InterruptedException {
-       // telemetry.addData("Status", "Initialized");
-       // telemetry.update();
+    public void runOpMode() throws InterruptedException {telemetry.update();
         initializeAutonomousDrivetrain(hardwareMap, telemetry);
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -127,6 +106,7 @@ public class BlueRight extends BaseAutonomousMethods{
             @Override
             public void onOpened()
             {
+                webcam.startStreaming(STREAM_WIDTH, STREAM_HEIGHT, OpenCvCameraRotation.UPRIGHT);
             }
 
             @Override
@@ -134,45 +114,33 @@ public class BlueRight extends BaseAutonomousMethods{
             }
         });
 
-        // Tell the driver that initialization is complete.
-        telemetry.addData("Signal", signal);
-        telemetry.update();
-
         waitForStart();
         runtime.reset();
 
+        sleep(2000);
 
-        sleep(120);
-
-        //signal = signalDetectionPipeline.getCounter();
-
+        signal = signalDetectionPipeline.getCounter();
         telemetry.addData("Signal", signal);
         telemetry.update();
 
         encoderStraightDrive(36, 0.5);
-        // encoderStrafeDriveInchesRight(12, 0.5);
 
         do {
-            signal = signalDetectionPipeline.getCounter();
-            if (runtime.seconds() >= 10) {
-                if (signal == 0) {
+            if (runtime.seconds() >= 5) {
+                if (signal == 1) {
                     encoderStrafeDriveInchesRight(-18, 0.5); // turn left
-                } else if (signal >= 3) {
+                } else if (signal == 3) {
                     encoderStrafeDriveInchesRight(18, 0.5); // turn right
-                } else if (signal == 1) {
-                    encoderStraightDrive(36, 0.5);
-                } else if (signal == 2) {
-                    encoderStraightDrive(-36, 0.5);
                 }
 
                 sleep(2000);
-                // return to original
-                /*if (signal == 1) {
+                // return to original, for testing purpose. REMOVE IT before competition!!!!
+                if (signal == 1) {
                     encoderStrafeDriveInchesRight(18, 0.5); // turn right
                 } else if (signal == 3) {
                     encoderStrafeDriveInchesRight(-18, 0.5); // turn left
                 }
-                encoderStraightDrive(-36, 0.5);*/
+                encoderStraightDrive(-36, 0.5);
                 break;
             }
         } while (true);
