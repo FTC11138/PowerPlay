@@ -73,9 +73,9 @@ public class Constants {
     public static int bry = 100; // Bottom right y for rectangle
 
     // Camera stuff
-    public static int leftBoundary = 850; // left side of detection zone
-    public static int rightBoundary = 950; // right side of detection zone
-    public static int middleLine = 818; // detection line y coordinate
+    public static int leftBoundary = 1000; // left side of detection zone
+    public static int rightBoundary = 1100; // right side of detection zone
+    public static int middleLine = 700; // detection line y coordinate
 
     public static Scalar lowRed1 = new Scalar(0, 70, 50);
     public static Scalar highRed1 = new Scalar(10, 255, 255);
