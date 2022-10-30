@@ -211,8 +211,8 @@ class SamplePipeline extends OpenCvPipeline {
 
         Imgproc.rectangle( // rings
                 input, // Buffer to draw on
-                new Point(Constants.leftBoundary,547), // First point which defines the rectangle
-                new Point(Constants.rightBoundary,689), // Second point which defines the rectangle
+                new Point(Constants.leftBoundary,798), // First point which defines the rectangle
+                new Point(Constants.rightBoundary,838), // Second point which defines the rectangle
                 new Scalar(0,0,255), // The color the rectangle is drawn in
                 2); // Thickness of the rectangle lines
         Imgproc.line(input, new Point(Constants.leftBoundary, Constants.middleLine), new Point(Constants.rightBoundary, Constants.middleLine), new Scalar(0, 0, 255), 3);
