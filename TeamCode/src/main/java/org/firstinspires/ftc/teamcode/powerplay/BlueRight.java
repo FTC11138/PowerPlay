@@ -77,11 +77,18 @@ public class BlueRight extends BaseAutonomousMethods{
         sleep(500);
 
         robot.setLiftMotor(0.5, Constants.liftHigh);
-        robot.setRotateMotor(0.5, -30 * Constants.rotMotorPosPerDegree);
+        robot.setRotateMotor(0.5, -43 * Constants.rotMotorPosPerDegree);
         sleep(2000);
-        robot.setSlideServo(0.3);
+        robot.setSlideServo(0.33);
         sleep(2000);
-        signal = 2;
+        robot.setLiftMotor(0.3, Constants.liftHigh + 200);
+        sleep(1000);
+        robot.setClawServo(Constants.clawClose);
+        sleep(1000);
+        robot.setSlideServo(Constants.slideIn);
+        robot.setRotateMotor(0.5, 0);
+        robot.setLiftMotor(0.3, 0);
+        sleep(3000);
 
         do {
             if (runtime.seconds() >= 5) {
@@ -99,6 +106,7 @@ public class BlueRight extends BaseAutonomousMethods{
                     encoderStrafeDriveInchesRight(-18, 0.5); // turn left
                 }
                 encoderStraightDrive(-36, 0.5);
+
                 break;
             }
         } while (true);
