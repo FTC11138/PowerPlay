@@ -1,23 +1,19 @@
 package org.firstinspires.ftc.teamcode.powerplay;
 
 import com.acmerobotics.dashboard.FtcDashboard;
-import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.baseBot.Drivetrain;
 //import org.openftc.revextensions2.ExpansionHubEx;
 //import org.openftc.revextensions2.ExpansionHubMotor;
 
-public class Attachments extends Drivetrain {
+public class AutoAttachments extends Drivetrain {
     private Telemetry telemetry;
     private ElapsedTime runtime = new ElapsedTime();
     public DcMotor liftMotor, rotateMotor;
@@ -50,8 +46,6 @@ public class Attachments extends Drivetrain {
         liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rotateMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rotateMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        initializeDriveTrain(hardwareMap, telemetry_);
     }
 
     /* --------------------------------------- ACCESSORS --------------------------------------- */

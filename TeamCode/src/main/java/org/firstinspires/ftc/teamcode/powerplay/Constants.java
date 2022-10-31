@@ -10,25 +10,26 @@ public class Constants {
     public static double slideIn = 1;
     public static double slideSide;
     public static double slideOut = 0.1;
-    public static double clawOpen = 0.6;
-    public static double clawClose = 0.5;
+    public static double clawOpen = 0.73;
+    public static double clawClose = 0.6;
+    public static double slideSpeed = 0.003;
 
-    public static double liftRatio = 1;
+    public static double liftUpRatio = 1;
     public static double liftDownRatio = 0.72;
     public static double extRatio = -0.0053;
     public static double setRotateMultiplier = 0.25;
+    public static int rotMotorPosPerDegree = 13;
 
     public static int liftOff = 108;
     public static int liftTop = -3306;
 
     // Lift Positions
-    public static int liftHigh = 3050;
-    public static int liftMed = 2200;
-    public static int liftLow = 1400;
-    public static int liftFloor = 300;
-    public static int liftDrive = 50;
-    public static int liftMax = 3100;
-    public static int liftMin = 30;
+    public static int liftHigh = -3050;
+    public static int liftMed = -2200;
+    public static int liftLow = -1400;
+    public static int liftFloor = -300;
+    public static int liftMax = -3100;
+    public static int liftMin = 0;
     public static double liftkP = 4.8;
 
 
@@ -36,6 +37,8 @@ public class Constants {
     public static final double TICKS_PER_REV = 751.8;
     public static final double CIRCUMFERENCE_IN_INCHES = 100 / 25.4 * Math.PI;
     public static final double TICKS_PER_INCH = TICKS_PER_REV / CIRCUMFERENCE_IN_INCHES;
+    public static double moveSpeed = 0.6;
+    public static double rotSpeed = 0.5;
 
     // Autonomous turn PID
     public static double kR = 0.084; // PID turn kR

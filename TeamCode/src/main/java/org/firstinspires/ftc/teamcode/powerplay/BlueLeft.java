@@ -3,16 +3,12 @@ package org.firstinspires.ftc.teamcode.powerplay;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.baseBot.BaseAutonomousMethods;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
-import org.opencv.core.Point;
-import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -22,17 +18,17 @@ import org.openftc.easyopencv.OpenCvWebcam;
 
 import java.util.ArrayList;
 
-@Autonomous(name = "BlueRight", group = "Linear Opmode")
-public class BlueRight extends BaseAutonomousMethods{
+@Autonomous(name = "BlueLeft", group = "Linear Opmode")
+public class BlueLeft extends BaseAutonomousMethods{
 
     static final int STREAM_WIDTH = 1920; // modify for your camera
     static final int STREAM_HEIGHT = 1080; // modify for your camera
 
     private ElapsedTime runtime = new ElapsedTime();
-    private AutoAttachments robot = new AutoAttachments();
+    private Attachments robot = new Attachments();
 
     OpenCvWebcam webcam;
-    org.firstinspires.ftc.teamcode.powerplay.SignalDetectionPipeline signalDetectionPipeline;
+    SignalDetectionPipeline signalDetectionPipeline;
     int signal = 1;
     FtcDashboard dashboard = FtcDashboard.getInstance();
     TelemetryPacket packet = new TelemetryPacket();
@@ -40,12 +36,10 @@ public class BlueRight extends BaseAutonomousMethods{
     @Override
     public void runOpMode() throws InterruptedException {telemetry.update();
         initializeAutonomousDrivetrain(hardwareMap, telemetry);
-        robot.initialize(hardwareMap, telemetry);
-
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-        signalDetectionPipeline = new org.firstinspires.ftc.teamcode.powerplay.SignalDetectionPipeline();
+        signalDetectionPipeline = new SignalDetectionPipeline();
         webcam.setPipeline(signalDetectionPipeline);
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
@@ -69,19 +63,7 @@ public class BlueRight extends BaseAutonomousMethods{
         telemetry.addData("Signal", signal);
         telemetry.update();
 
-        robot.setClawServo(Constants.clawOpen);
-        sleep(500);
-        robot.setLiftMotor(0.1, -100);
-
         encoderStraightDrive(36, 0.5);
-        sleep(500);
-
-        robot.setLiftMotor(0.5, Constants.liftHigh);
-        robot.setRotateMotor(0.5, -30 * Constants.rotMotorPosPerDegree);
-        sleep(2000);
-        robot.setSlideServo(0.3);
-        sleep(2000);
-        signal = 2;
 
         do {
             if (runtime.seconds() >= 5) {
