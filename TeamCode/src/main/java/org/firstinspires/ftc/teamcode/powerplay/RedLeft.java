@@ -95,8 +95,10 @@ public class RedLeft extends BaseAutonomousMethods{
                     encoderStrafeDriveInchesRight(18, 0.5); // turn right
                 }
 
+                encoderTurn(180, 0.5, 5);
                 if (Constants.debugMode) {
                     sleep(2000);
+                    encoderTurn(0, 0.5, 5);
                     // return to original, for testing purpose. REMOVE IT before competition!!!!
                     if (signal == 1) {
                         encoderStrafeDriveInchesRight(18, 0.5); // turn right
@@ -108,7 +110,7 @@ public class RedLeft extends BaseAutonomousMethods{
 
                 break;
             }
-        } while (true);
+        } while (opModeIsActive());
         AutoTransitioner.transitionOnStop(this, "TeleOp");
     }
 }

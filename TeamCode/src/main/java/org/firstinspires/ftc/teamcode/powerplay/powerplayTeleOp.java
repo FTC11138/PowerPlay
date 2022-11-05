@@ -204,6 +204,25 @@ public class powerplayTeleOp extends OpMode {
         This is to prevent the wires that are going through
         the turntable from twisting infinitely
          */
+        // Lifting by Position
+        if (gamepad2.x) {
+            useRotatePower = false;
+            if (Math.abs(currentRPosition - Constants.rot180L) < (Math.abs(currentRPosition - Constants.rot180R))) {
+                rotateTarget = Constants.rot180L;
+            } else {
+                rotateTarget = Constants.rot180R;
+            }
+        } else if (gamepad2.y) {
+            useRotatePower = false;
+            rotateTarget = 0;
+        } else if (gamepad2.left_trigger > 0.75) {
+            useRotatePower = false;
+            rotateTarget = Constants.rotDiagBackL;
+        } else if (gamepad2.right_trigger > 0.75) {
+            useRotatePower = false;
+            rotateTarget = Constants.rotDiagBackR;
+        }
+
 
         double armRJoystick = gamepad2.right_stick_x;
         if (armRJoystick > 0.72 && currentRPosition < Constants.rotRLimit) {
@@ -246,7 +265,7 @@ public class powerplayTeleOp extends OpMode {
         if (useRotatePower) {
             myRobot.runRotateMotor(rotatePower);
         } else {
-            setRotationPositionPID(rotateTarget, 25);
+            setRotationPositionPID(rotateTarget, Constants.rotTolerance);
         }
 
 
@@ -349,8 +368,10 @@ public class powerplayTeleOp extends OpMode {
 //                Log.d("AHHHHHH liftMotor", "error: " + (error * Constants.liftMax) + ", power: " + newPower + ", current position: " + currentPosition);
 //                return false;
         } else {
-            rotateTarget = -1;
-            setRotationPosition(0.25, position);
+//            rotateTarget = -1;
+//            setRotationPosition(0.25, position);
+            useRotatePower = true;
+            myRobot.runRotateMotor(0);
 //                return true;
         }
     }

@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.powerplay;
 
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
+import org.opencv.core.Point;
+import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
@@ -55,6 +57,15 @@ class SignalDetectionPipeline extends OpenCvPipeline {
         counter = detectBlackWhite(input);
         YCrCb.release(); // don't leak memory!
         Y.release(); // don't leak memory!
+
+        Imgproc.rectangle( // rings
+                input, // Buffer to draw on
+                new Point(Constants.leftBoundary,Constants.middleLine - 20), // First point which defines the rectangle
+                new Point(Constants.rightBoundary,Constants.middleLine + 20), // Second point which defines the rectangle
+                new Scalar(0,0,255), // The color the rectangle is drawn in
+                2); // Thickness of the rectangle lines
+        Imgproc.line(input, new Point(Constants.leftBoundary, Constants.middleLine), new Point(Constants.rightBoundary, Constants.middleLine), new Scalar(0, 0, 255), 3);
+
 
         return input;
     }

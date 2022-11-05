@@ -37,8 +37,12 @@ public class Constants {
     public static int rotRLimit = 4270;
     public static int rotMax = 8750;
     public static double rotMin = 0.05;
-    public static double rotkP = 2;
-
+    public static double rotkP = 7.5;
+    public static int rot180L = -2125;
+    public static int rot180R = 2125;
+    public static int rotDiagBackR = 1875;
+    public static int rotDiagBackL = -1875;
+    public static int rotTolerance = 25;
 
     // Drive motor
     public static final double TICKS_PER_REV = 751.8;
