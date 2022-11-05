@@ -100,5 +100,6 @@ public class RedLeft extends BaseAutonomousMethods{
                 break;
             }
         } while (true);
+        AutoTransitioner.transitionOnStop(this, "powerplayTeleOp");
     }
 }

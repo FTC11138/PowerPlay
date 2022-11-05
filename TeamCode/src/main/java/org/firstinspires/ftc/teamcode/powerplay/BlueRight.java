@@ -117,5 +117,6 @@ public class BlueRight extends BaseAutonomousMethods{
                 break;
             }
         } while (true);
+        AutoTransitioner.transitionOnStop(this, "powerplayTeleOp");
     }
 }

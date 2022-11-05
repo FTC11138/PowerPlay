@@ -100,5 +100,6 @@ public class RedRight extends BaseAutonomousMethods{
                 break;
             }
         } while (true);
+        AutoTransitioner.transitionOnStop(this, "powerplayTeleOp");
     }
 }
