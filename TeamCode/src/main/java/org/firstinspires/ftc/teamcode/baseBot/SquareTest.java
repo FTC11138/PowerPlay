@@ -1,10 +1,11 @@
 package org.firstinspires.ftc.teamcode.baseBot;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous(name = "SquareTest", group = "Linear Opmode")
-
+@Disabled
 public class SquareTest extends BaseAutonomousMethods {
 
     private ElapsedTime runtime = new ElapsedTime();

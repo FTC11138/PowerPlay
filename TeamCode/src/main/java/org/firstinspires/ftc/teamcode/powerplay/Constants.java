@@ -8,15 +8,15 @@ import org.opencv.core.Scalar;
 public class Constants {
     // PowerPlay Stuff
     public static double slideIn = 1;
-    public static double slideSide;
+    public static double slideResting = 0.65;
+    public static double slideSpin = 0.395;
     public static double slideOut = 0.1;
     public static double clawOpen = 0.73;
     public static double clawClose = 0.55;
-    public static double slideSpeed = 0.005;
+    public static double slideSpeed = 0.0125;
 
     public static double liftUpRatio = 1;
     public static double liftDownRatio = 0.72;
-    public static double extRatio = -0.0053;
     public static double setRotateMultiplier = 1;
     public static int rotMotorPosPerDegree = 13;
 
@@ -28,6 +28,7 @@ public class Constants {
     public static int liftMed = -2200;
     public static int liftLow = -1400;
     public static int liftFloor = -300;
+    public static int liftSpin = -325;
     public static int liftMax = -3100;
     public static double liftMin = 0.1;
     public static double liftkP = 10;
@@ -37,7 +38,7 @@ public class Constants {
     public static int rotRLimit = 4270;
     public static int rotMax = 8750;
     public static double rotMin = 0.05;
-    public static double rotkP = 7.5;
+    public static double rotkP = 25;
     public static int rot180L = -2125;
     public static int rot180R = 2125;
     public static int rotDiagBackR = 1875;
@@ -104,6 +105,9 @@ public class Constants {
     public static double slopeThresh = 100.0; // 100
     public static double negSlopeThresh = -100.0; // 100
     public static boolean isDetectRed = true; // False: detect Blue
+
+    public static final int automationDelay = 96;
+    public static final int buttonDelay = 18;
 
     public static boolean debugMode = true; // Change it to FALSE before the competition!!!!
 }

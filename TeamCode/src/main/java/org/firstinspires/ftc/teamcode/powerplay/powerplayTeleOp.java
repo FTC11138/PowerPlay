@@ -13,16 +13,7 @@ public class powerplayTeleOp extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private Attachments myRobot = new Attachments();
 
-    private enum rotateD {
-        STRAIGHT,
-        LEFT90,
-        RIGHT90,
-        AROUND180,
-        RANDOM
-    }
-
     /* ------------------------------------- CONSTANTS ------------------------------------------ */
-    private rotateD armDirection = rotateD.STRAIGHT;
     // Motors
     private double liftPower = 0;
     private int liftTarget = 0;
@@ -36,17 +27,16 @@ public class powerplayTeleOp extends OpMode {
     private boolean shorten = false;
 
     private double currentLiftPosition = 0;
-    private double currentSlidePosition = Constants.slideIn;
+    private double currentSlidePosition = Constants.slideResting;
     private double currentClawPosition = Constants.clawOpen;
     private double currentRPosition = 0;
 
     // Servos
-    private double slidePosition = Constants.slideIn;
+    private double slidePosition = Constants.slideResting;
     private double clawPosition = Constants.clawOpen;
 
     private int stage = -1;
     private int goalAngle = 0;
-    private rotateD goalDirection = rotateD.STRAIGHT;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -134,10 +124,10 @@ public class powerplayTeleOp extends OpMode {
             clawPosition = Constants.clawOpen;
         }
 
-        if (gamepad2.b) {
+        if (gamepad2.a) {
             slidePosition = Constants.slideOut;
-        } else if (gamepad2.a) {
-            slidePosition = Constants.slideIn;
+        } else if (gamepad2.b) {
+            slidePosition = Constants.slideResting;
         }
         double extJoystick = gamepad2.right_stick_y;
         if (extJoystick < -0.2) {
@@ -153,17 +143,16 @@ public class powerplayTeleOp extends OpMode {
         }
 
 
-
         // Lifting by Position
         if (gamepad2.dpad_up) {
             useLiftPower = false;
             liftTarget = Constants.liftHigh;
         } else if (gamepad2.dpad_right) {
-            useLiftPower = false;
-            liftTarget = Constants.liftMed;
+//            useLiftPower = false;
+//            liftTarget = Constants.liftMed;
         } else if (gamepad2.dpad_down) {
-            useLiftPower = false;
-            liftTarget = Constants.liftLow;
+//            useLiftPower = false;
+//            liftTarget = Constants.liftLow;
         } else if (gamepad2.dpad_left) {
             useLiftPower = false;
             liftTarget = 0;
@@ -174,7 +163,7 @@ public class powerplayTeleOp extends OpMode {
         double liftJoystick = gamepad2.left_stick_y;
         if (liftJoystick < -0.12) {
             // user trying to lift up
-            if (currentLiftPosition > Constants.liftMax) {
+            if (currentLiftPosition > Constants.liftMax || !limits) {
                 useLiftPower = true;
                 liftPower = liftJoystick * Constants.liftUpRatio;
             } else {
@@ -182,7 +171,7 @@ public class powerplayTeleOp extends OpMode {
             }
         } else if (liftJoystick > 0.12) {
             // user trying to lift down
-            if (currentLiftPosition < Constants.liftMin) {
+            if (currentLiftPosition < Constants.liftMin || !limits) {
                 useLiftPower = true;
                 liftPower = liftJoystick * Constants.liftDownRatio;
             } else {
@@ -191,7 +180,6 @@ public class powerplayTeleOp extends OpMode {
         } else if (useLiftPower) {
             liftPower = 0;
         }
-
 
 
         // Rotating stuff by power
@@ -216,21 +204,21 @@ public class powerplayTeleOp extends OpMode {
             useRotatePower = false;
             rotateTarget = 0;
         } else if (gamepad2.left_trigger > 0.75) {
-            useRotatePower = false;
-            rotateTarget = Constants.rotDiagBackL;
+//            useRotatePower = false;
+//            rotateTarget = Constants.rotDiagBackL;
         } else if (gamepad2.right_trigger > 0.75) {
-            useRotatePower = false;
-            rotateTarget = Constants.rotDiagBackR;
+//            useRotatePower = false;
+//            rotateTarget = Constants.rotDiagBackR;
         }
 
 
         double armRJoystick = gamepad2.right_stick_x;
-        if (armRJoystick > 0.72 && currentRPosition < Constants.rotRLimit) {
+        if (armRJoystick > 0.25 && currentRPosition < Constants.rotRLimit) {
             useRotatePower = true;
 //            armDirection = rotateD.RANDOM;
             myRobot.rotateMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rotatePower = armRJoystick * Constants.setRotateMultiplier;
-        } else if (armRJoystick < -0.72 && currentRPosition > -Constants.rotRLimit) {
+        } else if (armRJoystick < -0.25 && currentRPosition > -Constants.rotRLimit) {
             useRotatePower = true;
             myRobot.rotateMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rotatePower = armRJoystick * Constants.setRotateMultiplier;
@@ -259,13 +247,22 @@ public class powerplayTeleOp extends OpMode {
         if (useLiftPower) {
             myRobot.runLiftMotor(liftPower);
         } else {
-            setLiftMotor(liftTarget, Constants.liftTolerance, true);
+            if (liftTarget < Constants.liftSpin && Math.abs(currentRPosition) > 125) {
+                useLiftPower = true;
+                liftPower = 0;
+            } else {
+                setLiftMotor(liftTarget, Constants.liftTolerance, true);
+            }
         }
 
         if (useRotatePower) {
             myRobot.runRotateMotor(rotatePower);
         } else {
-            setRotationPositionPID(rotateTarget, Constants.rotTolerance);
+            if (currentLiftPosition > Constants.liftSpin ||
+                    currentSlidePosition > Constants.slideSpin ||
+                    Math.abs(currentRPosition - rotateTarget) <= 125) {
+                setRotationPositionPID(rotateTarget, Constants.rotTolerance);
+            }
         }
 
 
@@ -328,6 +325,7 @@ public class powerplayTeleOp extends OpMode {
 
     public void setRotationPosition(double speed, int position) {
         // TODO: safety checks, make sure slide is high enough or extension is out enough
+
         myRobot.rotateMotor.setPower(speed);
         myRobot.rotateMotor.setTargetPosition(position);
         myRobot.rotateMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);

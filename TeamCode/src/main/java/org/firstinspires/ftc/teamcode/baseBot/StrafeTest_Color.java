@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.view.View;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -12,7 +13,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.powerplay.Constants;
 
 @Autonomous(name = "StrafeTest_Color", group = "Linear Opmode")
-
+@Disabled
 public class StrafeTest_Color extends BaseAutonomousMethods {
 
     private ElapsedTime runtime = new ElapsedTime();

@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.baseBot;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 @TeleOp(name="TestBotTeleOp", group="Iterative Opmode")
+@Disabled
 public class TestBotTeleOp extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private Drivetrain myRobot = new Drivetrain();

@@ -2,11 +2,12 @@ package org.firstinspires.ftc.teamcode.outreachBot;
 
 import android.util.Log;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "Claw Bot TeleOp", group = "Iterative Opmode")
-//@Disabled
+@Disabled
 public class ClawBotTeleOp extends OpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();

@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.test;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -21,6 +22,7 @@ import org.openftc.easyopencv.OpenCvWebcam;
 import java.util.ArrayList;
 
 @TeleOp(name = "Webcam Color Test")
+@Disabled
 public class OpenCVExampleOpMode extends OpMode {
     static final int STREAM_WIDTH = 1920; // modify for your camera
     static final int STREAM_HEIGHT = 1080; // modify for your camera

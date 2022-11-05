@@ -1,12 +1,13 @@
 package org.firstinspires.ftc.teamcode.outreachBot;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.baseBot.BaseAutonomousMethods;
 
 @Autonomous(name = "Autonomous", group = "Linear Opmode")
-
+@Disabled
 public class RyanAutonomous extends BaseAutonomousMethods {
 
     private ElapsedTime runtime = new ElapsedTime();

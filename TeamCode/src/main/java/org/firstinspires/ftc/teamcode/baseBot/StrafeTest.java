@@ -3,12 +3,13 @@ package org.firstinspires.ftc.teamcode.baseBot;
 import android.view.View;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.powerplay.Constants;
 
 @Autonomous(name = "StrafeTest", group = "Linear Opmode")
-
+@Disabled
 public class StrafeTest extends BaseAutonomousMethods {
 
     private ElapsedTime runtime = new ElapsedTime();

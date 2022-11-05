@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.test;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -23,6 +24,7 @@ import org.openftc.easyopencv.OpenCvWebcam;
 import org.opencv.photo.Photo;
 
 @TeleOp(name = "Webcam Cone Alignment")
+@Disabled
 public class ConeAlignment extends OpMode {
     static final int STREAM_WIDTH = Constants.imgWidth; // modify for your camera
     static final int STREAM_HEIGHT = Constants.imgHeight; // modify for your camera
