@@ -153,6 +153,23 @@ public class powerplayTeleOp extends OpMode {
         }
 
 
+
+        // Lifting by Position
+        if (gamepad2.dpad_up) {
+            useLiftPower = false;
+            liftTarget = Constants.liftHigh;
+        } else if (gamepad2.dpad_right) {
+            useLiftPower = false;
+            liftTarget = Constants.liftMed;
+        } else if (gamepad2.dpad_down) {
+            useLiftPower = false;
+            liftTarget = Constants.liftLow;
+        } else if (gamepad2.dpad_left) {
+            useLiftPower = false;
+            liftTarget = Constants.liftMin;
+        }
+
+
         // Raising lift by power
         double liftJoystick = gamepad2.left_stick_y;
         if (liftJoystick < -0.12) {
@@ -173,18 +190,6 @@ public class powerplayTeleOp extends OpMode {
             }
         } else if (useLiftPower) {
             liftPower = 0;
-        }
-
-
-        // Lifting by Position
-        if (gamepad2.dpad_up) {
-            myRobot.setLiftMotor(0.5, Constants.liftHigh);
-        } else if (gamepad2.dpad_right) {
-            myRobot.setLiftMotor(0.5, Constants.liftMed);
-        } else if (gamepad2.dpad_down) {
-            myRobot.setLiftMotor(0.5, Constants.liftLow);
-        } else if (gamepad2.dpad_left) {
-            myRobot.setLiftMotor(0.5, Constants.liftMin);
         }
 
 
@@ -234,7 +239,10 @@ public class powerplayTeleOp extends OpMode {
 
         if (useLiftPower) {
             myRobot.runLiftMotor(liftPower);
+        } else {
+            setLiftMotor(liftTarget, 9, true);
         }
+
         if (useRotatePower) {
             myRobot.runRotateMotor(rotatePower);
         }
@@ -260,6 +268,41 @@ public class powerplayTeleOp extends OpMode {
 
     @Override
     public void stop() {
+    }
+
+    void setLiftMotor(int position, double tolerance, boolean usePID) {
+        if (usePID) {
+            //Undefined constants
+            double newPower;
+            //Initial error
+            double error = (position - currentLiftPosition) / Constants.liftMax;
+            //Initial Time
+            telemetry.addData("1", "error: " + error);
+            if (Math.abs(error) > (tolerance / Constants.liftMax)) {
+                //Setting p action
+                newPower = Math.max(Math.min(error * Constants.liftkP, 1), -1);
+//                Log.d("AHHHHHH liftMotor", "PID newPower: " + newPower);
+//                telemetry.addData("liftMotor PID newPower", newPower);
+
+                //Set real power
+                newPower = Math.max(Math.abs(newPower), Constants.liftMin) * Math.signum(newPower);
+                if (Math.signum(newPower) == 1) {
+                    newPower = newPower * Constants.liftDownRatio;
+                }
+                myRobot.runLiftMotor(newPower);
+
+                //Logging
+//                Log.d("AHHHHHH liftMotor", "error: " + (error * Constants.liftMax) + ", power: " + newPower + ", current position: " + currentPosition);
+//                return false;
+            } else {
+                useLiftPower = true;
+                myRobot.runLiftMotor(0);
+//                return true;
+            }
+        } else {
+            myRobot.setLiftMotor(1, position);
+//            return true;
+        }
     }
 
     public void setRotationPosition(double speed, int position) {
