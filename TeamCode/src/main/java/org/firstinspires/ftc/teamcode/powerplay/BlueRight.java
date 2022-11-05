@@ -87,6 +87,13 @@ public class BlueRight extends BaseAutonomousMethods{
         sleep(1000);
         robot.setSlideServo(Constants.slideIn);
         robot.setRotateMotor(0.5, 0);
+
+        encoderStraightDrive(4, 0.5); // push signal cone ahead
+        sleep(500);
+
+        encoderStraightDrive(-4, 0.5); // move back
+        sleep(500);
+
         robot.setLiftMotor(0.3, 0);
         sleep(3000);
 
