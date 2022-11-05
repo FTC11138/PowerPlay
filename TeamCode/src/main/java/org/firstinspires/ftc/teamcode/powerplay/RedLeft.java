@@ -12,7 +12,7 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
-@Autonomous(name = "BlueRight", group = "Linear Opmode")
+@Autonomous(name = "RedLeft", group = "Linear Opmode")
 public class RedLeft extends BaseAutonomousMethods{
 
     static final int STREAM_WIDTH = 1920; // modify for your camera
@@ -67,7 +67,7 @@ public class RedLeft extends BaseAutonomousMethods{
         sleep(500);
 
         robot.setLiftMotor(0.5, Constants.liftHigh);
-        robot.setRotateMotor(0.5, -43 * Constants.rotMotorPosPerDegree);
+        robot.setRotateMotor(0.5, 40 * Constants.rotMotorPosPerDegree);
         sleep(2000);
         robot.setSlideServo(0.33);
         sleep(2000);

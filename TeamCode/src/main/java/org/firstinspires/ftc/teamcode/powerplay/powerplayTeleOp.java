@@ -177,15 +177,15 @@ public class powerplayTeleOp extends OpMode {
 
 
         // Lifting by Position
-//        if (gamepad2.dpad_up) {
-//            myRobot.setLiftMotor(0.5, Constants.liftHigh);
-//        } else if (gamepad2.dpad_right) {
-//            myRobot.setLiftMotor(0.5, Constants.liftMed);
-//        } else if (gamepad2.dpad_down) {
-//            myRobot.setLiftMotor(0.5, Constants.liftLow);
-//        } else if (gamepad2.dpad_left) {
-//            myRobot.setLiftMotor(0.5, Constants.liftMin);
-//        }
+        if (gamepad2.dpad_up) {
+            myRobot.setLiftMotor(0.5, Constants.liftHigh);
+        } else if (gamepad2.dpad_right) {
+            myRobot.setLiftMotor(0.5, Constants.liftMed);
+        } else if (gamepad2.dpad_down) {
+            myRobot.setLiftMotor(0.5, Constants.liftLow);
+        } else if (gamepad2.dpad_left) {
+            myRobot.setLiftMotor(0.5, Constants.liftMin);
+        }
 
 
 
