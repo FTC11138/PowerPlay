@@ -166,7 +166,7 @@ public class powerplayTeleOp extends OpMode {
             liftTarget = Constants.liftLow;
         } else if (gamepad2.dpad_left) {
             useLiftPower = false;
-            liftTarget = Constants.liftMin;
+            liftTarget = 0;
         }
 
 
@@ -206,12 +206,12 @@ public class powerplayTeleOp extends OpMode {
          */
 
         double armRJoystick = gamepad2.right_stick_x;
-        if (armRJoystick > 0.72 && currentRPosition < 4270) {
+        if (armRJoystick > 0.72 && currentRPosition < Constants.rotRLimit) {
             useRotatePower = true;
 //            armDirection = rotateD.RANDOM;
             myRobot.rotateMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rotatePower = armRJoystick * Constants.setRotateMultiplier;
-        } else if (armRJoystick < -0.72 && currentRPosition > -4270) {
+        } else if (armRJoystick < -0.72 && currentRPosition > -Constants.rotRLimit) {
             useRotatePower = true;
             myRobot.rotateMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rotatePower = armRJoystick * Constants.setRotateMultiplier;
@@ -240,11 +240,13 @@ public class powerplayTeleOp extends OpMode {
         if (useLiftPower) {
             myRobot.runLiftMotor(liftPower);
         } else {
-            setLiftMotor(liftTarget, 9, true);
+            setLiftMotor(liftTarget, Constants.liftTolerance, true);
         }
 
         if (useRotatePower) {
             myRobot.runRotateMotor(rotatePower);
+        } else {
+            setRotationPositionPID(rotateTarget, 25);
         }
 
 
@@ -275,10 +277,10 @@ public class powerplayTeleOp extends OpMode {
             //Undefined constants
             double newPower;
             //Initial error
-            double error = (position - currentLiftPosition) / Constants.liftMax;
+            double error = -(position - currentLiftPosition) / Constants.liftMax;
             //Initial Time
             telemetry.addData("1", "error: " + error);
-            if (Math.abs(error) > (tolerance / Constants.liftMax)) {
+            if (Math.abs(error) > (tolerance / -Constants.liftMax)) {
                 //Setting p action
                 newPower = Math.max(Math.min(error * Constants.liftkP, 1), -1);
 //                Log.d("AHHHHHH liftMotor", "PID newPower: " + newPower);
@@ -310,5 +312,46 @@ public class powerplayTeleOp extends OpMode {
         myRobot.rotateMotor.setPower(speed);
         myRobot.rotateMotor.setTargetPosition(position);
         myRobot.rotateMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+
+    public void setRotationPositionPID(int position, double tolerance) {
+        //Undefined constants
+        double newPower;
+        //Initial error
+        double error = (position - currentRPosition) / Constants.rotMax;
+        //Initial Time
+        myRobot.rotateMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        telemetry.addData("2", "error: " + error);
+        if (Math.abs(error) > (tolerance / Constants.rotMax)) {
+            //Setting p action
+            newPower = Math.max(Math.min(error * Constants.rotkP, 1), -1);
+//                Log.d("AHHHHHH liftMotor", "PID newPower: " + newPower);
+//                telemetry.addData("liftMotor PID newPower", newPower);
+
+            //Set real power
+            newPower = Math.max(Math.abs(newPower), Constants.rotMin) * Math.signum(newPower);
+            if (Math.signum(rotatePower) == 1) {
+                if (currentRPosition > Constants.rotRLimit) {
+                    newPower = 0;
+                    useRotatePower = true;
+                    rotatePower = 0;
+                }
+            } else {
+                if (currentRPosition < -Constants.rotRLimit) {
+                    newPower = 0;
+                    useRotatePower = true;
+                    rotatePower = 0;
+                }
+            }
+            myRobot.runRotateMotor(newPower);
+
+            //Logging
+//                Log.d("AHHHHHH liftMotor", "error: " + (error * Constants.liftMax) + ", power: " + newPower + ", current position: " + currentPosition);
+//                return false;
+        } else {
+            rotateTarget = -1;
+            setRotationPosition(0.25, position);
+//                return true;
+        }
     }
 }

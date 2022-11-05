@@ -105,18 +105,20 @@ public class BlueRight extends BaseAutonomousMethods{
                     encoderStrafeDriveInchesRight(18, 0.5); // turn right
                 }
 
-                sleep(2000);
-                // return to original, for testing purpose. REMOVE IT before competition!!!!
-                if (signal == 1) {
-                    encoderStrafeDriveInchesRight(18, 0.5); // turn right
-                } else if (signal == 3) {
-                    encoderStrafeDriveInchesRight(-18, 0.5); // turn left
+                if (Constants.debugMode) {
+                    sleep(2000);
+                    // return to original, for testing purpose. REMOVE IT before competition!!!!
+                    if (signal == 1) {
+                        encoderStrafeDriveInchesRight(18, 0.5); // turn right
+                    } else if (signal == 3) {
+                        encoderStrafeDriveInchesRight(-18, 0.5); // turn left
+                    }
+                    encoderStraightDrive(-36, 0.5);
                 }
-                encoderStraightDrive(-36, 0.5);
 
                 break;
             }
         } while (true);
-        AutoTransitioner.transitionOnStop(this, "powerplayTeleOp");
+        AutoTransitioner.transitionOnStop(this, "TeleOp");
     }
 }

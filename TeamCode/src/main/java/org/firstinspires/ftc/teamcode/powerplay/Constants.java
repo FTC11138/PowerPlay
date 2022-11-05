@@ -11,7 +11,7 @@ public class Constants {
     public static double slideSide;
     public static double slideOut = 0.1;
     public static double clawOpen = 0.73;
-    public static double clawClose = 0.6;
+    public static double clawClose = 0.55;
     public static double slideSpeed = 0.005;
 
     public static double liftUpRatio = 1;
@@ -29,8 +29,15 @@ public class Constants {
     public static int liftLow = -1400;
     public static int liftFloor = -300;
     public static int liftMax = -3100;
-    public static int liftMin = 0;
-    public static double liftkP = 4.8;
+    public static double liftMin = 0.1;
+    public static double liftkP = 10;
+    public static int liftTolerance = 9;
+
+    // Rotation Positions
+    public static int rotRLimit = 4270;
+    public static int rotMax = 8750;
+    public static double rotMin = 0.05;
+    public static double rotkP = 2;
 
 
     // Drive motor
@@ -93,4 +100,6 @@ public class Constants {
     public static double slopeThresh = 100.0; // 100
     public static double negSlopeThresh = -100.0; // 100
     public static boolean isDetectRed = true; // False: detect Blue
+
+    public static boolean debugMode = true; // Change it to FALSE before the competition!!!!
 }
