@@ -12,6 +12,7 @@ public class powerplayTeleOp extends OpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
     private Attachments myRobot = new Attachments();
+    private String[] positions = {"LEFT", "CENTER", "RIGHT"};
 
     /* ------------------------------------- CONSTANTS ------------------------------------------ */
     // Motors
@@ -35,8 +36,12 @@ public class powerplayTeleOp extends OpMode {
     private double slidePosition = Constants.slideIn;
     private double clawPosition = Constants.clawClose;
 
+    private int ltrigchill = Constants.buttonDelay;
+    private int rtrigchill = Constants.buttonDelay;
+    private int dpadrchill = Constants.buttonDelay;
+    private int dpaddchill = Constants.buttonDelay;
     private int stage = -1;
-    private int goalAngle = 0;
+    private int position = 75;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -71,12 +76,12 @@ public class powerplayTeleOp extends OpMode {
     @Override
     public void loop() {
         /* ------------------------------------ Drive ------------------------------------ */
-
         // Position constants
         currentLiftPosition = myRobot.getLiftMotorPosition();
         currentSlidePosition = myRobot.getSlidePosition();
         currentRPosition = myRobot.getRotationMotorPosition();
         currentClawPosition = myRobot.getClawPosition();
+        int pos = position % 3;
 
         // Motors
         double lx = gamepad1.left_stick_x;
@@ -124,6 +129,73 @@ public class powerplayTeleOp extends OpMode {
             clawPosition = Constants.clawOpen;
         }
 
+        if (gamepad2.dpad_right && dpadrchill == Constants.buttonDelay) {
+            useRotatePower = true;
+            if (pos == 0) {
+                rotateTarget = Constants.rotDiagBackR;
+            } else if (pos == 1) {
+                if (Math.abs(currentRPosition - Constants.rot180L) < (Math.abs(currentRPosition - Constants.rot180R))) {
+                    rotateTarget = Constants.rot180L;
+                } else {
+                    rotateTarget = Constants.rot180R;
+                }
+            } else {
+                rotateTarget = Constants.rotDiagBackL;
+            }
+            stage = 1;
+//            useLiftPower = false;
+//            liftTarget = Constants.liftMed;
+            dpadrchill = 0;
+        } else if (gamepad2.dpad_down && dpaddchill == Constants.buttonDelay) {
+            slidePosition = Constants.slideIn;
+            useRotatePower = false;
+            if (pos == 0) {
+                rotateTarget = Constants.rot45R;
+            } else if (pos == 1) {
+                rotateTarget = 0;
+            } else {
+                rotateTarget = Constants.rot45L;
+            }
+            useLiftPower = false;
+            liftTarget = Constants.liftSpin;
+
+//            useLiftPower = false;
+//            liftTarget = Constants.liftLow;
+            dpaddchill = 0;
+        }
+        if (dpadrchill < Constants.buttonDelay) {
+            dpadrchill++;
+        }
+        if (dpaddchill < Constants.buttonDelay) {
+            dpaddchill++;
+        }
+
+        // TODO check stages and do automation here
+        if (stage > 0) {
+            switch (stage) {
+                case 1:
+                    // Raise up
+                    if (currentLiftPosition < Constants.liftSpin) {
+                        stage = 2;
+                    } else {
+                        liftTarget = Constants.liftHigh;
+                        useLiftPower = false;
+                    }
+                case 2:
+                    // Turn arm
+                    if (Math.abs(currentRPosition - rotateTarget) <= 10) {
+                        stage = 3;
+                    } else {
+                        useRotatePower = false;
+                    }
+                case Constants.automationDelay:
+                    slidePosition = Constants.slideMed;
+                default:
+                    stage++;
+            }
+        }
+
+
         if (gamepad2.a) {
             slidePosition = Constants.slideOut;
         } else if (gamepad2.b) {
@@ -143,17 +215,11 @@ public class powerplayTeleOp extends OpMode {
         }
 
 
-        // Lifting by Position
+        // todo Lifting by Position
         if (gamepad2.dpad_up) {
             useLiftPower = false;
             liftTarget = Constants.liftHigh;
-        } else if (gamepad2.dpad_right) {
-//            useLiftPower = false;
-//            liftTarget = Constants.liftMed;
-        } else if (gamepad2.dpad_left) {
-//            useLiftPower = false;
-//            liftTarget = Constants.liftLow;
-        } else if (gamepad2.dpad_down) {
+        }  else if (gamepad2.dpad_left) {
             useLiftPower = false;
             liftTarget = 0;
         }
@@ -193,24 +259,25 @@ public class powerplayTeleOp extends OpMode {
         } else if (gamepad2.y) {
             useRotatePower = false;
             rotateTarget = 0;
-        } else if (gamepad2.left_trigger > 0.75) {
-//            useRotatePower = false;
-//            rotateTarget = Constants.rotDiagBackL;
-        } else if (gamepad2.right_trigger > 0.75) {
-//            useRotatePower = false;
-//            rotateTarget = Constants.rotDiagBackR;
         }
 
-        // Rotating stuff by power
-
-        /*
-        The starting rotate position is 0
-        The max rotate position is 4270
-
-        We will limit it from -4270 to 4270
-        This is to prevent the wires that are going through
-        the turntable from twisting infinitely
-         */
+        if (gamepad2.left_trigger > 0.75 && ltrigchill == Constants.buttonDelay) {
+            position--;
+//            useRotatePower = false;
+//            rotateTarget = Constants.rotDiagBackL;
+            ltrigchill = 0;
+        } else if (gamepad2.right_trigger > 0.75 && rtrigchill == Constants.buttonDelay) {
+            position++;
+//            useRotatePower = false;
+//            rotateTarget = Constants.rotDiagBackR;
+            rtrigchill = 0;
+        }
+        if (ltrigchill < Constants.buttonDelay) {
+            ltrigchill++;
+        }
+        if (rtrigchill < Constants.buttonDelay) {
+            rtrigchill++;
+        }
 
         double armRJoystick = gamepad2.right_stick_x;
         if (armRJoystick > 0.25 && currentRPosition < Constants.rotRLimit) {
@@ -233,6 +300,8 @@ public class powerplayTeleOp extends OpMode {
             rotatePower = 0;
             useLiftPower = true;
             liftPower = 0;
+            stage = -1;
+            slidePosition = currentSlidePosition;
         }
 
         // Commented so the robot doesnt EXPLODE mid game
@@ -279,6 +348,7 @@ public class powerplayTeleOp extends OpMode {
         telemetry.addData("lift position", currentLiftPosition);
         telemetry.addData("rotate position", currentRPosition);
         telemetry.addData("claw position", currentClawPosition);
+        telemetry.addData("automation position", positions[pos]);
         telemetry.addData("limits", limits);
         telemetry.update();
 
