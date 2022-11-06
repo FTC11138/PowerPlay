@@ -150,10 +150,10 @@ public class powerplayTeleOp extends OpMode {
         } else if (gamepad2.dpad_right) {
 //            useLiftPower = false;
 //            liftTarget = Constants.liftMed;
-        } else if (gamepad2.dpad_down) {
+        } else if (gamepad2.dpad_left) {
 //            useLiftPower = false;
 //            liftTarget = Constants.liftLow;
-        } else if (gamepad2.dpad_left) {
+        } else if (gamepad2.dpad_down) {
             useLiftPower = false;
             liftTarget = 0;
         }
@@ -182,17 +182,7 @@ public class powerplayTeleOp extends OpMode {
         }
 
 
-        // Rotating stuff by power
-
-        /*
-        The starting rotate position is 0
-        The max rotate position is 4270
-
-        We will limit it from -4270 to 4270
-        This is to prevent the wires that are going through
-        the turntable from twisting infinitely
-         */
-        // Lifting by Position
+        // Rotating turntable by position
         if (gamepad2.x) {
             useRotatePower = false;
             if (Math.abs(currentRPosition - Constants.rot180L) < (Math.abs(currentRPosition - Constants.rot180R))) {
@@ -211,6 +201,16 @@ public class powerplayTeleOp extends OpMode {
 //            rotateTarget = Constants.rotDiagBackR;
         }
 
+        // Rotating stuff by power
+
+        /*
+        The starting rotate position is 0
+        The max rotate position is 4270
+
+        We will limit it from -4270 to 4270
+        This is to prevent the wires that are going through
+        the turntable from twisting infinitely
+         */
 
         double armRJoystick = gamepad2.right_stick_x;
         if (armRJoystick > 0.25 && currentRPosition < Constants.rotRLimit) {
@@ -374,3 +374,5 @@ public class powerplayTeleOp extends OpMode {
         }
     }
 }
+
+//we need a higher success rate on

@@ -12,8 +12,8 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
-@Autonomous(name = "RedLeft", group = "Linear Opmode")
-public class RedLeft extends BaseAutonomousMethods{
+@Autonomous(name = "LeftAuto", group = "Linear Opmode")
+public class LeftAuto extends BaseAutonomousMethods{
 
     static final int STREAM_WIDTH = 1920; // modify for your camera
     static final int STREAM_HEIGHT = 1080; // modify for your camera
@@ -22,7 +22,7 @@ public class RedLeft extends BaseAutonomousMethods{
     private AutoAttachments robot = new AutoAttachments();
 
     OpenCvWebcam webcam;
-    SignalDetectionPipeline signalDetectionPipeline;
+    org.firstinspires.ftc.teamcode.powerplay.SignalDetectionPipeline signalDetectionPipeline;
     int signal = 1;
     FtcDashboard dashboard = FtcDashboard.getInstance();
     TelemetryPacket packet = new TelemetryPacket();
@@ -35,7 +35,7 @@ public class RedLeft extends BaseAutonomousMethods{
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-        signalDetectionPipeline = new SignalDetectionPipeline();
+        signalDetectionPipeline = new org.firstinspires.ftc.teamcode.powerplay.SignalDetectionPipeline();
         webcam.setPipeline(signalDetectionPipeline);
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
@@ -53,7 +53,7 @@ public class RedLeft extends BaseAutonomousMethods{
         waitForStart();
         runtime.reset();
 
-        sleep(2000);
+        sleep(4000);
 
         signal = signalDetectionPipeline.getCounter();
         telemetry.addData("Signal", signal);
@@ -62,12 +62,18 @@ public class RedLeft extends BaseAutonomousMethods{
         robot.setClawServo(Constants.clawOpen);
         sleep(500);
         robot.setLiftMotor(0.1, -100);
+        sleep(500);
 
-        encoderStraightDrive(36, 0.5);
+        encoderStraightDrive(3, 0.2);
+        encoderStrafeDriveInchesRight(3, 0.5);
+
+        robot.setLiftMotor(0.3, Constants.liftLow);
+
+        encoderStraightDrive(33, 0.5);
         sleep(500);
 
         robot.setLiftMotor(0.5, Constants.liftHigh);
-        robot.setRotateMotor(0.5, 40 * Constants.rotMotorPosPerDegree);
+        robot.setRotateMotor(0.5, 37 * Constants.rotMotorPosPerDegree);
         sleep(2000);
         robot.setSlideServo(0.33);
         sleep(2000);
@@ -94,19 +100,19 @@ public class RedLeft extends BaseAutonomousMethods{
                 } else if (signal == 3) {
                     encoderStrafeDriveInchesRight(18, 0.5); // turn right
                 }
+                sleep(3000);
 
-                encoderTurn(180, 0.5, 5);
-                if (Constants.debugMode) {
-                    sleep(2000);
-                    encoderTurn(0, 0.5, 5);
-                    // return to original, for testing purpose. REMOVE IT before competition!!!!
-                    if (signal == 1) {
-                        encoderStrafeDriveInchesRight(18, 0.5); // turn right
-                    } else if (signal == 3) {
-                        encoderStrafeDriveInchesRight(-18, 0.5); // turn left
-                    }
-                    encoderStraightDrive(-36, 0.5);
-                }
+//                if (Constants.debugMode) {
+//                    sleep(2000);
+//                    encoderTurn(0, 0.5, 5);
+//                    // return to original, for testing purpose. REMOVE IT before competition!!!!
+//                    if (signal == 1) {
+//                        encoderStrafeDriveInchesRight(18, 0.5); // turn right
+//                    } else if (signal == 3) {
+//                        encoderStrafeDriveInchesRight(-18, 0.5); // turn left
+//                    }
+//                    encoderStraightDrive(-36, 0.5);
+//                }
 
                 break;
             }

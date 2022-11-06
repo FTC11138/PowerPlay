@@ -8,7 +8,7 @@ import org.opencv.core.Scalar;
 public class Constants {
     // PowerPlay Stuff
     public static double slideIn = 1;
-    public static double slideResting = 0.65;
+    public static double slideResting = 0.575;
     public static double slideSpin = 0.395;
     public static double slideOut = 0.1;
     public static double clawOpen = 0.73;
@@ -88,9 +88,9 @@ public class Constants {
     public static int bry = 100; // Bottom right y for rectangle
 
     // Camera stuff
-    public static int leftBoundary = 940; // left side of detection zone
-    public static int rightBoundary = 1050; // right side of detection zone
-    public static int middleLine = 800; // detection line y coordinate
+    public static int leftBoundary = 810; // left side of detection zone
+    public static int rightBoundary = 890; // right side of detection zone
+    public static int middleLine = 700; // detection line y coordinate
 
     public static Scalar lowRed1 = new Scalar(0, 70, 50);
     public static Scalar highRed1 = new Scalar(10, 255, 255);
