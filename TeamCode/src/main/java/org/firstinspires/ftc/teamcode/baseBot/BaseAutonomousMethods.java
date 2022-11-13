@@ -80,6 +80,11 @@ public abstract class BaseAutonomousMethods extends LinearOpMode {
     }
 
     public void encoderStraightDrive(double inches, double power) {
+
+        double originalAngle = getHorizontalAngle();
+        double currentAngle;
+        double angleError;
+
         setModeAllDrive(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 //        Log.d("test test", "test2 " + (inches * Constants.TICKS_PER_INCH));
         ElapsedTime time = new ElapsedTime();
@@ -93,6 +98,10 @@ public abstract class BaseAutonomousMethods extends LinearOpMode {
             Log.d("Left Back: ", myRobot.lb.getCurrentPosition() + "beep");
             Log.d("Right Front: ", myRobot.rf.getCurrentPosition() + "beep");
             Log.d("Right Back: ", myRobot.rb.getCurrentPosition() + "beep");
+
+            currentAngle = getHorizontalAngle();
+            angleError = loopAround(currentAngle - originalAngle);
+            runMotors(power + angleError * Constants.tskR, power - angleError * Constants.tskR);
         }
 //        Log.d("test test", "test3");
         runMotors(0, 0);

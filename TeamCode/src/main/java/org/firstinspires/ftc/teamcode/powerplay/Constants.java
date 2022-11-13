@@ -11,12 +11,13 @@ public class Constants {
     public static double slideResting = 0.575;
     public static double slideSpin = 0.395;
     public static double slideOut = 0.1;
+    public static double autoSlideOut = 0.35;
     public static double clawOpen = 0.73;
     public static double clawClose = 0.55;
     public static double slideSpeed = 0.0125;
 
     public static double liftUpRatio = 1;
-    public static double liftDownRatio = 0.72;
+    public static double liftDownRatio = 0.5;
     public static double setRotateMultiplier = 1;
     public static int rotMotorPosPerDegree = 13;
 
@@ -30,7 +31,8 @@ public class Constants {
     public static int liftFloor = -300;
     public static int liftSpin = -325;
     public static int liftMax = -3100;
-    public static double liftMin = 0.1;
+    public static double liftMin = 0;
+    public static double liftMinPow = 0.1;
     public static double liftkP = 10;
     public static int liftTolerance = 9;
 
@@ -57,6 +59,7 @@ public class Constants {
     public static double kD = 0.0072; // PID turn kD
 
     public static double tkR = 0.03;
+    public static double tskR = 0.03;
     public static double setVerticalMinSpeed = 0.18;
     public static double setVerticalMaxSpeed = 1;
     public static double setHorizontalMinSpeed = 0.3;
@@ -88,9 +91,9 @@ public class Constants {
     public static int bry = 100; // Bottom right y for rectangle
 
     // Camera stuff
-    public static int leftBoundary = 810; // left side of detection zone
-    public static int rightBoundary = 890; // right side of detection zone
-    public static int middleLine = 700; // detection line y coordinate
+    public static int leftBoundary = 740; // left side of detection zone
+    public static int rightBoundary = 810; // right side of detection zone
+    public static int middleLine = 750; // detection line y coordinate
 
     public static Scalar lowRed1 = new Scalar(0, 70, 50);
     public static Scalar highRed1 = new Scalar(10, 255, 255);

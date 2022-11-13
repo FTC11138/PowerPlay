@@ -24,6 +24,9 @@ class SignalDetectionPipeline extends OpenCvPipeline {
         ArrayList<Mat> yCrCbChannels = new ArrayList(3);
         Core.split(YCrCb, yCrCbChannels);
         Y = yCrCbChannels.get(0);
+//        for (int i = 0; i < yCrCbChannels.size(); i++) {
+//            yCrCbChannels.get(i).release();
+//        }
     }
 
     int detectBlackWhite(Mat input) {

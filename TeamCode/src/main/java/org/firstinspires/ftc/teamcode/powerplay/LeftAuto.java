@@ -29,19 +29,23 @@ public class LeftAuto extends BaseAutonomousMethods{
 
     @Override
     public void runOpMode() throws InterruptedException {telemetry.update();
+
+        // Initialize all the parts of the robot
         initializeAutonomousDrivetrain(hardwareMap, telemetry);
         robot.initialize(hardwareMap, telemetry);
 
-
+        // Set up camera
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         signalDetectionPipeline = new org.firstinspires.ftc.teamcode.powerplay.SignalDetectionPipeline();
         webcam.setPipeline(signalDetectionPipeline);
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+
         {
             @Override
             public void onOpened()
             {
+                // Start showing the camera
                 webcam.startStreaming(STREAM_WIDTH, STREAM_HEIGHT, OpenCvCameraRotation.UPRIGHT);
             }
 
@@ -50,11 +54,20 @@ public class LeftAuto extends BaseAutonomousMethods{
             }
         });
 
+        //
+        //
+
+        // Detect the number on the cone before start
+        signal = signalDetectionPipeline.getCounter();
+        telemetry.addData("Signal", signal);
+        telemetry.update();
+
         waitForStart();
         runtime.reset();
 
         sleep(4000);
 
+        // Detect the number on the cone after start
         signal = signalDetectionPipeline.getCounter();
         telemetry.addData("Signal", signal);
         telemetry.update();
@@ -64,6 +77,7 @@ public class LeftAuto extends BaseAutonomousMethods{
         robot.setLiftMotor(0.1, -100);
         sleep(500);
 
+        // Align robot to center of tile
         encoderStraightDrive(3, 0.2);
         encoderStrafeDriveInchesRight(3, 0.5);
 
@@ -75,7 +89,7 @@ public class LeftAuto extends BaseAutonomousMethods{
         robot.setLiftMotor(0.5, Constants.liftHigh);
         robot.setRotateMotor(0.5, 37 * Constants.rotMotorPosPerDegree);
         sleep(2000);
-        robot.setSlideServo(0.33);
+        robot.setSlideServo(Constants.autoSlideOut);
         sleep(2000);
         robot.setLiftMotor(0.3, Constants.liftHigh + 200);
         sleep(1000);
@@ -93,6 +107,7 @@ public class LeftAuto extends BaseAutonomousMethods{
         robot.setLiftMotor(0.3, 0);
         sleep(3000);
 
+        // Park
         do {
             if (runtime.seconds() >= 5) {
                 if (signal == 1) {
@@ -117,6 +132,8 @@ public class LeftAuto extends BaseAutonomousMethods{
                 break;
             }
         } while (opModeIsActive());
+
+        // Transition to Tele Op
         AutoTransitioner.transitionOnStop(this, "TeleOp");
     }
 }

@@ -49,6 +49,9 @@ public class RightAuto extends BaseAutonomousMethods{
             public void onError(int errorCode) {
             }
         });
+        signal = signalDetectionPipeline.getCounter();
+        telemetry.addData("Signal", signal);
+        telemetry.update();
 
         waitForStart();
         runtime.reset();
@@ -75,7 +78,7 @@ public class RightAuto extends BaseAutonomousMethods{
         robot.setLiftMotor(0.5, Constants.liftHigh);
         robot.setRotateMotor(0.5, -40 * Constants.rotMotorPosPerDegree);
         sleep(2000);
-        robot.setSlideServo(0.33);
+        robot.setSlideServo(Constants.autoSlideOut);
         sleep(2000);
         robot.setLiftMotor(0.3, Constants.liftHigh + 200);
         sleep(1000);

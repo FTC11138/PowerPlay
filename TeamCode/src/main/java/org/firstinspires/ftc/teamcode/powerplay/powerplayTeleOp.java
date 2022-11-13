@@ -32,8 +32,8 @@ public class powerplayTeleOp extends OpMode {
     private double currentRPosition = 0;
 
     // Servos
-    private double slidePosition = Constants.slideResting;
-    private double clawPosition = Constants.clawOpen;
+    private double slidePosition = Constants.slideIn;
+    private double clawPosition = Constants.clawClose;
 
     private int stage = -1;
     private int goalAngle = 0;
@@ -235,18 +235,21 @@ public class powerplayTeleOp extends OpMode {
             liftPower = 0;
         }
 
-        if (gamepad1.right_bumper) {
-            limits = !limits;
-        }
+        // Commented so the robot doesnt EXPLODE mid game
+//        if (gamepad1.right_bumper) {
+//            limits = !limits;
+//        }
 
         /* ------------------------------------ Action ------------------------------------ */
 
+        // Actually moves the claw and extension
         myRobot.setClawServo(clawPosition);
         myRobot.setSlideServo(slidePosition);
 
         if (useLiftPower) {
             myRobot.runLiftMotor(liftPower);
         } else {
+            // Limit so the lift doesnt go down ontop of the base
             if (liftTarget < Constants.liftSpin && Math.abs(currentRPosition) > 125) {
                 useLiftPower = true;
                 liftPower = 0;
@@ -258,6 +261,7 @@ public class powerplayTeleOp extends OpMode {
         if (useRotatePower) {
             myRobot.runRotateMotor(rotatePower);
         } else {
+            // Limit so the turntable doesnt spin unless the slide is extended
             if (currentLiftPosition > Constants.liftSpin ||
                     currentSlidePosition > Constants.slideSpin ||
                     Math.abs(currentRPosition - rotateTarget) <= 125) {
@@ -303,7 +307,7 @@ public class powerplayTeleOp extends OpMode {
 //                telemetry.addData("liftMotor PID newPower", newPower);
 
                 //Set real power
-                newPower = Math.max(Math.abs(newPower), Constants.liftMin) * Math.signum(newPower);
+                newPower = Math.max(Math.abs(newPower), Constants.liftMinPow) * Math.signum(newPower);
                 if (Math.signum(newPower) == 1) {
                     newPower = newPower * Constants.liftDownRatio;
                 }
@@ -312,8 +316,9 @@ public class powerplayTeleOp extends OpMode {
                 //Logging
 //                Log.d("AHHHHHH liftMotor", "error: " + (error * Constants.liftMax) + ", power: " + newPower + ", current position: " + currentPosition);
 //                return false;
-            } else {
-                useLiftPower = true;
+            }
+            else {
+//                useLiftPower = true;
                 myRobot.runLiftMotor(0);
 //                return true;
             }
