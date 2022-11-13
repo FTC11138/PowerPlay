@@ -39,9 +39,9 @@ public class powerplayTeleOp extends OpMode {
     private int ltrigchill = Constants.buttonDelay;
     private int rtrigchill = Constants.buttonDelay;
     private int dpadrchill = Constants.buttonDelay;
-    private int dpaddchill = Constants.buttonDelay;
+    private int dpadlchill = Constants.buttonDelay;
     private int stage = -1;
-    private int position = 75;
+    private int autoPosition = 100;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -81,7 +81,7 @@ public class powerplayTeleOp extends OpMode {
         currentSlidePosition = myRobot.getSlidePosition();
         currentRPosition = myRobot.getRotationMotorPosition();
         currentClawPosition = myRobot.getClawPosition();
-        int pos = position % 3;
+        int pos = autoPosition % 3;
 
         // Motors
         double lx = gamepad1.left_stick_x;
@@ -146,7 +146,7 @@ public class powerplayTeleOp extends OpMode {
 //            useLiftPower = false;
 //            liftTarget = Constants.liftMed;
             dpadrchill = 0;
-        } else if (gamepad2.dpad_down && dpaddchill == Constants.buttonDelay) {
+        } else if (gamepad2.dpad_left && dpadlchill == Constants.buttonDelay) {
             slidePosition = Constants.slideIn;
             useRotatePower = false;
             if (pos == 0) {
@@ -161,16 +161,15 @@ public class powerplayTeleOp extends OpMode {
 
 //            useLiftPower = false;
 //            liftTarget = Constants.liftLow;
-            dpaddchill = 0;
+            dpadlchill = 0;
         }
         if (dpadrchill < Constants.buttonDelay) {
             dpadrchill++;
         }
-        if (dpaddchill < Constants.buttonDelay) {
-            dpaddchill++;
+        if (dpadlchill < Constants.buttonDelay) {
+            dpadlchill++;
         }
 
-        // TODO check stages and do automation here
         if (stage > 0) {
             switch (stage) {
                 case 1:
@@ -215,11 +214,11 @@ public class powerplayTeleOp extends OpMode {
         }
 
 
-        // todo Lifting by Position
+        // Lifting by Position
         if (gamepad2.dpad_up) {
             useLiftPower = false;
             liftTarget = Constants.liftHigh;
-        }  else if (gamepad2.dpad_left) {
+        }  else if (gamepad2.dpad_down) {
             useLiftPower = false;
             liftTarget = 0;
         }
@@ -262,12 +261,12 @@ public class powerplayTeleOp extends OpMode {
         }
 
         if (gamepad2.left_trigger > 0.75 && ltrigchill == Constants.buttonDelay) {
-            position--;
+            autoPosition--;
 //            useRotatePower = false;
 //            rotateTarget = Constants.rotDiagBackL;
             ltrigchill = 0;
         } else if (gamepad2.right_trigger > 0.75 && rtrigchill == Constants.buttonDelay) {
-            position++;
+            autoPosition++;
 //            useRotatePower = false;
 //            rotateTarget = Constants.rotDiagBackR;
             rtrigchill = 0;
@@ -399,8 +398,6 @@ public class powerplayTeleOp extends OpMode {
     }
 
     public void setRotationPosition(double speed, int position) {
-        // TODO: safety checks, make sure slide is high enough or extension is out enough
-
         myRobot.rotateMotor.setPower(speed);
         myRobot.rotateMotor.setTargetPosition(position);
         myRobot.rotateMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
