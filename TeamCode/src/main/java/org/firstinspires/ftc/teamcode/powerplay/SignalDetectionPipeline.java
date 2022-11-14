@@ -6,6 +6,7 @@ import org.opencv.core.Point;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
+import org.opencv.objdetect.QRCodeDetector;
 
 import java.util.ArrayList;
 
@@ -57,7 +58,12 @@ class SignalDetectionPipeline extends OpenCvPipeline {
     public Mat processFrame(Mat input) {
         inputToY(input);
         Y.copyTo(input);
-        counter = detectBlackWhite(input);
+        //counter = detectBlackWhite(input);
+        QRCodeDetector QRReader = new QRCodeDetector();
+        String QRString = QRReader.detectAndDecodeCurved(input);
+        if (!QRString.isEmpty()) {
+            counter = Integer.parseInt(QRString);
+        }
         YCrCb.release(); // don't leak memory!
         Y.release(); // don't leak memory!
 
