@@ -23,12 +23,14 @@ public class ReliabilityStrafeTest extends BaseAutonomousMethods{
 
         sleep(1000);
 
-        for (int i=0; i<5; i++) {
-            encoderStraightDrive(20, 0.7);
-            sleep(500);
-            encoderStraightDrive(-20, 0.7);
-            sleep(500);
-        }
+        encoderStraightDrive(Constants.straightTestDist, Constants.straightTestPow);
+
+//        for (int i=0; i<5; i++) {
+//            encoderStraightDrive(20, 0.7);
+//            sleep(500);
+//            encoderStraightDrive(-20, 0.7);
+//            sleep(500);
+//        }
 
     }
 }

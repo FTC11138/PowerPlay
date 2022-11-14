@@ -18,7 +18,7 @@ public class Constants {
 
     public static double liftUpRatio = 1;
     public static double liftDownRatio = 0.5;
-    public static double setRotateMultiplier = 1;
+    public static double setRotateMultiplier = 0.7;
     public static int rotMotorPosPerDegree = 13;
 
     public static int liftOff = 108;
@@ -31,7 +31,7 @@ public class Constants {
     public static int liftFloor = -300;
     public static int liftSpin = -325;
     public static int liftMax = -3100;
-    public static double liftMin = 0;
+    public static int liftMin = 0;
     public static double liftMinPow = 0.1;
     public static double liftkP = 10;
     public static int liftTolerance = 9;
@@ -75,10 +75,10 @@ public class Constants {
     public static double setReadjustDisCap = 24;
     public static double vertHorRatio = 1.22348112;
 
-    public static double ColorThresh = 0.9;
+    public static double ColorThresh = 0.5;
     public static double ColorStripAlignmentSpeed = 0.4;
     public static int ColorStripAlignmentDelay = 5000;
-    public static int gain = 10;
+    public static int gain = 30;
 
     public static int imgWidth = 1920;
     public static int imgHeight = 1080;
@@ -113,4 +113,7 @@ public class Constants {
     public static final int buttonDelay = 18;
 
     public static boolean debugMode = true; // Change it to FALSE before the competition!!!!
+    public static double straightTestDist = 75;
+    public static double straightTestPow = 0.7;
+    public static double liftSpeed = 0.1;
 }

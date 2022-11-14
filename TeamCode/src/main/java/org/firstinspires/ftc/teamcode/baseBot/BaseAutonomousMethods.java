@@ -93,7 +93,6 @@ public abstract class BaseAutonomousMethods extends LinearOpMode {
         runMotors(power, power);
 //        Log.d("test test", "test");
         while (notCloseEnough(20, myRobot.lf, myRobot.rf, myRobot.lb, myRobot.rb) && /*time.milliseconds()<4000 &&*/ opModeIsActive()) {
-            Log.d("test test", "test");
             Log.d("Left Front: ", myRobot.lf.getCurrentPosition() + "beep");
             Log.d("Left Back: ", myRobot.lb.getCurrentPosition() + "beep");
             Log.d("Right Front: ", myRobot.rf.getCurrentPosition() + "beep");
@@ -107,6 +106,49 @@ public abstract class BaseAutonomousMethods extends LinearOpMode {
         runMotors(0, 0);
         setModeAllDrive(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
+
+
+    public void multitaskMovement(double targetAngle, double inches, double power) {
+        double currentAngle;
+        double angleError;
+        int stage = 1;
+
+        setModeAllDrive(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        Log.d("test test", "test2 " + (inches * Constants.TICKS_PER_INCH));
+        ElapsedTime time = new ElapsedTime();
+        multiSetTargetPosition(inches * Constants.TICKS_PER_INCH, myRobot.lb, myRobot.lf, myRobot.rb, myRobot.rf);
+        setModeAllDrive(DcMotor.RunMode.RUN_TO_POSITION);
+        runMotors(power, power);
+//        Log.d("test test", "test");
+        while (notCloseEnough(20, myRobot.lf, myRobot.rf, myRobot.lb, myRobot.rb) && opModeIsActive()) {
+            Log.d("Left Front: ", myRobot.lf.getCurrentPosition() + "beep");
+            Log.d("Left Back: ", myRobot.lb.getCurrentPosition() + "beep");
+            Log.d("Right Front: ", myRobot.rf.getCurrentPosition() + "beep");
+            Log.d("Right Back: ", myRobot.rb.getCurrentPosition() + "beep");
+
+            currentAngle = getHorizontalAngle();
+            angleError = loopAround(currentAngle - targetAngle);
+            runMotors(power + angleError * Constants.tskR, power - angleError * Constants.tskR);
+
+            switch(stage) {
+                case 1:
+                    // lifting up
+                    break;
+                case 2:
+                    // rotating out
+                    break;
+                case 3:
+                    break;
+            }
+        }
+
+        // TODO: make sure the slides are spun out and down
+        // TODO: while color sensor doesn't detect
+//        Log.d("test test", "test3");
+        runMotors(0, 0);
+        setModeAllDrive(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
 
     //Negative = Left, Positive = Right
     public void encoderStrafeDriveInchesRight(double inches, double power) {
@@ -137,7 +179,7 @@ public abstract class BaseAutonomousMethods extends LinearOpMode {
         return output;
     }
 
-    double loopAround(double output) {
+    protected double loopAround(double output) {
         if (output > 180) {
             output -= 360;
         }

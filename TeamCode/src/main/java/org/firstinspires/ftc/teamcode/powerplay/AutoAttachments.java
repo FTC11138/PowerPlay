@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.powerplay;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
+import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -19,6 +20,7 @@ public class AutoAttachments extends Drivetrain {
     public DcMotor liftMotor, rotateMotor;
     public Servo clawServo, slideServo; //, camServo;
     public Rev2mDistanceSensor rightDistance, leftDistance, clawRightDistance, clawLeftDistance;
+    public RevColorSensorV3 colorSensor;
 
     public void initialize(HardwareMap hardwareMap, Telemetry telemetry_) {
         telemetry = telemetry_;
@@ -38,6 +40,8 @@ public class AutoAttachments extends Drivetrain {
         rightDistance = hardwareMap.get(Rev2mDistanceSensor.class, names.rightDistance);
 //        clawLeftDistance = hardwareMap.get(Rev2mDistanceSensor.class, names.clawLeftDistance);
 //        clawRightDistance = hardwareMap.get(Rev2mDistanceSensor.class, names.clawRightDistance);
+
+        colorSensor = hardwareMap.get(RevColorSensorV3.class, names.colorSensor);
 
         // Motor Behavior
         liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
