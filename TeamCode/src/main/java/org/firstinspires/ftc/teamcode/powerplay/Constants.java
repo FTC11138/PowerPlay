@@ -113,7 +113,7 @@ public class Constants {
     public static boolean isDetectRed = true; // False: detect Blue
 
     public static final int automationDelay = 96;
-    public static final int buttonDelay = 18;
+    public static final int buttonDelay = 36;
 
     public static boolean debugMode = true; // Change it to FALSE before the competition!!!!
     public static double straightTestDist = 75;

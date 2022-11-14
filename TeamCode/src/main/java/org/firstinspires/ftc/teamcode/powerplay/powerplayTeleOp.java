@@ -180,6 +180,7 @@ public class powerplayTeleOp extends OpMode {
                         liftTarget = Constants.liftHigh;
                         useLiftPower = false;
                     }
+                    break;
                 case 2:
                     // Turn arm
                     if (Math.abs(currentRPosition - rotateTarget) <= 10) {
@@ -187,10 +188,14 @@ public class powerplayTeleOp extends OpMode {
                     } else {
                         useRotatePower = false;
                     }
+                    break;
                 case Constants.automationDelay:
                     slidePosition = Constants.slideMed;
+                    stage = -1;
+                    break;
                 default:
                     stage++;
+                    break;
             }
         }
 
@@ -318,23 +323,23 @@ public class powerplayTeleOp extends OpMode {
             myRobot.runLiftMotor(liftPower);
         } else {
             // Limit so the lift doesnt go down ontop of the base
-            if (liftTarget < Constants.liftSpin && Math.abs(currentRPosition) > 125) {
-                useLiftPower = true;
-                liftPower = 0;
-            } else {
+//            if (liftTarget < Constants.liftSpin && Math.abs(currentRPosition) > 125) {
+//                useLiftPower = true;
+//                liftPower = 0;
+//            } else {
                 setLiftMotor(liftTarget, Constants.liftTolerance, true);
-            }
+//            }
         }
 
         if (useRotatePower) {
             myRobot.runRotateMotor(rotatePower);
         } else {
             // Limit so the turntable doesnt spin unless the slide is extended
-            if (currentLiftPosition > Constants.liftSpin ||
-                    currentSlidePosition > Constants.slideSpin ||
-                    Math.abs(currentRPosition - rotateTarget) <= 125) {
+//            if (currentLiftPosition > Constants.liftSpin ||
+//                    currentSlidePosition > Constants.slideSpin ||
+//                    Math.abs(currentRPosition - rotateTarget) <= 125) {
                 setRotationPositionPID(rotateTarget, Constants.rotTolerance);
-            }
+//            }
         }
 
 
@@ -348,6 +353,7 @@ public class powerplayTeleOp extends OpMode {
         telemetry.addData("rotate position", currentRPosition);
         telemetry.addData("claw position", currentClawPosition);
         telemetry.addData("automation position", positions[pos]);
+        telemetry.addData("stage", stage);
         telemetry.addData("limits", limits);
         telemetry.update();
 
