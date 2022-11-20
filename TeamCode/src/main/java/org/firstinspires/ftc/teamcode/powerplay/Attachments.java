@@ -1,21 +1,16 @@
 package org.firstinspires.ftc.teamcode.powerplay;
 
 import com.acmerobotics.dashboard.FtcDashboard;
-import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
+import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.baseBot.Drivetrain;
-//import org.openftc.revextensions2.ExpansionHubEx;
-//import org.openftc.revextensions2.ExpansionHubMotor;
 
 public class Attachments extends Drivetrain {
     private Telemetry telemetry;
@@ -23,6 +18,7 @@ public class Attachments extends Drivetrain {
     public DcMotor liftMotor, rotateMotor;
     public Servo clawServo, slideServo; //, camServo;
     public Rev2mDistanceSensor rightDistance, leftDistance, clawRightDistance, clawLeftDistance;
+    public RevColorSensorV3 colorSensor;
 
     public void initialize(HardwareMap hardwareMap, Telemetry telemetry_) {
         telemetry = telemetry_;

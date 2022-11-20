@@ -1,5 +1,6 @@
-package org.firstinspires.ftc.teamcode.baseBot;
+package org.firstinspires.ftc.teamcode.powerplay;
 
+import android.graphics.Color;
 import android.util.Log;
 
 import com.acmerobotics.dashboard.FtcDashboard;
@@ -7,6 +8,7 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -14,11 +16,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.teamcode.outreachBot.ClawBot;
-import org.firstinspires.ftc.teamcode.powerplay.Attachments;
-import org.firstinspires.ftc.teamcode.powerplay.Constants;
 
-public abstract class BaseAutonomousMethods extends LinearOpMode {
+public abstract class AutonomousMethods extends LinearOpMode {
     public Attachments myRobot = new Attachments();
     FtcDashboard dashboard = FtcDashboard.getInstance();
     TelemetryPacket packet = new TelemetryPacket();
@@ -50,13 +49,6 @@ public abstract class BaseAutonomousMethods extends LinearOpMode {
         myRobot.lf.setMode(mode);
         myRobot.rb.setMode(mode);
         myRobot.rf.setMode(mode);
-    }
-
-    public void runMotors(WheelPowers wps) {
-        myRobot.lb.setPower(wps.lbPower);
-        myRobot.lf.setPower(wps.lfPower);
-        myRobot.rb.setPower(wps.rbPower);
-        myRobot.rf.setPower(wps.rfPower);
     }
 
     public void runMotors(double leftPower, double rightPower) {
@@ -111,7 +103,7 @@ public abstract class BaseAutonomousMethods extends LinearOpMode {
 
 
     // Target Angle for rotation, inches to drive before using color sensor, power for drive
-    public void multitaskMovement(int targetAngle, double inches, double power) {
+    public void multitaskMovement(double targetAngle, int rotTarget, double inches, double power) {
         double currentAngle, angleError, currentLiftPosition, currentRPosition, currentSlidePosition;
         double liftPower, liftError, rPower, rError;
         int stage = 1;
@@ -133,10 +125,10 @@ public abstract class BaseAutonomousMethods extends LinearOpMode {
             switch (stage) {
                 case 2: // rotating
                     currentRPosition = myRobot.getRotationMotorPosition();
-                    if (Math.abs(currentRPosition - targetAngle) <= 10) {
+                    if (Math.abs(currentRPosition - rotTarget) <= 10) {
                         stage = 3;
                     }
-                    rError = (targetAngle - currentRPosition) / Constants.rotMax;
+                    rError = (rotTarget - currentRPosition) / Constants.rotMax;
                     telemetry.addData("2", "rotation error: " + rError);
                     if (Math.abs(rError) > (Constants.rotTolerance / Constants.rotMax)) {
                         //Setting p action
@@ -144,7 +136,7 @@ public abstract class BaseAutonomousMethods extends LinearOpMode {
                         rPower = Math.max(Math.abs(rPower), Constants.rotMin) * Math.signum(rPower);
                         myRobot.runRotateMotor(rPower);
                     } else {
-                        setRotationPosition(0.3, targetAngle);
+                        setRotationPosition(0.3, rotTarget);
                     }
                 case 1: // lifting up
                     currentLiftPosition = myRobot.getLiftMotorPosition();
@@ -186,16 +178,17 @@ public abstract class BaseAutonomousMethods extends LinearOpMode {
             }
             telemetry.update();
         }
+        encoderTurn(0, 0.3, 1);
 
         // Make sure the slides are spun out and down
         while (stage < 25 && opModeIsActive()) {
             switch (stage) {
                 case 2: // rotating
                     currentRPosition = myRobot.getRotationMotorPosition();
-                    if (Math.abs(currentRPosition - targetAngle) <= 10) {
+                    if (Math.abs(currentRPosition - rotTarget) <= 10) {
                         stage = 3;
                     }
-                    rError = (targetAngle - currentRPosition) / Constants.rotMax;
+                    rError = (rotTarget - currentRPosition) / Constants.rotMax;
                     telemetry.addData("2", "rotation error: " + rError);
                     if (Math.abs(rError) > (Constants.rotTolerance / Constants.rotMax)) {
                         //Setting p action
@@ -203,7 +196,7 @@ public abstract class BaseAutonomousMethods extends LinearOpMode {
                         rPower = Math.max(Math.abs(rPower), Constants.rotMin) * Math.signum(rPower);
                         myRobot.runRotateMotor(rPower);
                     } else {
-                        setRotationPosition(0.3, targetAngle);
+                        setRotationPosition(0.3, rotTarget);
                     }
                 case 1: // lifting up
                     currentLiftPosition = myRobot.getLiftMotorPosition();
@@ -250,11 +243,18 @@ public abstract class BaseAutonomousMethods extends LinearOpMode {
             telemetry.update();
         }
 
-        // TODO: while color sensor doesn't detect
-//        Log.d("test test", "test3");
-        {
-            runMotors(0, 0);
+        // while color sensor doesn't detect
+        while (opModeIsActive()) {
+            currentAngle = getHorizontalAngle();
+            angleError = loopAround(currentAngle - targetAngle);
+            runMotors(0.2 + angleError * Constants.tkR, 0.2 - angleError * Constants.tkR);
+            if (calculateBlue()) {
+                runMotors(0, 0);
+                break;
+            }
         }
+        encoderTurn(0, 0.3, 1);
+
         setModeAllDrive(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
@@ -263,6 +263,25 @@ public abstract class BaseAutonomousMethods extends LinearOpMode {
         myRobot.rotateMotor.setPower(speed);
         myRobot.rotateMotor.setTargetPosition(position);
         myRobot.rotateMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+
+
+    boolean calculateBlue() {
+        final float[] hsvValues = new float[3];
+        NormalizedRGBA colors = myRobot.colorSensor.getNormalizedColors();
+        Color.colorToHSV(colors.toColor(), hsvValues);
+
+        telemetry.addLine()
+                .addData("Red 1", "%.1f", colors.red)
+                .addData("Green 1", "%.1f", colors.green)
+                .addData("Blue 1", "%.1f", colors.blue);
+        telemetry.update();
+
+        if (colors.blue > Constants.ColorThresh) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     //Negative = Left, Positive = Right
@@ -383,45 +402,6 @@ public abstract class BaseAutonomousMethods extends LinearOpMode {
 
             //Logging
             Log.d("Skystone: ", "encoderTurn Error: " + error + " leftPower: " + realLeftPower + "rightPower: " + realRightPower + "CurrentAngle: " + currentAngle);
-        }
-    }
-
-    public class WheelPowers {
-        public double lfPower;
-        public double lbPower;
-        public double rfPower;
-        public double rbPower;
-
-        public WheelPowers(double power) {
-            lfPower = power;
-            lbPower = power;
-            rfPower = power;
-            rbPower = power;
-        }
-
-        public WheelPowers(double leftPower, double rightPower) {
-            lfPower = leftPower;
-            lbPower = leftPower;
-            rfPower = rightPower;
-            rbPower = rightPower;
-        }
-
-        public WheelPowers(double lfp, double lbp, double rfp, double rbp) {
-            lfPower = lfp;
-            lbPower = lbp;
-            rfPower = rfp;
-            rbPower = rbp;
-        }
-
-        public void adjustPowers(double leftAdjust, double rightAdjust) {
-            lfPower += leftAdjust;
-            lbPower += leftAdjust;
-            rfPower += rightAdjust;
-            rbPower += rightAdjust;
-        }
-
-        public String toString() {
-            return "lf: " + lfPower + ", lb: " + lbPower + ", rf: " + rfPower + ", rb: " + rbPower;
         }
     }
 }

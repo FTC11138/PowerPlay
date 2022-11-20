@@ -6,11 +6,13 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.teamcode.powerplay.AutonomousMethods;
 import org.firstinspires.ftc.teamcode.powerplay.Constants;
 
 @Autonomous(name = "StrafeTest", group = "Linear Opmode")
 @Disabled
-public class StrafeTest extends BaseAutonomousMethods {
+public class StrafeTest extends AutonomousMethods {
 
     private ElapsedTime runtime = new ElapsedTime();
     NormalizedColorSensor colorSensor1;

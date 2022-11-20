@@ -5,15 +5,15 @@ import android.graphics.Color;
 import android.view.View;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 
+import org.firstinspires.ftc.teamcode.powerplay.AutonomousMethods;
 import org.firstinspires.ftc.teamcode.powerplay.Constants;
 
 @Autonomous(name = "ColorTest", group = "Linear Opmode")
-public class ColorTest extends BaseAutonomousMethods {
+public class ColorTest extends AutonomousMethods {
 
     private ElapsedTime runtime = new ElapsedTime();
     NormalizedColorSensor colorSensor;

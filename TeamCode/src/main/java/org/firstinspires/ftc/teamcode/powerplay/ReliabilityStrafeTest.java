@@ -1,22 +1,16 @@
 package org.firstinspires.ftc.teamcode.powerplay;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import org.firstinspires.ftc.teamcode.baseBot.BaseAutonomousMethods;
 
 @Autonomous(name = "ReliabilityStrafeTest", group = "Linear Opmode")
-public class ReliabilityStrafeTest extends BaseAutonomousMethods{
+public class ReliabilityStrafeTest extends AutonomousMethods {
 
     private ElapsedTime runtime = new ElapsedTime();
-    private AutoAttachments robot = new AutoAttachments();
 
     @Override
     public void runOpMode() throws InterruptedException {
-
-        initializeAutonomousDrivetrain(hardwareMap, telemetry);
-        robot.initialize(hardwareMap, telemetry);
+        initializeAuto(hardwareMap, telemetry);
 
         waitForStart();
         runtime.reset();

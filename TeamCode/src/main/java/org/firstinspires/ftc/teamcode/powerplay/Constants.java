@@ -45,6 +45,8 @@ public class Constants {
     public static double rotkP = 25;
     public static int rot180L = -2125;
     public static int rot180R = 2125;
+    public static int rot90L = -1000;
+    public static int rot90R = 1000;
     public static int rot45L = -300;
     public static int rot45R = 300;
     public static int rotDiagBackR = 1875;
