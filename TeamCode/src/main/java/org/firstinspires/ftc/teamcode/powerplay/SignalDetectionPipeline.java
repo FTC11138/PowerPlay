@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.powerplay;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
+import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
@@ -10,7 +11,7 @@ import org.opencv.objdetect.QRCodeDetector;
 
 import java.util.ArrayList;
 
-class SignalDetectionPipeline extends OpenCvPipeline {
+public class SignalDetectionPipeline extends OpenCvPipeline {
 
     Mat YCrCb = new Mat();
     Mat Y = new Mat();
@@ -56,11 +57,13 @@ class SignalDetectionPipeline extends OpenCvPipeline {
 
     @Override
     public Mat processFrame(Mat input) {
-        inputToY(input);
-        Y.copyTo(input);
-        //counter = detectBlackWhite(input);
+        // inputToY(input);
+        // Y.copyTo(input);
+        // counter = detectBlackWhite(input);
+        Rect ROIRect = new Rect(700, 200, 500, 700);
+        Mat croppedInput = input.submat(ROIRect);
         QRCodeDetector QRReader = new QRCodeDetector();
-        String QRString = QRReader.detectAndDecodeCurved(input);
+        String QRString = QRReader.detectAndDecodeCurved(croppedInput);
         if (!QRString.isEmpty()) {
             counter = Integer.parseInt(QRString);
         }
@@ -69,12 +72,20 @@ class SignalDetectionPipeline extends OpenCvPipeline {
 
         Imgproc.rectangle( // rings
                 input, // Buffer to draw on
+                new Point(700, 200), // First point which defines the rectangle
+                new Point(1200, 900), // Second point which defines the rectangle
+                new Scalar(0,0,255), // The color the rectangle is drawn in
+                2); // Thickness of the rectangle lines
+
+        /* line detection rect
+        Imgproc.rectangle( // rings
+                input, // Buffer to draw on
                 new Point(Constants.leftBoundary,Constants.middleLine - 20), // First point which defines the rectangle
                 new Point(Constants.rightBoundary,Constants.middleLine + 20), // Second point which defines the rectangle
                 new Scalar(0,0,255), // The color the rectangle is drawn in
                 2); // Thickness of the rectangle lines
         Imgproc.line(input, new Point(Constants.leftBoundary, Constants.middleLine), new Point(Constants.rightBoundary, Constants.middleLine), new Scalar(0, 0, 255), 3);
-
+*/
 
         return input;
     }

@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.test;
 
 
+import static java.lang.Thread.sleep;
+
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -9,6 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.powerplay.Constants;
+import org.firstinspires.ftc.teamcode.powerplay.SignalDetectionPipeline;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
@@ -22,19 +25,19 @@ import org.openftc.easyopencv.OpenCvWebcam;
 import java.util.ArrayList;
 
 @TeleOp(name = "Webcam Color Test")
-@Disabled
+//@Disabled
 public class OpenCVExampleOpMode extends OpMode {
     static final int STREAM_WIDTH = 1920; // modify for your camera
     static final int STREAM_HEIGHT = 1080; // modify for your camera
     OpenCvWebcam webcam;
-    SamplePipeline pipeline;
+    SignalDetectionPipeline pipeline;
     FtcDashboard dashboard = FtcDashboard.getInstance();
     TelemetryPacket packet = new TelemetryPacket();
     @Override
     public void init() {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-        pipeline = new SamplePipeline();
+        pipeline = new SignalDetectionPipeline();
         webcam.setPipeline(pipeline);
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
@@ -59,6 +62,12 @@ public class OpenCVExampleOpMode extends OpMode {
     public void loop() {
 //        telemetry.addData("Image Analysis:",pipeline.getAnalysis());
 //        telemetry.addData("Image number:", pipeline.getRectA_Analysis());
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
         telemetry.addData("Image number:", pipeline.getCounter());
         telemetry.update();
 
