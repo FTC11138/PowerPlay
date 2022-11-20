@@ -22,6 +22,7 @@ public class powerplayTeleOp extends OpMode {
     private double rotatePower = 0;
     private int rotateTarget = 0;
     private boolean useRotatePower = true;
+    private final int autoDel = Constants.automationDelay;
 
 
     private boolean limits = true;
@@ -147,7 +148,7 @@ public class powerplayTeleOp extends OpMode {
 //            liftTarget = Constants.liftMed;
             dpadrchill = 0;
         } else if (gamepad2.dpad_left && dpadlchill == Constants.buttonDelay) {
-            slidePosition = Constants.slideIn;
+            slidePosition = Constants.slideResting;
             useRotatePower = false;
             if (pos == 0) {
                 rotateTarget = Constants.rot45R;

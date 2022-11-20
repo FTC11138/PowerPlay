@@ -12,6 +12,7 @@ public class Constants {
     public static double slideSpin = 0.395;
     public static double slideOut = 0.1;
     public static double slideMed = 0.25;
+    public static double autoSlideTurn = 0.4;
     public static double autoSlideOut = 0.35;
     public static double clawOpen = 0.73;
     public static double clawClose = 0.55;
@@ -112,7 +113,7 @@ public class Constants {
     public static double negSlopeThresh = -100.0; // 100
     public static boolean isDetectRed = true; // False: detect Blue
 
-    public static final int automationDelay = 96;
+    public static final int automationDelay = 48;
     public static final int buttonDelay = 36;
 
     public static boolean debugMode = true; // Change it to FALSE before the competition!!!!
