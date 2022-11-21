@@ -81,10 +81,10 @@ public class Constants {
     public static double setReadjustDisCap = 24;
     public static double vertHorRatio = 1.22348112;
 
-    public static double ColorThresh = 0.5;
+    public static double ColorThresh = 0.6;
     public static double ColorStripAlignmentSpeed = 0.4;
     public static int ColorStripAlignmentDelay = 5000;
-    public static int gain = 30;
+    public static int gain = 250;
 
     public static int imgWidth = 1920;
     public static int imgHeight = 1080;
