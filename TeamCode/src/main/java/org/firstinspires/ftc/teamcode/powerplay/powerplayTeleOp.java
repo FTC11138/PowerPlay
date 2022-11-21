@@ -53,6 +53,7 @@ public class powerplayTeleOp extends OpMode {
         myRobot.initialize(hardwareMap, telemetry);
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
+        telemetry.update();
     }
 
     /*
@@ -387,6 +388,7 @@ public class powerplayTeleOp extends OpMode {
                 if (Math.signum(newPower) == 1) {
                     newPower = newPower * Constants.liftDownRatio;
                 }
+                telemetry.addData("Lift Motor", newPower);
                 myRobot.runLiftMotor(newPower);
 
                 //Logging

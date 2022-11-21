@@ -124,10 +124,8 @@ public abstract class AutonomousMethods extends LinearOpMode {
             // Everything else
             switch (stage) {
                 case 2: // rotating
+                    myRobot.setSlideServo(Constants.slideResting);
                     currentRPosition = myRobot.getRotationMotorPosition();
-                    if (Math.abs(currentRPosition - rotTarget) <= 10) {
-                        stage = 3;
-                    }
                     rError = (rotTarget - currentRPosition) / Constants.rotMax;
                     telemetry.addData("2", "rotation error: " + rError);
                     if (Math.abs(rError) > (Constants.rotTolerance / Constants.rotMax)) {
@@ -137,6 +135,7 @@ public abstract class AutonomousMethods extends LinearOpMode {
                         myRobot.runRotateMotor(rPower);
                     } else {
                         setRotationPosition(0.3, rotTarget);
+                        stage = 3;
                     }
                 case 1: // lifting up
                     currentLiftPosition = myRobot.getLiftMotorPosition();
@@ -147,20 +146,18 @@ public abstract class AutonomousMethods extends LinearOpMode {
                     liftError = -((Constants.liftSpin - 100) - currentLiftPosition) / Constants.liftMax;
                     telemetry.addData("1", "lift error: " + liftError);
                     if (Math.abs(liftError) > (Constants.liftTolerance / -Constants.liftMax)) {
-                        //Setting p action
                         liftPower = Math.max(Math.min(liftError * Constants.liftkP, 1), -1);
-
-                        //Set real power
                         liftPower = Math.max(Math.abs(liftPower), Constants.liftMinPow) * Math.signum(liftPower);
                         myRobot.runLiftMotor(liftPower);
                     } else {
                         myRobot.runLiftMotor(0);
                     }
                     break;
-                case 12: // extending
+                case 3: // extending
                     myRobot.setSlideServo(Constants.autoSlideTurn);
+                    stage++;
                     break;
-                case 24: // lowering
+                case 25: // lowering
                     currentLiftPosition = myRobot.getLiftMotorPosition();
                     liftError = currentLiftPosition / Constants.liftMax;
                     telemetry.addData("1", "lift error: " + liftError);
@@ -170,26 +167,41 @@ public abstract class AutonomousMethods extends LinearOpMode {
                         myRobot.runLiftMotor(liftPower);
                     } else {
                         myRobot.runLiftMotor(0);
+                        stage = 25 + 1;
+                        break;
                     }
                     break;
                 default:
-                    stage++;
-                    telemetry.addData("stage", "current stage: " + stage);
+                    if (stage <= 25) {
+                        stage++;
+                        currentLiftPosition = myRobot.getLiftMotorPosition();
+                        liftError = -((Constants.liftSpin - 100) - currentLiftPosition) / Constants.liftMax;
+                        telemetry.addData("1", "lift error: " + liftError);
+                        if (Math.abs(liftError) > (Constants.liftTolerance / -Constants.liftMax)) {
+                            //Setting p action
+                            liftPower = Math.max(Math.min(liftError * Constants.liftkP, 1), -1);
+
+                            //Set real power
+                            liftPower = Math.max(Math.abs(liftPower), Constants.liftMinPow) * Math.signum(liftPower);
+                            myRobot.runLiftMotor(liftPower);
+                        } else {
+                            myRobot.runLiftMotor(0);
+                        }
+                    }
             }
+            telemetry.addData("stage", "current stage: " + stage);
             telemetry.update();
         }
         encoderTurn(0, 0.3, 1);
 
         // Make sure the slides are spun out and down
-        while (stage < 25 && opModeIsActive()) {
+        while (stage <= 25 && opModeIsActive()) {
             switch (stage) {
                 case 2: // rotating
+                    myRobot.setSlideServo(Constants.slideResting);
                     currentRPosition = myRobot.getRotationMotorPosition();
-                    if (Math.abs(currentRPosition - rotTarget) <= 10) {
-                        stage = 3;
-                    }
                     rError = (rotTarget - currentRPosition) / Constants.rotMax;
-                    telemetry.addData("2", "rotation error: " + rError);
+                    telemetry.addData("2 2", "rotation error: " + rError);
                     if (Math.abs(rError) > (Constants.rotTolerance / Constants.rotMax)) {
                         //Setting p action
                         rPower = Math.max(Math.min(rError * Constants.rotkP, 1), -1);
@@ -197,6 +209,7 @@ public abstract class AutonomousMethods extends LinearOpMode {
                         myRobot.runRotateMotor(rPower);
                     } else {
                         setRotationPosition(0.3, rotTarget);
+                        stage = 3;
                     }
                 case 1: // lifting up
                     currentLiftPosition = myRobot.getLiftMotorPosition();
@@ -205,41 +218,52 @@ public abstract class AutonomousMethods extends LinearOpMode {
                         myRobot.rotateMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                     }
                     liftError = -((Constants.liftSpin - 100) - currentLiftPosition) / Constants.liftMax;
-                    telemetry.addData("1", "lift error: " + liftError);
+                    telemetry.addData("2 1", "lift error: " + liftError);
                     if (Math.abs(liftError) > (Constants.liftTolerance / -Constants.liftMax)) {
-                        //Setting p action
                         liftPower = Math.max(Math.min(liftError * Constants.liftkP, 1), -1);
-
-                        //Set real power
                         liftPower = Math.max(Math.abs(liftPower), Constants.liftMinPow) * Math.signum(liftPower);
                         myRobot.runLiftMotor(liftPower);
                     } else {
                         myRobot.runLiftMotor(0);
                     }
                     break;
-                case 12: // extending
+                case 3: // extending
                     myRobot.setSlideServo(Constants.autoSlideTurn);
+                    stage++;
                     break;
-                case 24: // lowering
+                case 25: // lowering
                     currentLiftPosition = myRobot.getLiftMotorPosition();
-                    if (currentLiftPosition > -75) {
-                        stage = 25;
-                        break;
-                    }
                     liftError = currentLiftPosition / Constants.liftMax;
-                    telemetry.addData("1", "lift error: " + liftError);
+                    telemetry.addData("2 1", "lift error: " + liftError);
                     if (Math.abs(liftError) > (Constants.liftTolerance / -Constants.liftMax)) {
                         liftPower = Math.max(Math.min(liftError * Constants.liftkP, 1), -1);
                         liftPower = Math.max(Math.abs(liftPower), Constants.liftMinPow) * Math.signum(liftPower) * Constants.liftDownRatio;
                         myRobot.runLiftMotor(liftPower);
                     } else {
                         myRobot.runLiftMotor(0);
+                        stage = 25 + 1;
+                        break;
                     }
                     break;
                 default:
-                    stage++;
-                    telemetry.addData("stage", "current stage: " + stage);
+                    if (stage <= 25) {
+                        stage++;
+                        currentLiftPosition = myRobot.getLiftMotorPosition();
+                        liftError = -((Constants.liftSpin - 100) - currentLiftPosition) / Constants.liftMax;
+                        telemetry.addData("2 1", "lift error: " + liftError);
+                        if (Math.abs(liftError) > (Constants.liftTolerance / -Constants.liftMax)) {
+                            //Setting p action
+                            liftPower = Math.max(Math.min(liftError * Constants.liftkP, 1), -1);
+
+                            //Set real power
+                            liftPower = Math.max(Math.abs(liftPower), Constants.liftMinPow) * Math.signum(liftPower);
+                            myRobot.runLiftMotor(liftPower);
+                        } else {
+                            myRobot.runLiftMotor(0);
+                        }
+                    }
             }
+            telemetry.addData("2 stage", "current stage: " + stage);
             telemetry.update();
         }
 

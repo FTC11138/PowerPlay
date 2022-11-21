@@ -12,7 +12,7 @@ public class Constants {
     public static double slideSpin = 0.395;
     public static double slideOut = 0.1;
     public static double slideMed = 0.25;
-    public static double autoSlideTurn = 0.4;
+    public static double autoSlideTurn = 0.25;
     public static double autoSlideOut = 0.35;
     public static double clawOpen = 0.73;
     public static double clawClose = 0.55;
@@ -45,8 +45,8 @@ public class Constants {
     public static double rotkP = 25;
     public static int rot180L = -2125;
     public static int rot180R = 2125;
-    public static int rot90L = -1000;
-    public static int rot90R = 1000;
+    public static int rot90L = -1100;
+    public static int rot90R = 1100;
     public static int rot45L = -300;
     public static int rot45R = 300;
     public static int rotDiagBackR = 1875;
