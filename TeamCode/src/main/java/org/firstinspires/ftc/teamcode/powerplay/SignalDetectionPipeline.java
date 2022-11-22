@@ -26,9 +26,10 @@ public class SignalDetectionPipeline extends OpenCvPipeline {
         ArrayList<Mat> yCrCbChannels = new ArrayList(3);
         Core.split(YCrCb, yCrCbChannels);
         Y = yCrCbChannels.get(0);
-//        for (int i = 0; i < yCrCbChannels.size(); i++) {
-//            yCrCbChannels.get(i).release();
-//        }
+ /*       for (int i = 0; i < yCrCbChannels.size(); i++) {
+            yCrCbChannels.get(i).release();
+        }
+ */
     }
 
     int detectBlackWhite(Mat input) {
@@ -57,35 +58,37 @@ public class SignalDetectionPipeline extends OpenCvPipeline {
 
     @Override
     public Mat processFrame(Mat input) {
-        // inputToY(input);
-        // Y.copyTo(input);
-        // counter = detectBlackWhite(input);
-        Rect ROIRect = new Rect(700, 200, 500, 700);
-        Mat croppedInput = input.submat(ROIRect);
-        QRCodeDetector QRReader = new QRCodeDetector();
-        String QRString = QRReader.detectAndDecodeCurved(croppedInput);
-        if (!QRString.isEmpty()) {
-            counter = Integer.parseInt(QRString);
+        if (!Constants.isDetectLines) {
+            Rect ROIRect = new Rect(700, 200, 500, 700);
+            Mat croppedInput = input.submat(ROIRect);
+            QRCodeDetector QRReader = new QRCodeDetector();
+            //  String QRString = QRReader.detectAndDecodeCurved(croppedInput);
+            String QRString = QRReader.detectAndDecode(croppedInput);
+            if (!QRString.isEmpty()) {
+                counter = Integer.parseInt(QRString);
+            }
+            Imgproc.rectangle( // rings
+                    input, // Buffer to draw on
+                    new Point(700, 200), // First point which defines the rectangle
+                    new Point(1200, 900), // Second point which defines the rectangle
+                    new Scalar(0,0,255), // The color the rectangle is drawn in
+                    2); // Thickness of the rectangle lines
+        } else {
+            inputToY(input);
+            Y.copyTo(input);
+            counter = detectBlackWhite(input);
+            YCrCb.release(); // don't leak memory!
+            Y.release(); // don't leak memory!
+
+            //line detection rect
+            Imgproc.rectangle( // rings
+                    input, // Buffer to draw on
+                    new Point(Constants.leftBoundary,Constants.middleLine - 20), // First point which defines the rectangle
+                    new Point(Constants.rightBoundary,Constants.middleLine + 20), // Second point which defines the rectangle
+                    new Scalar(0,0,255), // The color the rectangle is drawn in
+                    2); // Thickness of the rectangle lines
+            Imgproc.line(input, new Point(Constants.leftBoundary, Constants.middleLine), new Point(Constants.rightBoundary, Constants.middleLine), new Scalar(0, 0, 255), 3);
         }
-        YCrCb.release(); // don't leak memory!
-        Y.release(); // don't leak memory!
-
-        Imgproc.rectangle( // rings
-                input, // Buffer to draw on
-                new Point(700, 200), // First point which defines the rectangle
-                new Point(1200, 900), // Second point which defines the rectangle
-                new Scalar(0,0,255), // The color the rectangle is drawn in
-                2); // Thickness of the rectangle lines
-
-        /* line detection rect
-        Imgproc.rectangle( // rings
-                input, // Buffer to draw on
-                new Point(Constants.leftBoundary,Constants.middleLine - 20), // First point which defines the rectangle
-                new Point(Constants.rightBoundary,Constants.middleLine + 20), // Second point which defines the rectangle
-                new Scalar(0,0,255), // The color the rectangle is drawn in
-                2); // Thickness of the rectangle lines
-        Imgproc.line(input, new Point(Constants.leftBoundary, Constants.middleLine), new Point(Constants.rightBoundary, Constants.middleLine), new Scalar(0, 0, 255), 3);
-*/
 
         return input;
     }

@@ -114,12 +114,14 @@ public class Constants {
     public static double slopeThresh = 100.0; // 100
     public static double negSlopeThresh = -100.0; // 100
     public static boolean isDetectRed = true; // False: detect Blue
+    public static boolean isDetectLines = true; // False: detect QR code
 
     public static final int automationDelay = 48;
     public static final int buttonDelay = 36;
 
-    public static boolean debugMode = true; // Change it to FALSE before the competition!!!!
     public static double straightTestDist = 75;
     public static double straightTestPow = 0.7;
     public static double liftSpeed = 0.1;
+
+    public static boolean debugMode = true; // Change it to FALSE before the competition!!!!
 }
