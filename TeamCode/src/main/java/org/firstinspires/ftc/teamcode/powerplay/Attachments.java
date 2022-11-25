@@ -17,7 +17,7 @@ public class Attachments extends Drivetrain {
     private ElapsedTime runtime = new ElapsedTime();
     public DcMotor liftMotor, rotateMotor;
     public Servo clawServo, slideServo; //, camServo;
-    public Rev2mDistanceSensor rightDistance, leftDistance, clawRightDistance, clawLeftDistance;
+    public Rev2mDistanceSensor rightDistance, leftDistance, clawRightDistance, clawLeftDistance, clawDistance;
     public RevColorSensorV3 colorSensor;
 
     public void initialize(HardwareMap hardwareMap, Telemetry telemetry_) {
@@ -37,6 +37,7 @@ public class Attachments extends Drivetrain {
         leftDistance = hardwareMap.get(Rev2mDistanceSensor.class, names.leftDistance);
         rightDistance = hardwareMap.get(Rev2mDistanceSensor.class, names.rightDistance);
         colorSensor = hardwareMap.get(RevColorSensorV3.class, names.colorSensor);
+        clawDistance = hardwareMap.get(Rev2mDistanceSensor.class, names.clawDistance);
 //        clawLeftDistance = hardwareMap.get(Rev2mDistanceSensor.class, names.clawLeftDistance);
 //        clawRightDistance = hardwareMap.get(Rev2mDistanceSensor.class, names.clawRightDistance);
 
@@ -93,4 +94,6 @@ public class Attachments extends Drivetrain {
     public double getClawPosition() {
         return clawServo.getPosition();
     }
+
+    public double getClawDistance() {return clawDistance.getDistance(DistanceUnit.MM);}
 }

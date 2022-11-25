@@ -14,7 +14,7 @@ public class Constants {
     public static double slideMed = 0.25;
     public static double autoSlideTurn = 0.25;
     public static double autoSlideOut = 0.35;
-    public static double clawOpen = 0.73;
+    public static double clawOpen = 0.7;
     public static double clawClose = 0.55;
     public static double slideSpeed = 0.0125;
 
@@ -31,7 +31,7 @@ public class Constants {
     public static int liftMed = -2200;
     public static int liftLow = -1400;
     public static int liftFloor = -300;
-    public static int liftSpin = -325;
+    public static int liftSpin = -400;
     public static int liftMax = -3100;
     public static int liftMin = 0;
     public static double liftMinPow = 0.1;
@@ -84,7 +84,7 @@ public class Constants {
     public static double ColorThresh = 0.6;
     public static double ColorStripAlignmentSpeed = 0.4;
     public static int ColorStripAlignmentDelay = 5000;
-    public static int gain = 250;
+    public static int gain = 50;
 
     public static int imgWidth = 1920;
     public static int imgHeight = 1080;

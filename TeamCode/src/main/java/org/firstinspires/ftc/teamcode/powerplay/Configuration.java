@@ -21,6 +21,7 @@ public class Configuration {
     public final String leftDistance = "leftDistance";
     public final String clawLeftDistance = "clawLeftDistance";
     public final String clawRightDistance = "clawRightDistance";
+    public final String clawDistance = "clawDist";
     public final String colorSensor = "colorsensor";
 
 
