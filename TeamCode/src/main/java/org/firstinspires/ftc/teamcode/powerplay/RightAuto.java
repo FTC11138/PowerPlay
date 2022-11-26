@@ -12,12 +12,13 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
 @Autonomous(name = "RightAuto", group = "Linear Opmode")
-public class RightAuto extends AutonomousMethods {
+public class RightAuto extends AutonomousMethods{
 
     static final int STREAM_WIDTH = 1920; // modify for your camera
     static final int STREAM_HEIGHT = 1080; // modify for your camera
 
     private ElapsedTime runtime = new ElapsedTime();
+    private Attachments robot = new Attachments();
 
     OpenCvWebcam webcam;
     org.firstinspires.ftc.teamcode.powerplay.SignalDetectionPipeline signalDetectionPipeline;
@@ -27,7 +28,8 @@ public class RightAuto extends AutonomousMethods {
 
     @Override
     public void runOpMode() throws InterruptedException {telemetry.update();
-        initializeAuto(hardwareMap, telemetry);
+        initializeAutonomousDrivetrain(hardwareMap, telemetry);
+        robot.initialize(hardwareMap, telemetry);
 
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -59,30 +61,30 @@ public class RightAuto extends AutonomousMethods {
         telemetry.addData("Signal", signal);
         telemetry.update();
 
-        myRobot.setClawServo(Constants.clawOpen);
+        robot.setClawServo(Constants.clawOpen);
         sleep(500);
-        myRobot.setLiftMotor(0.1, -100);
+        robot.setLiftMotor(0.1, -100);
         sleep(500);
 
         encoderStraightDrive(3, 0.2);
         encoderStrafeDriveInchesRight(3, 0.5);
 
-        myRobot.setLiftMotor(0.3, Constants.liftLow);
+        robot.setLiftMotor(0.3, Constants.liftLow);
 
         encoderStraightDrive(33, 0.5);
         sleep(500);
 
-        myRobot.setLiftMotor(0.5, Constants.liftHigh);
-        myRobot.setRotateMotor(0.5, -40 * Constants.rotMotorPosPerDegree);
+        robot.setLiftMotor(0.5, Constants.liftHigh);
+        robot.setRotateMotor(0.5, Math.round(-40 * Constants.rotMotorPosPerDegree));
         sleep(2000);
-        myRobot.setSlideServo(Constants.autoSlideOut);
+        robot.setSlideServo(Constants.autoSlideOut);
         sleep(2000);
-        myRobot.setLiftMotor(0.3, Constants.liftHigh + 200);
+        robot.setLiftMotor(0.3, Constants.liftHigh + 200);
         sleep(1000);
-        myRobot.setClawServo(Constants.clawClose);
+        robot.setClawServo(Constants.clawClose);
         sleep(1000);
-        myRobot.setSlideServo(Constants.slideIn);
-        myRobot.setRotateMotor(0.5, 0);
+        robot.setSlideServo(Constants.slideIn);
+        robot.setRotateMotor(0.5, 0);
 
         encoderStraightDrive(4, 0.5); // push signal cone ahead
         sleep(500);
@@ -90,7 +92,7 @@ public class RightAuto extends AutonomousMethods {
         encoderStraightDrive(-4, 0.5); // move back
         sleep(500);
 
-        myRobot.setLiftMotor(0.3, 0);
+        robot.setLiftMotor(0.3, 0);
         sleep(3000);
 
         do {

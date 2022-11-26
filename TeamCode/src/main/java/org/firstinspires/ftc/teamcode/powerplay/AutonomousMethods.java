@@ -178,10 +178,7 @@ public abstract class AutonomousMethods extends LinearOpMode {
                         liftError = -((Constants.liftSpin - 100) - currentLiftPosition) / Constants.liftMax;
                         telemetry.addData("1", "lift error: " + liftError);
                         if (Math.abs(liftError) > (Constants.liftTolerance / -Constants.liftMax)) {
-                            //Setting p action
                             liftPower = Math.max(Math.min(liftError * Constants.liftkP, 1), -1);
-
-                            //Set real power
                             liftPower = Math.max(Math.abs(liftPower), Constants.liftMinPow) * Math.signum(liftPower);
                             myRobot.runLiftMotor(liftPower);
                         } else {
@@ -252,10 +249,7 @@ public abstract class AutonomousMethods extends LinearOpMode {
                         liftError = -((Constants.liftSpin - 100) - currentLiftPosition) / Constants.liftMax;
                         telemetry.addData("2 1", "lift error: " + liftError);
                         if (Math.abs(liftError) > (Constants.liftTolerance / -Constants.liftMax)) {
-                            //Setting p action
                             liftPower = Math.max(Math.min(liftError * Constants.liftkP, 1), -1);
-
-                            //Set real power
                             liftPower = Math.max(Math.abs(liftPower), Constants.liftMinPow) * Math.signum(liftPower);
                             myRobot.runLiftMotor(liftPower);
                         } else {
