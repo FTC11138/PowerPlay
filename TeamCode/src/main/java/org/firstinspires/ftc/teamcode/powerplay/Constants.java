@@ -124,4 +124,10 @@ public class Constants {
     public static double liftSpeed = 0.1;
 
     public static boolean debugMode = true; // Change it to FALSE before the competition!!!!
+
+    //tensorflow constants
+    public static double magnitude = 1;
+    public static double aspectRatio = 16.0/9.0;
+    public static float minResultConfidence = 0.50f;
+    public static float moveForward = 7.0f;
 }
