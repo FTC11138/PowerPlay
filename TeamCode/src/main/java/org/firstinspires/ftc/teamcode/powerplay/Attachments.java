@@ -79,7 +79,7 @@ public class Attachments extends Drivetrain {
 //    public void setCamServo (double position) {camServo.setPosition(position);}
     public void setSlideServo (double position) {slideServo.setPosition(position);}
 
-    public double getLiftMotorPosition() {
+    public int getLiftMotorPosition() {
         return liftMotor.getCurrentPosition();
     }
 
@@ -87,7 +87,7 @@ public class Attachments extends Drivetrain {
         return slideServo.getPosition();
     }
 
-    public double getRotationMotorPosition() {
+    public int getRotationMotorPosition() {
         return rotateMotor.getCurrentPosition();
     }
 

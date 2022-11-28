@@ -101,13 +101,14 @@ public abstract class AutonomousMethods extends LinearOpMode {
         setModeAllDrive(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
-    void setLiftMotor(int position, int currentPosition, double tolerance) {
+    void setLiftMotor(int position, double currentPosition, double tolerance) {
         //Undefined constants
         double newPower;
         double error = -(position - currentPosition) / Constants.liftMax;
 
         //Initial Time
         telemetry.addData("1", "error: " + error);
+        telemetry.update();
         if (Math.abs(error) > (tolerance / -Constants.liftMax)) {
             //Setting p action
             newPower = Math.max(Math.min(error * Constants.liftkP, 1), -1);
@@ -179,7 +180,7 @@ public abstract class AutonomousMethods extends LinearOpMode {
                     myRobot.setSlideServo(Constants.autoSlideTurn);
                     stage = 4;
                     break;
-                case 20: // lowering
+                case 50: // lowering
                     currentLiftPosition = myRobot.getLiftMotorPosition();
                     liftError = currentLiftPosition / Constants.liftMax;
                     telemetry.addData("1", "lift error: " + liftError);
@@ -189,12 +190,12 @@ public abstract class AutonomousMethods extends LinearOpMode {
                         myRobot.runLiftMotor(liftPower);
                     } else {
                         myRobot.runLiftMotor(0);
-                        stage = 20 + 1;
+                        stage = 50 + 1;
                         break;
                     }
                     break;
                 default:
-                    if (stage <= 20) {
+                    if (stage <= 50) {
                         stage++;
                         currentLiftPosition = myRobot.getLiftMotorPosition();
                         liftError = -((Constants.liftSpin - 100) - currentLiftPosition) / Constants.liftMax;
@@ -215,7 +216,7 @@ public abstract class AutonomousMethods extends LinearOpMode {
         sleep(250);
 
         // Make sure the slides are spun out and down
-        while (stage <= 20 && opModeIsActive()) {
+        while (stage <= 50 && opModeIsActive()) {
             switch (stage) {
                 case 2: // rotating
                     myRobot.setSlideServo(Constants.slideIn);
@@ -251,7 +252,7 @@ public abstract class AutonomousMethods extends LinearOpMode {
                     myRobot.setSlideServo(Constants.autoSlideTurn);
                     stage = 4;
                     break;
-                case 20: // lowering
+                case 50: // lowering
                     currentLiftPosition = myRobot.getLiftMotorPosition();
                     liftError = currentLiftPosition / Constants.liftMax;
                     telemetry.addData("2 1", "lift error: " + liftError);
@@ -261,12 +262,12 @@ public abstract class AutonomousMethods extends LinearOpMode {
                         myRobot.runLiftMotor(liftPower);
                     } else {
                         myRobot.runLiftMotor(0);
-                        stage = 20 + 1;
+                        stage = 50 + 1;
                         break;
                     }
                     break;
                 default:
-                    if (stage <= 20) {
+                    if (stage <= 50) {
                         stage++;
                         currentLiftPosition = myRobot.getLiftMotorPosition();
                         liftError = -((Constants.liftSpin - 100) - currentLiftPosition) / Constants.liftMax;

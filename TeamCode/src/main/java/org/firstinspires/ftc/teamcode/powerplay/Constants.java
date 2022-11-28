@@ -31,7 +31,7 @@ public class Constants {
     public static int liftMax = -3100;
     public static int liftMin = 0;
     public static double liftMinPow = 0.1;
-    public static double liftkP = 10;
+    public static int liftkP = 10;
     public static int liftTolerance = 9;
 
     // Rotation Positions

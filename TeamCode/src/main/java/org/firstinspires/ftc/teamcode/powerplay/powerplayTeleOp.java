@@ -28,6 +28,7 @@ public class powerplayTeleOp extends OpMode {
     private boolean limits = true;
     private boolean shorten = false;
 
+    // TODO: convert lift and rotation doubles to integers (try * 1.0 for error and Double.valueOf)
     private double currentLiftPosition = 0;
     private double currentSlidePosition = Constants.slideIn;
     private double currentClawPosition = Constants.clawOpen;

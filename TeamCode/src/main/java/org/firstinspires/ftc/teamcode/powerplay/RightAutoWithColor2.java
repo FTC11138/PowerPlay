@@ -11,11 +11,20 @@ public class RightAutoWithColor2 extends AutonomousMethods {
     @Override
     public void runOpMode() throws InterruptedException {
         initializeAuto(hardwareMap, telemetry);
-
+        double currentLiftPosition;
         myRobot.setClawServo(Constants.clawClose);
-        sleep(250);
-        myRobot.setLiftMotor(0.25, Constants.liftFloor);
         myRobot.colorSensor.setGain(Constants.gain);
+        sleep(500);
+        while (!isStarted()) {
+            currentLiftPosition = myRobot.getLiftMotorPosition();
+            if (currentLiftPosition <= Constants.liftFloor + Constants.liftTolerance) {
+                myRobot.runLiftMotor(0);
+                break;
+            }
+            setLiftMotor(Constants.liftFloor, currentLiftPosition, Constants.liftTolerance);
+        }
+        telemetry.addData("Status", "Initialization Complete");
+        telemetry.update();
 
         waitForStart();
         runtime.reset();
