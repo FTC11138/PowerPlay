@@ -27,7 +27,7 @@ public class powerplayTeleOpTest extends OpMode {
     private boolean shorten = false;
 
     private double currentLiftPosition = 0;
-    private double currentSlidePosition = Constants.slideResting;
+    private double currentSlidePosition = Constants.slideIn;
     private double currentClawPosition = Constants.clawOpen;
     private double currentRPosition = 0;
 
@@ -127,7 +127,7 @@ public class powerplayTeleOpTest extends OpMode {
         if (gamepad2.a) {
             slidePosition = Constants.slideOut;
         } else if (gamepad2.b) {
-            slidePosition = Constants.slideResting;
+            slidePosition = Constants.slideIn;
         }
         double extJoystick = gamepad2.right_stick_y;
         if (extJoystick < -0.2) {
@@ -263,7 +263,7 @@ public class powerplayTeleOpTest extends OpMode {
         } else {
             // Limit so the turntable doesnt spin unless the slide is extended
             if (currentLiftPosition > Constants.liftSpin ||
-                    currentSlidePosition > Constants.slideSpin ||
+//                    currentSlidePosition > Constants.slideSpin ||
                     Math.abs(currentRPosition - rotateTarget) <= 125) {
                 setRotationPositionPID(rotateTarget, Constants.rotTolerance);
             }

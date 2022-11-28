@@ -57,11 +57,11 @@ public class LeftAuto extends AutonomousMethods{
         //
 
         // Detect the number on the cone before start
-        signal = signalDetectionPipeline.getCounter();
-        telemetry.addData("Signal", signal);
-        telemetry.update();
-
-        waitForStart();
+        while (!isStarted()) {
+            signal = signalDetectionPipeline.getCounter();
+            telemetry.addData("Signal", signal);
+            telemetry.update();
+        }
         runtime.reset();
 
         sleep(4000);

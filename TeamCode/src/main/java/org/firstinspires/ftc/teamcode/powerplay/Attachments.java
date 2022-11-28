@@ -34,8 +34,8 @@ public class Attachments extends Drivetrain {
 //        camServo = hardwareMap.get(Servo.class, names.camServo);
 
         // Sensors
-        leftDistance = hardwareMap.get(Rev2mDistanceSensor.class, names.leftDistance);
-        rightDistance = hardwareMap.get(Rev2mDistanceSensor.class, names.rightDistance);
+//        leftDistance = hardwareMap.get(Rev2mDistanceSensor.class, names.leftDistance);
+//        rightDistance = hardwareMap.get(Rev2mDistanceSensor.class, names.rightDistance);
         colorSensor = hardwareMap.get(RevColorSensorV3.class, names.colorSensor);
         clawDistance = hardwareMap.get(Rev2mDistanceSensor.class, names.clawDistance);
 //        clawLeftDistance = hardwareMap.get(Rev2mDistanceSensor.class, names.clawLeftDistance);

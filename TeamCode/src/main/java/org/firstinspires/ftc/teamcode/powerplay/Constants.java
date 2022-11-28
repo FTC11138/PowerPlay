@@ -7,24 +7,20 @@ import org.opencv.core.Scalar;
 @Config
 public class Constants {
     // PowerPlay Stuff
-    public static double slideIn = 1;
-    public static double slideResting = 0.575;
-    public static double slideSpin = 0.395;
-    public static double slideOut = 0.1;
-    public static double slideMed = 0.25;
-    public static double autoSlideTurn = 0.25;
-    public static double autoSlideOut = 0.35;
-    public static double clawOpen = 0.7;
-    public static double clawClose = 0.55;
-    public static double slideSpeed = 0.0125;
+    public static double slideIn = 0.975;
+//    public static double slideSpin = 0.395;
+    public static double slideOut = 0.5;
+    public static double slideMed = 0.7;
+    public static double autoSlideTurn = 0.6;
+    public static double autoSlideOut = 0.5;
+    public static double clawOpen = 0.8;
+    public static double clawClose = 0.975;
+    public static double slideSpeed = -0.0125;
 
     public static double liftUpRatio = 1;
-    public static double liftDownRatio = 0.5;
+    public static double liftDownRatio = 0.8;
     public static double setRotateMultiplier = 0.7;
     public static int rotMotorPosPerDegree = 13;
-
-    public static int liftOff = 108;
-    public static int liftTop = -3306;
 
     // Lift Positions
     public static int liftHigh = -3050;
@@ -45,13 +41,14 @@ public class Constants {
     public static double rotkP = 25;
     public static int rot180L = -2125;
     public static int rot180R = 2125;
-    public static int rot90L = -1100;
-    public static int rot90R = 1100;
+    public static int rot90L = -1075;
+    public static int rot90R = 1075;
     public static int rot45L = -300;
     public static int rot45R = 300;
     public static int rotDiagBackR = 1875;
     public static int rotDiagBackL = -1875;
     public static int rotTolerance = 25;
+    public static int autoRotTolerance = 125;
 
     // Drive motor
     public static final double TICKS_PER_REV = 751.8;
@@ -66,20 +63,6 @@ public class Constants {
 
     public static double tkR = 0.03;
     public static double tskR = 0.03;
-    public static double setVerticalMinSpeed = 0.18;
-    public static double setVerticalMaxSpeed = 1;
-    public static double setHorizontalMinSpeed = 0.3;
-    public static double setHorizontalMaxSpeed = 1;
-    public static double setDiagonalMinSpeed = 0.3;
-    public static double setDiagonalMaxSpeed = 1;
-    public static double setReadjustMinSpeed = 0.12;
-    public static double setReadjustMaxSpeed = 0.;
-
-
-    public static double setHorizontalDisCap = 24;
-    public static double setVerticalDisCap = 36;
-    public static double setReadjustDisCap = 24;
-    public static double vertHorRatio = 1.22348112;
 
     public static double ColorThresh = 0.6;
     public static double ColorStripAlignmentSpeed = 0.4;
@@ -97,9 +80,9 @@ public class Constants {
     public static int bry = 100; // Bottom right y for rectangle
 
     // Camera stuff
-    public static int leftBoundary = 740; // left side of detection zone
-    public static int rightBoundary = 810; // right side of detection zone
-    public static int middleLine = 750; // detection line y coordinate
+    public static int leftBoundary = 890; // left side of detection zone
+    public static int rightBoundary = 990; // right side of detection zone
+    public static int middleLine = 735; // detection line y coordinate
 
     public static Scalar lowRed1 = new Scalar(0, 70, 50);
     public static Scalar highRed1 = new Scalar(10, 255, 255);

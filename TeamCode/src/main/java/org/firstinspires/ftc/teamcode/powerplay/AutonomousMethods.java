@@ -101,6 +101,28 @@ public abstract class AutonomousMethods extends LinearOpMode {
         setModeAllDrive(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
+    void setLiftMotor(int position, int currentPosition, double tolerance) {
+        //Undefined constants
+        double newPower;
+        double error = -(position - currentPosition) / Constants.liftMax;
+
+        //Initial Time
+        telemetry.addData("1", "error: " + error);
+        if (Math.abs(error) > (tolerance / -Constants.liftMax)) {
+            //Setting p action
+            newPower = Math.max(Math.min(error * Constants.liftkP, 1), -1);
+
+            //Set real power
+            newPower = Math.max(Math.abs(newPower), Constants.liftMinPow) * Math.signum(newPower);
+            if (Math.signum(newPower) == 1) {
+                newPower = newPower * Constants.liftDownRatio;
+            }
+            myRobot.runLiftMotor(newPower);
+        } else {
+            myRobot.runLiftMotor(0);
+        }
+    }
+
 
     // Target Angle for rotation, inches to drive before using color sensor, power for drive
     public void multitaskMovement(double targetAngle, int rotTarget, double inches, double power) {
@@ -124,17 +146,17 @@ public abstract class AutonomousMethods extends LinearOpMode {
             // Everything else
             switch (stage) {
                 case 2: // rotating
-                    myRobot.setSlideServo(Constants.slideResting);
+                    myRobot.setSlideServo(Constants.slideIn);
                     currentRPosition = myRobot.getRotationMotorPosition();
                     rError = (rotTarget - currentRPosition) / Constants.rotMax;
                     telemetry.addData("2", "rotation error: " + rError);
-                    if (Math.abs(rError) > (Constants.rotTolerance / Constants.rotMax)) {
+                    if (Math.abs(rError) > (Constants.autoRotTolerance / Constants.rotMax)) {
                         //Setting p action
                         rPower = Math.max(Math.min(rError * Constants.rotkP, 1), -1);
                         rPower = Math.max(Math.abs(rPower), Constants.rotMin) * Math.signum(rPower);
                         myRobot.runRotateMotor(rPower);
                     } else {
-                        setRotationPosition(0.3, rotTarget);
+                        myRobot.setRotateMotor(0.3, rotTarget);
                         stage = 3;
                     }
                 case 1: // lifting up
@@ -155,7 +177,7 @@ public abstract class AutonomousMethods extends LinearOpMode {
                     break;
                 case 3: // extending
                     myRobot.setSlideServo(Constants.autoSlideTurn);
-                    stage++;
+                    stage = 4;
                     break;
                 case 20: // lowering
                     currentLiftPosition = myRobot.getLiftMotorPosition();
@@ -190,22 +212,23 @@ public abstract class AutonomousMethods extends LinearOpMode {
             telemetry.update();
         }
         encoderTurn(0, 0.3, 1);
+        sleep(250);
 
         // Make sure the slides are spun out and down
         while (stage <= 20 && opModeIsActive()) {
             switch (stage) {
                 case 2: // rotating
-                    myRobot.setSlideServo(Constants.slideResting);
+                    myRobot.setSlideServo(Constants.slideIn);
                     currentRPosition = myRobot.getRotationMotorPosition();
                     rError = (rotTarget - currentRPosition) / Constants.rotMax;
                     telemetry.addData("2 2", "rotation error: " + rError);
-                    if (Math.abs(rError) > (Constants.rotTolerance / Constants.rotMax)) {
+                    if (Math.abs(rError) > (Constants.autoRotTolerance / Constants.rotMax)) {
                         //Setting p action
                         rPower = Math.max(Math.min(rError * Constants.rotkP, 1), -1);
                         rPower = Math.max(Math.abs(rPower), Constants.rotMin) * Math.signum(rPower);
                         myRobot.runRotateMotor(rPower);
                     } else {
-                        setRotationPosition(0.3, rotTarget);
+                        myRobot.setRotateMotor(0.3, rotTarget);
                         stage = 3;
                     }
                 case 1: // lifting up
@@ -226,7 +249,7 @@ public abstract class AutonomousMethods extends LinearOpMode {
                     break;
                 case 3: // extending
                     myRobot.setSlideServo(Constants.autoSlideTurn);
-                    stage++;
+                    stage = 4;
                     break;
                 case 20: // lowering
                     currentLiftPosition = myRobot.getLiftMotorPosition();
@@ -274,13 +297,6 @@ public abstract class AutonomousMethods extends LinearOpMode {
         encoderTurn(0, 0.3, 1);
 
         setModeAllDrive(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-    }
-
-
-    public void setRotationPosition(double speed, int position) {
-        myRobot.rotateMotor.setPower(speed);
-        myRobot.rotateMotor.setTargetPosition(position);
-        myRobot.rotateMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
 
