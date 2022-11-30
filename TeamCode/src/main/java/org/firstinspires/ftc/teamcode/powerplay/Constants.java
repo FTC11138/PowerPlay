@@ -87,6 +87,12 @@ public class Constants {
     public static int rightBoundary = 1010; // right side of detection zone
     public static int middleLine = 735; // detection line y coordinate
 
+
+    public static int HVLeftBoundary = 890; // left side of detection zone
+    public static int HVRightBoundary = 990; // right side of detection zone
+    public static int HVTopBoundary = 685; // top side of detection zone
+    public static int HVBottomBoundary = 785; // bottom side of detection zone
+
     public static Scalar lowRed1 = new Scalar(0, 70, 50);
     public static Scalar highRed1 = new Scalar(10, 255, 255);
     public static Scalar lowRed2 = new Scalar(170, 70, 50);
@@ -100,7 +106,11 @@ public class Constants {
     public static double slopeThresh = 100.0; // 100
     public static double negSlopeThresh = -100.0; // 100
     public static boolean isDetectRed = true; // False: detect Blue
-    public static boolean isDetectLines = true; // False: detect QR code
+    public static int signalDetectionMethod = 3; // 1: detect QR code
+                                                 // 2: detect vertical 1, 2, 3 lines
+                                                 // 3: detect H vs V vs Empty
+                                                 // 4: detect H vs V vs Diagonal
+                                                 // 5: detect H vs V vs #
 
     public static final int automationDelay = 48;
     public static final int autonomousAutomationDelay = 50;
