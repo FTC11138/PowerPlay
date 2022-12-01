@@ -7,12 +7,13 @@ import org.opencv.core.Scalar;
 @Config
 public class Constants {
     // PowerPlay Stuff
-    public static double slideIn = 0.975;
+    public static double slideIn = 0.63;
 //    public static double slideSpin = 0.395;
-    public static double slideOut = 0.5;
-    public static double slideMed = 0.7;
-    public static double autoSlideTurn = 0.6;
-    public static double autoSlideOut = 0.5;
+    public static double slideOut = 0.01;
+    public static double slideMed = 0.5;
+    public static double autoSlideTurn = 0.01;
+    public static double autoSlideShort = 0.01;
+    public static double autoSlideOut = 0.01;
     public static double clawOpen = 0.8;
     public static double clawClose = 0.975;
     public static double slideSpeed = -0.0125;
@@ -21,18 +22,20 @@ public class Constants {
     public static double liftDownRatio = 0.8;
     public static double setRotateMultiplier = 0.7;
     public static int rotMotorPosPerDegree = 13;
+    public static int autoTurnShort = -436;
 
     // Lift Positions
     public static int liftHigh = -3050;
     public static int liftMed = -2200;
     public static int liftLow = -1400;
-    public static int liftFloor = -300;
+    public static int liftFloor = -75;
     public static int liftSpin = -400;
     public static int liftMax = -3100;
     public static int liftMin = 0;
     public static double liftMinPow = 0.1;
     public static int liftkP = 10;
     public static int liftTolerance = 9;
+    public static double slideTolerance = 0.05;
 
     // Rotation Positions
     public static int rotRLimit = 4270;
@@ -80,8 +83,8 @@ public class Constants {
     public static int bry = 100; // Bottom right y for rectangle
 
     // Camera stuff
-    public static int leftBoundary = 890; // left side of detection zone
-    public static int rightBoundary = 990; // right side of detection zone
+    public static int leftBoundary = 940; // left side of detection zone
+    public static int rightBoundary = 1010; // right side of detection zone
     public static int middleLine = 735; // detection line y coordinate
 
     public static Scalar lowRed1 = new Scalar(0, 70, 50);
@@ -100,6 +103,7 @@ public class Constants {
     public static boolean isDetectLines = true; // False: detect QR code
 
     public static final int automationDelay = 48;
+    public static final int autonomousAutomationDelay = 50;
     public static final int buttonDelay = 36;
 
     public static double straightTestDist = 75;

@@ -30,15 +30,21 @@ public class SignalDetectionPipeline extends OpenCvPipeline {
 
     int detectBlackWhite(Mat input) {
         int edgeCounter = 0;
+        int lEdgeCounter = 0;
+        int rEdgeCounter = 0;
         int x1 = Constants.leftBoundary;
         int x2 = Constants.rightBoundary;
         int midy = Constants.middleLine;
         for (int j = x1 + 1; j < x2; j++) {
 //            if (input.at(Byte.class, (y2 + y1) / 2, j).getV4c().get_0() - input.at(Byte.class, (y2 + y1) / 2, j - 1).getV4c().get_0() > Constants.changeThresh) {
             if ((input.at(Byte.class, midy, j).getV().byteValue() - input.at(Byte.class, midy, j - 1).getV().byteValue()) > Constants.changeThresh) {
-                edgeCounter += 1;
+                lEdgeCounter += 1;
+            }
+            if ((input.at(Byte.class, midy, j - 1).getV().byteValue() - input.at(Byte.class, midy, j).getV().byteValue()) > Constants.changeThresh) {
+                rEdgeCounter += 1;
             }
         }
+        edgeCounter = Math.min(lEdgeCounter, rEdgeCounter);
         if (edgeCounter == 0) { // clip
             edgeCounter = 1;
         } else if (edgeCounter > 3) {

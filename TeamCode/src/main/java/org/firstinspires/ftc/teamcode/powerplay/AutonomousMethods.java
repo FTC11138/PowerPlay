@@ -22,7 +22,7 @@ public abstract class AutonomousMethods extends LinearOpMode {
     FtcDashboard dashboard = FtcDashboard.getInstance();
     TelemetryPacket packet = new TelemetryPacket();
     private Orientation angles;
-    private ElapsedTime runtime = new ElapsedTime();
+    public ElapsedTime runtime = new ElapsedTime();
 
 
     public boolean opModeStatus() {
@@ -125,18 +125,89 @@ public abstract class AutonomousMethods extends LinearOpMode {
     }
 
 
-    // Target Angle for rotation, inches to drive before using color sensor, power for drive
-    public void multitaskMovement(double targetAngle, int rotTarget, double inches, double power) {
-        double currentAngle, angleError, currentLiftPosition, currentRPosition, currentSlidePosition;
+    // Drop cone
+    public void dropCone(int liftTarget, int rotTarget, double slideTarget) {
+        double currentLiftPosition, currentRPosition, currentSlidePosition;
         double liftPower, liftError, rPower, rError;
         int stage = 1;
+        while (stage <= 4 && opModeIsActive()) {
+            switch (stage) {
+                case 2: // rotating
+                    myRobot.setSlideServo(Constants.slideIn);
+                    currentRPosition = myRobot.getRotationMotorPosition();
+                    rError = (rotTarget - currentRPosition) / Constants.rotMax;
+                    telemetry.addData("2 2", "rotation error: " + rError);
+                    if (Math.abs(rError) > (Constants.autoRotTolerance / Constants.rotMax)) {
+                        //Setting p action
+                        rPower = Math.max(Math.min(rError * Constants.rotkP, 1), -1);
+                        rPower = Math.max(Math.abs(rPower), Constants.rotMin) * Math.signum(rPower);
+                        myRobot.runRotateMotor(rPower);
+                    } else {
+                        myRobot.setRotateMotor(0.3, rotTarget);
+                        stage = 3;
+                    }
+                case 1: // lifting up
+                    currentLiftPosition = myRobot.getLiftMotorPosition();
+                    if (stage == 1 && currentLiftPosition < Constants.liftSpin) {
+                        stage = 2;
+                        myRobot.rotateMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                    }
+                    liftError = -((liftTarget) - currentLiftPosition) / Constants.liftMax;
+                    telemetry.addData("2 1", "lift error: " + liftError);
+                    if (Math.abs(liftError) > (Constants.liftTolerance / -Constants.liftMax)) {
+                        liftPower = Math.max(Math.min(liftError * Constants.liftkP, 1), -1);
+                        liftPower = Math.max(Math.abs(liftPower), Constants.liftMinPow) * Math.signum(liftPower);
+                        myRobot.runLiftMotor(liftPower);
+                    } else {
+                        myRobot.runLiftMotor(0);
+                    }
+                    break;
+                case 3: // extending
+                    myRobot.setSlideServo(slideTarget);
+                    stage = 4;
+                    break;
+                case 4: // dropping :)
+                    currentLiftPosition = myRobot.getLiftMotorPosition();
+                    currentSlidePosition = myRobot.getSlidePosition();
+                    if ((currentLiftPosition - liftTarget) <= Constants.liftTolerance &&
+                            // TODO: next line doesn't work like I want it to, probably have to
+                            //  switch this from case 4 to case default and use if statement inside
+                            //  to check the stage. Figure out a delay ratio with the amount to
+                            //  extend
+                            (currentSlidePosition - slideTarget <= Constants.slideTolerance)) {
+                        myRobot.setClawServo(Constants.clawOpen);
+                        sleep(250);
+                        stage = Constants.autonomousAutomationDelay + 1;
+                        break;
+                    }
+                    liftError = -(liftTarget - currentLiftPosition) / Constants.liftMax;
+                    telemetry.addData("1 1", "lift error: " + liftError);
+                    if (Math.abs(liftError) > (Constants.liftTolerance / -Constants.liftMax)) {
+                        liftPower = Math.max(Math.min(liftError * Constants.liftkP, 1), -1);
+                        liftPower = Math.max(Math.abs(liftPower), Constants.liftMinPow) * Math.signum(liftPower) * Constants.liftDownRatio;
+                        myRobot.runLiftMotor(liftPower);
+                    } else {
+                        myRobot.runLiftMotor(0);
+                    }
+                    break;
+            }
+        }
+    }
 
-        setModeAllDrive(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+    // Target Angle for rotation, inches to drive before using color sensor, power for drive
+    public void multitaskMovement(double targetAngle, int rotTarget, double inches, double power) {
+        double currentAngle, angleError, currentLiftPosition, currentRPosition;
+        double liftPower, liftError, rPower, rError;
+        int stage = 1;
+        myRobot.setLiftMotor(1, Constants.liftFloor);
+//        setModeAllDrive(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 //        Log.d("test test", "test2 " + (inches * Constants.TICKS_PER_INCH));
-        ElapsedTime time = new ElapsedTime();
+        sleep(500);
         multiSetTargetPosition(inches * Constants.TICKS_PER_INCH, myRobot.lb, myRobot.lf, myRobot.rb, myRobot.rf);
         setModeAllDrive(DcMotor.RunMode.RUN_TO_POSITION);
         runMotors(power, power);
+        myRobot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //        Log.d("test test", "test");
         while (notCloseEnough(20, myRobot.lf, myRobot.rf, myRobot.lb, myRobot.rb) && opModeIsActive()) {
             // Angle adjustment
@@ -180,7 +251,7 @@ public abstract class AutonomousMethods extends LinearOpMode {
                     myRobot.setSlideServo(Constants.autoSlideTurn);
                     stage = 4;
                     break;
-                case 50: // lowering
+                case Constants.autonomousAutomationDelay: // lowering
                     currentLiftPosition = myRobot.getLiftMotorPosition();
                     liftError = currentLiftPosition / Constants.liftMax;
                     telemetry.addData("1", "lift error: " + liftError);
@@ -190,12 +261,12 @@ public abstract class AutonomousMethods extends LinearOpMode {
                         myRobot.runLiftMotor(liftPower);
                     } else {
                         myRobot.runLiftMotor(0);
-                        stage = 50 + 1;
+                        stage = Constants.autonomousAutomationDelay + 1;
                         break;
                     }
                     break;
                 default:
-                    if (stage <= 50) {
+                    if (stage <= Constants.autonomousAutomationDelay) {
                         stage++;
                         currentLiftPosition = myRobot.getLiftMotorPosition();
                         liftError = -((Constants.liftSpin - 100) - currentLiftPosition) / Constants.liftMax;
@@ -216,7 +287,7 @@ public abstract class AutonomousMethods extends LinearOpMode {
         sleep(250);
 
         // Make sure the slides are spun out and down
-        while (stage <= 50 && opModeIsActive()) {
+        while (stage <= Constants.autonomousAutomationDelay && opModeIsActive()) {
             switch (stage) {
                 case 2: // rotating
                     myRobot.setSlideServo(Constants.slideIn);
@@ -252,7 +323,7 @@ public abstract class AutonomousMethods extends LinearOpMode {
                     myRobot.setSlideServo(Constants.autoSlideTurn);
                     stage = 4;
                     break;
-                case 50: // lowering
+                case Constants.autonomousAutomationDelay: // lowering
                     currentLiftPosition = myRobot.getLiftMotorPosition();
                     liftError = currentLiftPosition / Constants.liftMax;
                     telemetry.addData("2 1", "lift error: " + liftError);
@@ -262,12 +333,12 @@ public abstract class AutonomousMethods extends LinearOpMode {
                         myRobot.runLiftMotor(liftPower);
                     } else {
                         myRobot.runLiftMotor(0);
-                        stage = 50 + 1;
+                        stage = Constants.autonomousAutomationDelay + 1;
                         break;
                     }
                     break;
                 default:
-                    if (stage <= 50) {
+                    if (stage <= Constants.autonomousAutomationDelay) {
                         stage++;
                         currentLiftPosition = myRobot.getLiftMotorPosition();
                         liftError = -((Constants.liftSpin - 100) - currentLiftPosition) / Constants.liftMax;
@@ -286,15 +357,15 @@ public abstract class AutonomousMethods extends LinearOpMode {
         }
 
         // while color sensor doesn't detect
-        while (opModeIsActive()) {
-            currentAngle = getHorizontalAngle();
-            angleError = loopAround(currentAngle - targetAngle);
-            runMotors(0.1 + angleError * Constants.tkR, 0.1 - angleError * Constants.tkR);
-            if (calculateBlue()) {
-                runMotors(0, 0);
-                break;
-            }
-        }
+//        while (opModeIsActive()) {
+//            currentAngle = getHorizontalAngle();
+//            angleError = loopAround(currentAngle - targetAngle);
+//            runMotors(0.1 + angleError * Constants.tkR, 0.1 - angleError * Constants.tkR);
+//            if (calculateBlue()) {
+//                runMotors(0, 0);
+//                break;
+//            }
+//        }
         encoderTurn(0, 0.3, 1);
 
         setModeAllDrive(DcMotor.RunMode.RUN_WITHOUT_ENCODER);

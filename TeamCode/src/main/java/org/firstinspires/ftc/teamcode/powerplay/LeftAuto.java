@@ -30,7 +30,6 @@ public class LeftAuto extends AutonomousMethods{
     public void runOpMode() throws InterruptedException {telemetry.update();
 
         // Initialize all the parts of the robot
-        initializeAutonomousDrivetrain(hardwareMap, telemetry);
         robot.initialize(hardwareMap, telemetry);
 
         // Set up camera
