@@ -127,9 +127,9 @@ public class powerplayTeleOp extends OpMode {
         /* ------------------------------------ Change ------------------------------------ */
 
         if (gamepad2.right_bumper) {
-            clawPosition = Constants.clawClose;
-        } else if (gamepad2.left_bumper) {
             clawPosition = Constants.clawOpen;
+        } else if (gamepad2.left_bumper) {
+            clawPosition = Constants.clawClose;
         }
 
         if (gamepad2.dpad_right && dpadrchill == Constants.buttonDelay) {
@@ -353,7 +353,6 @@ public class powerplayTeleOp extends OpMode {
         // Telemetry is for debugging
 
         telemetry.addData("extension position", currentSlidePosition);
-        telemetry.addData("extension joy", extJoystick);
         telemetry.addData("lift position", currentLiftPosition);
         telemetry.addData("rotate position", currentRPosition);
         telemetry.addData("claw position", currentClawPosition);

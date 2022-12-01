@@ -61,7 +61,7 @@ public class RightAuto extends AutonomousMethods{
         telemetry.addData("Signal", signal);
         telemetry.update();
 
-        robot.setClawServo(Constants.clawOpen);
+        robot.setClawServo(Constants.clawClose);
         sleep(500);
         robot.setLiftMotor(0.1, -100);
         sleep(500);
@@ -81,7 +81,7 @@ public class RightAuto extends AutonomousMethods{
         sleep(2000);
         robot.setLiftMotor(0.3, Constants.liftHigh + 200);
         sleep(1000);
-        robot.setClawServo(Constants.clawClose);
+        robot.setClawServo(Constants.clawOpen);
         sleep(1000);
         robot.setSlideServo(Constants.slideIn);
         robot.setRotateMotor(0.5, 0);
