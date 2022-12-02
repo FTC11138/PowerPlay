@@ -82,7 +82,7 @@ public class SignalDetectionPipeline extends OpenCvPipeline {
         } else if (horCounter <= 2 && verCounter <= 2) {
             return 1; // No bars
         } else {
-            return 1;
+            return 2; // Default is Horizontal bar
         }
     }
 
@@ -115,40 +115,7 @@ public class SignalDetectionPipeline extends OpenCvPipeline {
         } else if (horCounter >= 5 && verCounter >= 5) {
             return 1; // Diagonal bars
         } else {
-            return 1;
-        }
-    }
-
-    int detectLinesVHGrid(Mat input) {
-        int horCounter = 0;
-        int verCounter = 0;
-        int x1 = Constants.HVLeftBoundary;
-        int x2 = Constants.HVRightBoundary;
-        int midx = (Constants.HVLeftBoundary + Constants.HVRightBoundary) / 2;
-        int y1 = Constants.HVTopBoundary;
-        int y2 = Constants.HVBottomBoundary;
-        int midy = (Constants.HVTopBoundary + Constants.HVBottomBoundary) / 2;
-
-        for (int j = x1 + 1; j < x2; j++) {
-            if ((input.at(Byte.class, midy, j).getV().byteValue() - input.at(Byte.class, midy, j - 1).getV().byteValue()) > Constants.changeThresh) {
-                horCounter += 1;
-            }
-        }
-
-        for (int j = y1 + 1; j < y2; j++) {
-            if ((input.at(Byte.class, j, midx).getV().byteValue() - input.at(Byte.class, j - 1, midx).getV().byteValue()) > Constants.changeThresh) {
-                verCounter += 1;
-            }
-        }
-
-        if (horCounter >= 5 && verCounter <= 2) {
-            return 3; // Vertical bars
-        } else if (horCounter <= 2 && verCounter >= 5) {
-            return 1; // Horizontal bars
-        } else if (horCounter >= 5 && verCounter >= 5) {
-            return 2; // Diagonal bars
-        } else {
-            return 1;
+            return 2; // Default is Horizontal bar
         }
     }
 
@@ -215,25 +182,6 @@ public class SignalDetectionPipeline extends OpenCvPipeline {
             inputToY(input);
             Y.copyTo(input);
             counter = detectLinesVHD(input);
-            YCrCb.release(); // don't leak memory!
-            Y.release(); // don't leak memory!
-            for (Mat colChannel:yCrCbChannels) {
-                colChannel.release();
-            }
-
-            //line detection rect
-            Imgproc.rectangle( // rings
-                    input, // Buffer to draw on
-                    new Point(Constants.HVLeftBoundary, Constants.HVTopBoundary), // First point which defines the rectangle
-                    new Point(Constants.HVRightBoundary, Constants.HVBottomBoundary), // Second point which defines the rectangle
-                    new Scalar(0, 0, 255), // The color the rectangle is drawn in
-                    2); // Thickness of the rectangle lines
-            Imgproc.line(input, new Point(Constants.HVLeftBoundary, (Constants.HVTopBoundary + Constants.HVBottomBoundary) / 2), new Point(Constants.HVRightBoundary, (Constants.HVTopBoundary + Constants.HVBottomBoundary) / 2), new Scalar(0, 0, 255), 3);
-            Imgproc.line(input, new Point((Constants.HVLeftBoundary + Constants.HVRightBoundary) / 2, Constants.HVTopBoundary), new Point( (Constants.HVLeftBoundary + Constants.HVRightBoundary) / 2, Constants.HVBottomBoundary), new Scalar(0, 0, 255), 3);
-        } else if (Constants.signalDetectionMethod == 5) {
-            inputToY(input);
-            Y.copyTo(input);
-            counter = detectLinesVHGrid(input);
             YCrCb.release(); // don't leak memory!
             Y.release(); // don't leak memory!
             for (Mat colChannel:yCrCbChannels) {
