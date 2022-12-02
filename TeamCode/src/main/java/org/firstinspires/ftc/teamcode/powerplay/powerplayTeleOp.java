@@ -28,14 +28,13 @@ public class powerplayTeleOp extends OpMode {
 
     private boolean limits = true;
 
-    // TODO: convert lift and rotation doubles to integers (try * 1.0 for error and Double.valueOf)
     private double currentLiftPosition = 0;
-    private double currentSlidePosition = Constants.slideIn;
+    private double currentSlidePosition = myRobot.getSlidePosition();
     private double currentClawPosition = Constants.clawClose;
     private double currentRPosition = 0;
 
     // Servos
-    private double slidePosition = Constants.slideIn;
+    private double slidePosition = myRobot.getSlidePosition();
     private double clawPosition = Constants.clawOpen;
 
     private int ltrigchill = Constants.buttonDelay;
@@ -353,13 +352,12 @@ public class powerplayTeleOp extends OpMode {
         // Telemetry is for debugging
 
         telemetry.addData("extension position", currentSlidePosition);
-        telemetry.addData("extension joy", extJoystick);
         telemetry.addData("lift position", currentLiftPosition);
         telemetry.addData("rotate position", currentRPosition);
-        telemetry.addData("distance sensor", myRobot.clawDistance.getDistance(DistanceUnit.INCH));
-        telemetry.addData("automation position", positions[pos]);
-        telemetry.addData("stage", stage);
-//        telemetry.addData("limits", limits);
+//        telemetry.addData("distance sensor", myRobot.clawDistance.getDistance(DistanceUnit.INCH));
+//        telemetry.addData("automation position", positions[pos]);
+//        telemetry.addData("stage", stage);
+        telemetry.addData("limits", limits);
         telemetry.update();
 
 //        Log.d("AHHHHHH extender", String.valueOf(slidePosition));

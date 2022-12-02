@@ -7,25 +7,26 @@ import org.opencv.core.Scalar;
 @Config
 public class Constants {
     // PowerPlay Stuff
-    public static double slideIn = 0.85;
+    public static double slideIn = 0.83;
 //    public static double slideSpin = 0.395;
     public static double slideOut = 0.15;
     public static double slideMed = 0.375;
     public static double autoSlideTurn = 0.45;
-    public static double autoSlideShort = 0.65;
+    public static double autoSlideTall = 0.4;
     public static double autoSlideOut = 0.15;
     public static double autoSlideCycle = 0.28;
     public static double autoDistCycle = 1.2; // inches
     public static double clawOpen = 0.8;
     public static double clawClose = 0.975;
     public static double slideSpeed = -0.0125;
-    public static int slideLoopRatio = 1250;
+    public static int slideWaitRatio = 1500;
 
+    public static int autoLiftCone = -123;
     public static double liftUpRatio = 1;
     public static double liftDownRatio = 0.8;
     public static double setRotateMultiplier = 0.7;
     public static int rotMotorPosPerDegree = 13;
-    public static int autoTurnShort = -436;
+    public static int autoTurnTall = -35 * rotMotorPosPerDegree;
 
     // Lift Positions
     public static int liftHigh = -3050;
@@ -47,8 +48,8 @@ public class Constants {
     public static double rotkP = 25;
     public static int rot180L = -2125;
     public static int rot180R = 2125;
-    public static int rot90L = -1075;
-    public static int rot90R = 1075;
+    public static int rot90L = -1064;
+    public static int rot90R = 1064;
     public static int rot45L = -300;
     public static int rot45R = 300;
     public static int rotDiagBackR = 1875;
@@ -70,10 +71,11 @@ public class Constants {
     public static double tkR = 0.03;
     public static double tskR = 0.03;
 
-    public static double ColorThresh = 0.6;
+    public static double BlueThresh = 0.5;
+    public static double RedThresh = 0.3;
     public static double ColorStripAlignmentSpeed = 0.4;
     public static int ColorStripAlignmentDelay = 5000;
-    public static int gain = 50;
+    public static int gain = 150;
 
     public static int imgWidth = 1920;
     public static int imgHeight = 1080;
@@ -130,8 +132,4 @@ public class Constants {
     public static double aspectRatio = 16.0/9.0;
     public static float minResultConfidence = 0.50f;
     public static float moveForward = 7.0f;
-
-    // Temp Constants
-    public static int temp1 = -35;
-    public static double temp2 = 0.4;
 }

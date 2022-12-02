@@ -28,13 +28,11 @@ public class RightAuto extends AutonomousMethods{
 
     @Override
     public void runOpMode() throws InterruptedException {telemetry.update();
-        initializeAutonomousDrivetrain(hardwareMap, telemetry);
-        robot.initialize(hardwareMap, telemetry);
-
+        initializeAuto(hardwareMap, telemetry);
         waitForStart();
         runtime.reset();
 
-        robot.setClawServo(Constants.clawOpen);
+        robot.setClawServo(Constants.clawClose);
         sleep(1000);
 
         robot.setLiftMotor(1, Constants.liftHigh);
@@ -42,11 +40,11 @@ public class RightAuto extends AutonomousMethods{
         encoderStraightDrive(33, 0.5);
         sleep(500);
 
-        robot.setRotateMotor(0.5, Math.round(Constants.temp1 * Constants.rotMotorPosPerDegree));
+        robot.setRotateMotor(0.5, Constants.autoTurnTall);
         sleep(2000);
-        robot.setSlideServo(Constants.temp2);
+        robot.setSlideServo(Constants.autoSlideTall);
         sleep(1000);
-        robot.setClawServo(Constants.clawClose);
+        robot.setClawServo(Constants.clawOpen);
         sleep(3000);
         robot.setSlideServo(Constants.slideIn);
         robot.setRotateMotor(0.5, 0);

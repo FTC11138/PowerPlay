@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.view.View;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -13,7 +14,7 @@ import org.firstinspires.ftc.teamcode.powerplay.AutonomousMethods;
 import org.firstinspires.ftc.teamcode.powerplay.Constants;
 
 @Autonomous(name = "ColorStripAlignment", group = "Linear Opmode")
-
+@Disabled
 public class ColorStripAlignment extends AutonomousMethods {
 
     private ElapsedTime runtime = new ElapsedTime();
@@ -71,7 +72,7 @@ public class ColorStripAlignment extends AutonomousMethods {
                     .addData("Red 2", "%.1f", colors2.red)
                     .addData("Green 2", "%.1f", colors2.green)
                     .addData("Blue 2", "%.1f", colors2.blue);
-            if (colors1.blue > Constants.ColorThresh && colors2.blue > Constants.ColorThresh) {
+            if (colors1.blue > Constants.BlueThresh && colors2.blue > Constants.BlueThresh) {
                 telemetry.addLine("ALIGNED");
             }
             telemetry.update();

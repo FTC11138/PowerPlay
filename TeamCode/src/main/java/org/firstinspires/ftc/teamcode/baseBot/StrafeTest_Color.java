@@ -122,7 +122,7 @@ public class StrafeTest_Color extends AutonomousMethods {
 
         telemetry.update();
 
-        if (colors1.blue > Constants.ColorThresh && colors2.blue > Constants.ColorThresh) {
+        if (colors1.blue > Constants.BlueThresh && colors2.blue > Constants.BlueThresh) {
             return true;
         } else {
             return false;

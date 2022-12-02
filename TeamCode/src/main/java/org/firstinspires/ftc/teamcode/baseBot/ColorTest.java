@@ -61,7 +61,7 @@ public class ColorTest extends AutonomousMethods {
                     .addData("Red 1", "%.1f", colors1.red)
                     .addData("Green 1", "%.1f", colors1.green)
                     .addData("Blue 1", "%.1f", colors1.blue);
-            if (colors1.blue > Constants.ColorThresh) {
+            if (colors1.red > Constants.RedThresh || colors1.blue > Constants.BlueThresh) {
                 telemetry.addLine("ALIGNED");
             }
             telemetry.update();
