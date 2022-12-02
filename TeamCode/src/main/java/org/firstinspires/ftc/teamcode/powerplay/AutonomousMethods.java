@@ -166,7 +166,7 @@ public abstract class AutonomousMethods extends LinearOpMode {
                     myRobot.setSlideServo(slideTarget);
                     stage = 4;
                     break;
-                case 4: // dropping :)
+                default: // dropping :)
                     currentLiftPosition = myRobot.getLiftMotorPosition();
                     currentSlidePosition = myRobot.getSlidePosition();
                     if ((currentLiftPosition - liftTarget) <= Constants.liftTolerance &&

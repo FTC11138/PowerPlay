@@ -7,6 +7,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
 @TeleOp(name = "TeleOp", group = "Iterative Opmode")
 public class powerplayTeleOp extends OpMode {
 
@@ -22,11 +24,9 @@ public class powerplayTeleOp extends OpMode {
     private double rotatePower = 0;
     private int rotateTarget = 0;
     private boolean useRotatePower = true;
-    private final int autoDel = Constants.automationDelay;
 
 
     private boolean limits = true;
-    private boolean shorten = false;
 
     // TODO: convert lift and rotation doubles to integers (try * 1.0 for error and Double.valueOf)
     private double currentLiftPosition = 0;
@@ -313,9 +313,9 @@ public class powerplayTeleOp extends OpMode {
         }
 
         // Commented so the robot doesnt EXPLODE mid game
-//        if (gamepad1.right_bumper) {
-//            limits = !limits;
-//        }
+        if (gamepad1.right_bumper) {
+            limits = !limits;
+        }
 
         /* ------------------------------------ Action ------------------------------------ */
 
@@ -356,16 +356,16 @@ public class powerplayTeleOp extends OpMode {
         telemetry.addData("extension joy", extJoystick);
         telemetry.addData("lift position", currentLiftPosition);
         telemetry.addData("rotate position", currentRPosition);
-        telemetry.addData("claw position", currentClawPosition);
+        telemetry.addData("distance sensor", myRobot.clawDistance.getDistance(DistanceUnit.INCH));
         telemetry.addData("automation position", positions[pos]);
         telemetry.addData("stage", stage);
-        telemetry.addData("limits", limits);
+//        telemetry.addData("limits", limits);
         telemetry.update();
 
-        Log.d("AHHHHHH extender", String.valueOf(slidePosition));
-        Log.d("AHHHHHH rotate", String.valueOf(currentRPosition));
-        Log.d("AHHHHHH lift", String.valueOf(currentLiftPosition));
-        Log.d("AHHHHH imu: ", "" + myRobot.getAngle());
+//        Log.d("AHHHHHH extender", String.valueOf(slidePosition));
+//        Log.d("AHHHHHH rotate", String.valueOf(currentRPosition));
+//        Log.d("AHHHHHH lift", String.valueOf(currentLiftPosition));
+//        Log.d("AHHHHH imu: ", "" + myRobot.getAngle());
     }
 
     @Override

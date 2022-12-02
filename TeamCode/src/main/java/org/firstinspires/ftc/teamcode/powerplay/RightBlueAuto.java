@@ -77,6 +77,6 @@ public class RightBlueAuto extends AutonomousMethods {
 //        myRobot.setLiftMotor(0.3, -3000);
 //        myRobot.setClawServo(Constants.clawClose);
 //        sleep(5000);
-//
+        AutoTransitioner.transitionOnStop(this, "TeleOp");
     }
 }

@@ -7,16 +7,19 @@ import org.opencv.core.Scalar;
 @Config
 public class Constants {
     // PowerPlay Stuff
-    public static double slideIn = 0.63;
+    public static double slideIn = 0.85;
 //    public static double slideSpin = 0.395;
-    public static double slideOut = 0.01;
-    public static double slideMed = 0.5;
-    public static double autoSlideTurn = 0.01;
-    public static double autoSlideShort = 0.01;
-    public static double autoSlideOut = 0.01;
-    public static double clawClose = 0.8;
-    public static double clawOpen = 0.975;
+    public static double slideOut = 0.15;
+    public static double slideMed = 0.375;
+    public static double autoSlideTurn = 0.45;
+    public static double autoSlideShort = 0.65;
+    public static double autoSlideOut = 0.15;
+    public static double autoSlideCycle = 0.28;
+    public static double autoDistCycle = 1.2; // inches
+    public static double clawOpen = 0.8;
+    public static double clawClose = 0.975;
     public static double slideSpeed = -0.0125;
+    public static int slideLoopRatio = 1250;
 
     public static double liftUpRatio = 1;
     public static double liftDownRatio = 0.8;
@@ -110,6 +113,7 @@ public class Constants {
                                                  // 2: detect vertical 1, 2, 3 lines: require rigid alignment
                                                  // 3: detect H vs V vs Empty: best solution, require less alignment
                                                  // 4: detect H vs V vs Diagonal
+                                                 // 5: detect H vs V vs #
 
     public static final int automationDelay = 48;
     public static final int autonomousAutomationDelay = 50;
@@ -126,11 +130,6 @@ public class Constants {
     public static double aspectRatio = 16.0/9.0;
     public static float minResultConfidence = 0.50f;
     public static float moveForward = 7.0f;
-
-
-
-
-
 
     // Temp Constants
     public static int temp1 = -35;
