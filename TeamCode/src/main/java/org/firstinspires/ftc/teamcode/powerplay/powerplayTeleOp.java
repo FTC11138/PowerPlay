@@ -31,12 +31,12 @@ public class powerplayTeleOp extends OpMode {
     // TODO: convert lift and rotation doubles to integers (try * 1.0 for error and Double.valueOf)
     private double currentLiftPosition = 0;
     private double currentSlidePosition = Constants.slideIn;
-    private double currentClawPosition = Constants.clawOpen;
+    private double currentClawPosition = Constants.clawClose;
     private double currentRPosition = 0;
 
     // Servos
     private double slidePosition = Constants.slideIn;
-    private double clawPosition = Constants.clawClose;
+    private double clawPosition = Constants.clawOpen;
 
     private int ltrigchill = Constants.buttonDelay;
     private int rtrigchill = Constants.buttonDelay;
@@ -353,6 +353,7 @@ public class powerplayTeleOp extends OpMode {
         // Telemetry is for debugging
 
         telemetry.addData("extension position", currentSlidePosition);
+        telemetry.addData("extension joy", extJoystick);
         telemetry.addData("lift position", currentLiftPosition);
         telemetry.addData("rotate position", currentRPosition);
         telemetry.addData("claw position", currentClawPosition);

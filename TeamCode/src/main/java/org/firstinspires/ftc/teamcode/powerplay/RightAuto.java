@@ -31,94 +31,26 @@ public class RightAuto extends AutonomousMethods{
         initializeAutonomousDrivetrain(hardwareMap, telemetry);
         robot.initialize(hardwareMap, telemetry);
 
-
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-        signalDetectionPipeline = new org.firstinspires.ftc.teamcode.powerplay.SignalDetectionPipeline();
-        webcam.setPipeline(signalDetectionPipeline);
-        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
-        {
-            @Override
-            public void onOpened()
-            {
-                webcam.startStreaming(STREAM_WIDTH, STREAM_HEIGHT, OpenCvCameraRotation.UPRIGHT);
-            }
-
-            @Override
-            public void onError(int errorCode) {
-            }
-        });
-        signal = signalDetectionPipeline.getCounter();
-        telemetry.addData("Signal", signal);
-        telemetry.update();
-
         waitForStart();
         runtime.reset();
 
-        sleep(2000);
+        robot.setClawServo(Constants.clawOpen);
+        sleep(1000);
 
-        signal = signalDetectionPipeline.getCounter();
-        telemetry.addData("Signal", signal);
-        telemetry.update();
-
-        robot.setClawServo(Constants.clawClose);
-        sleep(500);
-        robot.setLiftMotor(0.1, -100);
-        sleep(500);
-
-        encoderStraightDrive(3, 0.2);
-        encoderStrafeDriveInchesRight(3, 0.5);
-
-        robot.setLiftMotor(0.3, Constants.liftLow);
+        robot.setLiftMotor(1, Constants.liftHigh);
 
         encoderStraightDrive(33, 0.5);
         sleep(500);
 
-        robot.setLiftMotor(0.5, Constants.liftHigh);
-        robot.setRotateMotor(0.5, Math.round(-40 * Constants.rotMotorPosPerDegree));
+        robot.setRotateMotor(0.5, Math.round(Constants.temp1 * Constants.rotMotorPosPerDegree));
         sleep(2000);
-        robot.setSlideServo(Constants.autoSlideOut);
-        sleep(2000);
-        robot.setLiftMotor(0.3, Constants.liftHigh + 200);
+        robot.setSlideServo(Constants.temp2);
         sleep(1000);
-        robot.setClawServo(Constants.clawOpen);
-        sleep(1000);
+        robot.setClawServo(Constants.clawClose);
+        sleep(3000);
         robot.setSlideServo(Constants.slideIn);
         robot.setRotateMotor(0.5, 0);
-
-        encoderStraightDrive(4, 0.5); // push signal cone ahead
-        sleep(500);
-
-        encoderStraightDrive(-4, 0.5); // move back
-        sleep(500);
-
-        robot.setLiftMotor(0.3, 0);
-        sleep(3000);
-
-        do {
-            if (runtime.seconds() >= 5) {
-                if (signal == 1) {
-                    encoderStrafeDriveInchesRight(-18, 0.5); // turn left
-                } else if (signal == 3) {
-                    encoderStrafeDriveInchesRight(18, 0.5); // turn right
-                }
-                sleep(3000);
-
-//                if (Constants.debugMode) {
-//                    sleep(2000);
-//                    encoderTurn(0, 0.5, 5);
-//                    // return to original, for testing purpose. REMOVE IT before competition!!!!
-//                    if (signal == 1) {
-//                        encoderStrafeDriveInchesRight(18, 0.5); // turn right
-//                    } else if (signal == 3) {
-//                        encoderStrafeDriveInchesRight(-18, 0.5); // turn left
-//                    }
-//                    encoderStraightDrive(-36, 0.5);
-//                }
-
-                break;
-            }
-        } while (opModeIsActive());
-        AutoTransitioner.transitionOnStop(this, "TeleOp");
+        robot.setLiftMotor(1, 0);
+        sleep(10000);
     }
 }

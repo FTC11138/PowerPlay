@@ -14,8 +14,8 @@ public class Constants {
     public static double autoSlideTurn = 0.01;
     public static double autoSlideShort = 0.01;
     public static double autoSlideOut = 0.01;
-    public static double clawOpen = 0.8;
-    public static double clawClose = 0.975;
+    public static double clawClose = 0.8;
+    public static double clawOpen = 0.975;
     public static double slideSpeed = -0.0125;
 
     public static double liftUpRatio = 1;
@@ -126,4 +126,13 @@ public class Constants {
     public static double aspectRatio = 16.0/9.0;
     public static float minResultConfidence = 0.50f;
     public static float moveForward = 7.0f;
+
+
+
+
+
+
+    // Temp Constants
+    public static int temp1 = -35;
+    public static double temp2 = 0.4;
 }

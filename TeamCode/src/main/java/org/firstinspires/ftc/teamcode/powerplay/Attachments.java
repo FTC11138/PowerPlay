@@ -53,10 +53,11 @@ public class Attachments extends Drivetrain {
     }
 
     /* --------------------------------------- ACCESSORS --------------------------------------- */
-    public double getRightDistance() {return rightDistance.getDistance(DistanceUnit.INCH);}
-    public double getLeftDistance() {return rightDistance.getDistance(DistanceUnit.INCH);}
+//    public double getRightDistance() {return rightDistance.getDistance(DistanceUnit.INCH);}
+//    public double getLeftDistance() {return rightDistance.getDistance(DistanceUnit.INCH);}
 //    public double getClawRightDistance() {return clawRightDistance.getDistance(DistanceUnit.INCH)}
 //    public double getClawLeftDistance() {return clawLeftDistance.getDistance(DistanceUnit.INCH)}
+    public double getClawDistance() {return clawDistance.getDistance(DistanceUnit.MM);}
 
     /* ---------------------------------------- SETTERS ---------------------------------------- */
     public void runLiftMotor(double power) {
@@ -94,6 +95,4 @@ public class Attachments extends Drivetrain {
     public double getClawPosition() {
         return clawServo.getPosition();
     }
-
-    public double getClawDistance() {return clawDistance.getDistance(DistanceUnit.MM);}
 }
