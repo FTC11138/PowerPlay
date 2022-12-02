@@ -29,12 +29,12 @@ public class powerplayTeleOp extends OpMode {
     private boolean limits = true;
 
     private double currentLiftPosition = 0;
-    private double currentSlidePosition = myRobot.getSlidePosition();
+    private double currentSlidePosition = Constants.slideIn;
     private double currentClawPosition = Constants.clawClose;
     private double currentRPosition = 0;
 
     // Servos
-    private double slidePosition = myRobot.getSlidePosition();
+    private double slidePosition = Constants.slideIn;
     private double clawPosition = Constants.clawOpen;
 
     private int ltrigchill = Constants.buttonDelay;
@@ -51,6 +51,8 @@ public class powerplayTeleOp extends OpMode {
     @Override
     public void init() {
         myRobot.initialize(hardwareMap, telemetry);
+        currentSlidePosition = myRobot.slideServo.getPosition();
+        slidePosition = myRobot.slideServo.getPosition();
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
         telemetry.update();

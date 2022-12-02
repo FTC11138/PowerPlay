@@ -62,8 +62,8 @@ public class RightBlueAuto extends AutonomousMethods {
 
         myRobot.setSlideServo(Constants.autoSlideTurn);
         myRobot.setRotateMotor(0.5, Constants.rot90R);
-        setLiftMotor(0, Constants.liftTolerance);
         sleep(250);
+        setLiftMotor(0, Constants.liftTolerance);
 
         myRobot.setSlideServo(Constants.autoSlideCycle);
         lineAlign(0);
