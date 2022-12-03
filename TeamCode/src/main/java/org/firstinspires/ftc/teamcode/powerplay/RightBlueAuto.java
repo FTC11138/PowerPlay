@@ -83,6 +83,6 @@ public class RightBlueAuto extends AutonomousMethods {
         // Reset to front
         // Park
 
-        AutoTransitioner.transitionOnStop(this, "TeleOp");
+//        AutoTransitioner.transitionOnStop(this, "TeleOp");
     }
 }

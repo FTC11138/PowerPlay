@@ -132,6 +132,6 @@ public class LeftAuto extends AutonomousMethods{
         } while (opModeIsActive());
 
         // Transition to Tele Op
-        AutoTransitioner.transitionOnStop(this, "TeleOp");
+//        AutoTransitioner.transitionOnStop(this, "TeleOp");
     }
 }
