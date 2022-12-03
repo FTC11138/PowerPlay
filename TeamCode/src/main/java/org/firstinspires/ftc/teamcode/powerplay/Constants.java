@@ -16,8 +16,8 @@ public class Constants {
     public static double autoSlideOut = 0.15;
     public static double autoSlideCycle = 0.28;
     public static double autoDistCycle = 1.2; // inches
-    public static double clawOpen = 0.8;
-    public static double clawClose = 0.975;
+    public static double clawOpen = 0.4;
+    public static double clawClose = 0.7;
     public static double slideSpeed = -0.0125;
     public static int slideWaitRatio = 1500;
 
@@ -59,7 +59,7 @@ public class Constants {
 
     // Drive motor
     public static final double TICKS_PER_REV = 751.8;
-    public static final double CIRCUMFERENCE_IN_INCHES = 100 / 25.4 * Math.PI;
+    public static final double CIRCUMFERENCE_IN_INCHES = 96 / 25.4 * Math.PI;
     public static final double TICKS_PER_INCH = TICKS_PER_REV / CIRCUMFERENCE_IN_INCHES;
     public static double moveSpeed = 1;
     public static double rotSpeed = 1;
