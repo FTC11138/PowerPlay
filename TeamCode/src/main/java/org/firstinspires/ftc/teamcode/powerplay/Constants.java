@@ -17,7 +17,7 @@ public class Constants {
     public static double autoSlideCycle = 0.28;
     public static double autoDistCycle = 1.2; // inches
     public static double clawOpen = 0.4;
-    public static double clawClose = 0.7;
+    public static double clawClose = 0.55;
     public static double slideSpeed = -0.0125;
     public static int slideWaitRatio = 1500;
 
