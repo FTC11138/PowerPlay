@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.powerplay;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.openftc.easyopencv.OpenCvCamera;
@@ -56,7 +55,7 @@ public class RightBlueAuto extends AutonomousMethods {
         telemetry.addData("Final Signal", signal);
         telemetry.update();
 
-        multitaskMovement(0, Constants.liftHigh, Constants.autoTurnTall, Constants.autoSlideTall, 33, 0.5);
+        multitaskMovement(0, Constants.liftHigh, Constants.autoTurnFirstTall, Constants.autoSlideFirstTall, 33, 0.5);
         sleep(500);
         encoderTurn(0, 0.3, 1);
 
@@ -69,7 +68,20 @@ public class RightBlueAuto extends AutonomousMethods {
         lineAlign(0);
         encoderTurn(0, 0.3, 1);
 
+        setLiftMotor(4 * Constants.autoLiftCone, 5);
+        myRobot.setLiftMotor(0.75, 4 * Constants.autoLiftCone);
+        toTargetDistance(Constants.autoDistCycle, true, 0.3, 5000, 25, 0.75);
+        myRobot.setClawServo(Constants.clawClose);
+        sleep(500);
+        dropCone(Constants.liftHigh, 4 * Constants.autoLiftCone + Constants.coneDodge, Constants.autoTurnTall, Constants.autoSlideTall);
+        resetCycle(4 * Constants.autoLiftCone, Constants.rot90R, Constants.autoSlideCycle);
 
+        for (int i = 3; i >= 0 /* condition to check time left using runtime based on detection*/; i--) {
+            // Reset to stack
+            // Drop cone
+        }
+        // Reset to front
+        // Park
 
         AutoTransitioner.transitionOnStop(this, "TeleOp");
     }

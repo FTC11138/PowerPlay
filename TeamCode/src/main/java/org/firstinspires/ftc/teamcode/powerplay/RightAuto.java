@@ -5,10 +5,6 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.openftc.easyopencv.OpenCvCamera;
-import org.openftc.easyopencv.OpenCvCameraFactory;
-import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
 @Autonomous(name = "RightAuto", group = "Linear Opmode")
@@ -18,7 +14,6 @@ public class RightAuto extends AutonomousMethods{
     static final int STREAM_HEIGHT = 1080; // modify for your camera
 
     private ElapsedTime runtime = new ElapsedTime();
-    private Attachments robot = new Attachments();
 
     OpenCvWebcam webcam;
     org.firstinspires.ftc.teamcode.powerplay.SignalDetectionPipeline signalDetectionPipeline;
@@ -32,23 +27,25 @@ public class RightAuto extends AutonomousMethods{
         waitForStart();
         runtime.reset();
 
-        robot.setClawServo(Constants.clawClose);
+        myRobot.setClawServo(Constants.clawClose);
         sleep(1000);
 
-        robot.setLiftMotor(1, Constants.liftHigh);
-
-        encoderStraightDrive(33, 0.5);
-        sleep(500);
-
-        robot.setRotateMotor(0.5, Constants.autoTurnTall);
-        sleep(2000);
-        robot.setSlideServo(Constants.autoSlideTall);
-        sleep(1000);
-        robot.setClawServo(Constants.clawOpen);
-        sleep(3000);
-        robot.setSlideServo(Constants.slideIn);
-        robot.setRotateMotor(0.5, 0);
-        robot.setLiftMotor(1, 0);
-        sleep(10000);
+        dropCone(Constants.liftHigh, 4 * Constants.autoLiftCone + Constants.coneDodge, Constants.autoTurnTall, Constants.autoSlideTall);
+        resetCycle(3 * Constants.autoLiftCone, Constants.rot90R, Constants.autoSlideCycle);
+//        robot.setLiftMotor(1, Constants.liftHigh);
+//
+//        encoderStraightDrive(33, 0.5);
+//        sleep(500);
+//
+//        robot.setRotateMotor(0.5, Constants.autoTurnFirstTall);
+//        sleep(2000);
+//        robot.setSlideServo(Constants.autoSlideFirstTall);
+//        sleep(1000);
+//        robot.setClawServo(Constants.clawOpen);
+//        sleep(3000);
+//        robot.setSlideServo(Constants.slideIn);
+//        robot.setRotateMotor(0.5, 0);
+//        robot.setLiftMotor(1, 0);
+//        sleep(10000);
     }
 }

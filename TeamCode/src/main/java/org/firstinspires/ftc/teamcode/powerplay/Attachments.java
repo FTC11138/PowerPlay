@@ -60,7 +60,7 @@ public class Attachments extends Drivetrain {
 //    public double getLeftDistance() {return rightDistance.getDistance(DistanceUnit.INCH);}
 //    public double getClawRightDistance() {return clawRightDistance.getDistance(DistanceUnit.INCH)}
 //    public double getClawLeftDistance() {return clawLeftDistance.getDistance(DistanceUnit.INCH)}
-    public double getClawDistance() {return clawDistance.getDistance(DistanceUnit.MM);}
+    public double getClawDistance() {return clawDistance.getDistance(DistanceUnit.INCH);}
 
     public NormalizedRGBA getColorValues() {return colorSensor.getNormalizedColors();}
 

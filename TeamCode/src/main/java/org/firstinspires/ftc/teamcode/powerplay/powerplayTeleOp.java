@@ -153,6 +153,7 @@ public class powerplayTeleOp extends OpMode {
         } else if (gamepad2.dpad_left && dpadlchill == Constants.buttonDelay) {
             slidePosition = Constants.slideIn;
             myRobot.setSlideServo(slidePosition);
+            // todo maybe add a bit of waiting to pull slides back
             useRotatePower = false;
             if (pos == 0) {
                 rotateTarget = Constants.rot45R;
@@ -356,7 +357,7 @@ public class powerplayTeleOp extends OpMode {
         telemetry.addData("extension position", currentSlidePosition);
         telemetry.addData("lift position", currentLiftPosition);
         telemetry.addData("rotate position", currentRPosition);
-//        telemetry.addData("distance sensor", myRobot.clawDistance.getDistance(DistanceUnit.INCH));
+        telemetry.addData("distance sensor", myRobot.getClawDistance());
 //        telemetry.addData("automation position", positions[pos]);
 //        telemetry.addData("stage", stage);
         telemetry.addData("limits", limits);

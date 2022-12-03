@@ -12,21 +12,24 @@ public class Constants {
     public static double slideOut = 0.15;
     public static double slideMed = 0.375;
     public static double autoSlideTurn = 0.45;
-    public static double autoSlideTall = 0.4;
+    public static double autoSlideFirstTall = 0.4;
+    public static double autoSlideTall = 0.375;
     public static double autoSlideOut = 0.15;
     public static double autoSlideCycle = 0.28;
-    public static double autoDistCycle = 1.2; // inches
+    public static double autoDistCycle = 1.5; // inches to be away from cone
     public static double clawOpen = 0.4;
     public static double clawClose = 0.55;
-    public static double slideSpeed = -0.0125;
-    public static int slideWaitRatio = 1500;
+    public static double slideSpeed = -0.0075;
+    public static int slideWaitRatio = 1750;
+    public static int slideDelay = 1000;
 
-    public static int autoLiftCone = -123;
+    public static int autoLiftCone = -123; // encoder value to increase by per cone in stack
     public static double liftUpRatio = 1;
     public static double liftDownRatio = 0.8;
     public static double setRotateMultiplier = 0.7;
     public static int rotMotorPosPerDegree = 13;
-    public static int autoTurnTall = -35 * rotMotorPosPerDegree;
+    public static int autoTurnFirstTall = -35 * rotMotorPosPerDegree;
+    public static int autoTurnTall = -781;
 
     // Lift Positions
     public static int liftHigh = -3050;
@@ -39,6 +42,8 @@ public class Constants {
     public static double liftMinPow = 0.1;
     public static int liftkP = 10;
     public static int liftTolerance = 9;
+    public static int coneDodge = -375;
+    public static int junctionDodge = 222;
     public static double slideTolerance = 0.05;
 
     // Rotation Positions
@@ -48,8 +53,8 @@ public class Constants {
     public static double rotkP = 25;
     public static int rot180L = -2125;
     public static int rot180R = 2125;
-    public static int rot90L = -1064;
-    public static int rot90R = 1064;
+    public static int rot90L = -1081;
+    public static int rot90R = 1081;
     public static int rot45L = -300;
     public static int rot45R = 300;
     public static int rotDiagBackR = 1875;
@@ -81,11 +86,6 @@ public class Constants {
     public static int imgHeight = 1080;
     public static int changeThresh = 128;
     public static int negChangeThresh = -128;
-    public static int colorThresh = 200;
-    public static int tlx = 0; // Top left x for rectangle
-    public static int tly = 0; // Top left y for rectangle
-    public static int brx = 100; // Bottom right x for rectangle
-    public static int bry = 100; // Bottom right y for rectangle
 
     // Camera stuff
     public static int leftBoundary = 940; // left side of detection zone
@@ -123,7 +123,6 @@ public class Constants {
 
     public static double straightTestDist = 75;
     public static double straightTestPow = 0.7;
-    public static double liftSpeed = 0.1;
 
     public static boolean debugMode = true; // Change it to FALSE before the competition!!!!
 
@@ -132,4 +131,14 @@ public class Constants {
     public static double aspectRatio = 16.0/9.0;
     public static float minResultConfidence = 0.50f;
     public static float moveForward = 7.0f;
+
+    // distance sensor movement constants
+    public static double setVerticalMinSpeed = 0.18;
+    public static double setVerticalMaxSpeed = 1;
+    public static double setHorizontalMinSpeed = 0.3;
+    public static double setHorizontalMaxSpeed = 1;
+    public static double setDiagonalMinSpeed = 0.3;
+    public static double setDiagonalMaxSpeed = 1;
+    public static double setHorizontalDisCap = 24;
+    public static double setVerticalDisCap = 36;
 }
