@@ -1,10 +1,13 @@
 package org.firstinspires.ftc.teamcode.powerplay;
 
+import android.graphics.Color;
+
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -58,6 +61,8 @@ public class Attachments extends Drivetrain {
 //    public double getClawRightDistance() {return clawRightDistance.getDistance(DistanceUnit.INCH)}
 //    public double getClawLeftDistance() {return clawLeftDistance.getDistance(DistanceUnit.INCH)}
     public double getClawDistance() {return clawDistance.getDistance(DistanceUnit.MM);}
+
+    public NormalizedRGBA getColorValues() {return colorSensor.getNormalizedColors();}
 
     /* ---------------------------------------- SETTERS ---------------------------------------- */
     public void runLiftMotor(double power) {

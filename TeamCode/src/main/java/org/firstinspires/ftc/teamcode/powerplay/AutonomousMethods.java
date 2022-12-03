@@ -354,9 +354,7 @@ public abstract class AutonomousMethods extends LinearOpMode {
     }
 
     boolean calculateColor() {
-        final float[] hsvValues = new float[3];
-        NormalizedRGBA colors = myRobot.colorSensor.getNormalizedColors();
-        Color.colorToHSV(colors.toColor(), hsvValues);
+        NormalizedRGBA colors = myRobot.getColorValues();
 
         telemetry.addLine()
                 .addData("Red 1", "%.1f", colors.red)
