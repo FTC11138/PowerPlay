@@ -26,7 +26,7 @@ public class Constants {
     public static int slideWaitRatio = 2500; // Adjusted value for slide movement to millseconds ratio (does not work well)
     public static int slideWaitARatio = 1500; // Actual slide movement to milliseconds ratio
     public static int slideDelay = 1000;
-    public static double slideCycleShorten = 0.1;
+    public static double slideCycleShorten = 0.05;
     public static int clawCloseDelay = 400;
     public static int clawOpenDelay = 250;
 
@@ -38,7 +38,7 @@ public class Constants {
     public static double setRotateMultiplier = 0.7;
     public static int rotMotorPosPerDegree = 13;
     public static int autoTurnFirstTall = -35 * rotMotorPosPerDegree;
-    public static int autoTurnTall = -700;
+    public static int autoTurnTall = -744;
 
     // Lift Positions
     public static int liftHigh = -3050;
