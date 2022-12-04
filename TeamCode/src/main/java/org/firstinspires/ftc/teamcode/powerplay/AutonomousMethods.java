@@ -187,7 +187,7 @@ public abstract class AutonomousMethods extends LinearOpMode {
                     }
                 case 1: // lifting up
                     currentLiftPosition = myRobot.getLiftMotorPosition();
-                    if (stage == 1 && currentLiftPosition < rotStart) {
+                    if ((stage == 1) && (currentLiftPosition < rotStart)) {
                         if (myRobot.getClawDistance() > 2.5) {
                             myRobot.setClawServo(Constants.clawOpen);
                             myRobot.runLiftMotor(0);
@@ -488,23 +488,30 @@ public abstract class AutonomousMethods extends LinearOpMode {
     }
 
     // while color sensor doesn't detect
-    public void lineAlign(double targetAngle) {
+    public void lineAlign(double targetAngle, boolean isRed) {
         double currentAngle, angleError;
         while (opModeIsActive()) {
             currentAngle = getHorizontalAngle();
             angleError = loopAround(currentAngle - targetAngle);
             runMotors(0.1 + angleError * Constants.tkR, 0.1 - angleError * Constants.tkR);
-            if (calculateColor()) {
-                runMotors(0, 0);
-                break;
+            if (isRed) {
+                if (calculateRed()) {
+                    runMotors(0, 0);
+                    break;
+                }
+            } else {
+                if (calculateBlue()) {
+                    runMotors(0, 0);
+                    break;
+                }
             }
         }
     }
 
-    boolean calculateColor() {
-        final float[] hsvValues = new float[3];
+    boolean calculateRed() {
+//        final float[] hsvValues = new float[3];
         NormalizedRGBA colors = myRobot.colorSensor.getNormalizedColors();
-        Color.colorToHSV(colors.toColor(), hsvValues);
+//        Color.colorToHSV(colors.toColor(), hsvValues);
 
         telemetry.addLine()
                 .addData("Red 1", "%.1f", colors.red)
@@ -512,7 +519,25 @@ public abstract class AutonomousMethods extends LinearOpMode {
                 .addData("Blue 1", "%.1f", colors.blue);
         telemetry.update();
 
-        if (colors.red > Constants.RedThresh || colors.blue > Constants.BlueThresh) {
+        if (colors.red > Constants.RedThresh) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    boolean calculateBlue() {
+//        final float[] hsvValues = new float[3];
+        NormalizedRGBA colors = myRobot.colorSensor.getNormalizedColors();
+//        Color.colorToHSV(colors.toColor(), hsvValues);
+
+        telemetry.addLine()
+                .addData("Red 1", "%.1f", colors.red)
+                .addData("Green 1", "%.1f", colors.green)
+                .addData("Blue 1", "%.1f", colors.blue);
+        telemetry.update();
+
+        if (colors.blue > Constants.BlueThresh) {
             return true;
         } else {
             return false;

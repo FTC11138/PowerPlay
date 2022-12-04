@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.powerplay;
 
+import android.graphics.Color;
 import android.util.Log;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -366,6 +368,11 @@ public class powerplayTeleOp extends OpMode {
         telemetry.addData("lift position", currentLiftPosition);
         telemetry.addData("rotate position", currentRPosition);
         telemetry.addData("distance sensor", myRobot.getClawDistance());
+        NormalizedRGBA colors = myRobot.colorSensor.getNormalizedColors();
+        telemetry.addLine()
+                .addData("Red 1", "%.1f", colors.red)
+                .addData("Green 1", "%.1f", colors.green)
+                .addData("Blue 1", "%.1f", colors.blue);
 //        telemetry.addData("automation position", positions[pos]);
 //        telemetry.addData("stage", stage);
         telemetry.addData("limits", limits);

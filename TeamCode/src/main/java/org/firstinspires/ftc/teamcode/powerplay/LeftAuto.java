@@ -28,21 +28,16 @@ public class LeftAuto extends AutonomousMethods{
 
     @Override
     public void runOpMode() throws InterruptedException {telemetry.update();
-
         // Initialize all the parts of the robot
-        robot.initialize(hardwareMap, telemetry);
+        initializeAuto(hardwareMap, telemetry);
 
-        // Set up camera
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         signalDetectionPipeline = new org.firstinspires.ftc.teamcode.powerplay.SignalDetectionPipeline();
         webcam.setPipeline(signalDetectionPipeline);
-        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
-
-        {
+        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
-            public void onOpened()
-            {
+            public void onOpened() {
                 // Start showing the camera
                 webcam.startStreaming(STREAM_WIDTH, STREAM_HEIGHT, OpenCvCameraRotation.UPRIGHT);
             }
@@ -52,10 +47,7 @@ public class LeftAuto extends AutonomousMethods{
             }
         });
 
-        //
-        //
-
-        // Detect the number on the cone before start
+        myRobot.setClawServo(Constants.clawClose);
         while (!isStarted()) {
             signal = signalDetectionPipeline.getCounter();
             telemetry.addData("Signal", signal);
@@ -63,75 +55,27 @@ public class LeftAuto extends AutonomousMethods{
         }
         runtime.reset();
 
-        sleep(4000);
-
-        // Detect the number on the cone after start
-        signal = signalDetectionPipeline.getCounter();
-        telemetry.addData("Signal", signal);
-        telemetry.update();
-
-        robot.setClawServo(Constants.clawClose);
-        sleep(Constants.clawCloseDelay);
-        robot.setLiftMotor(0.1, -100);
-        sleep(500);
-
-        // Align robot to center of tile
-        encoderStraightDrive(3, 0.2);
-        encoderStrafeDriveInchesRight(3, 0.5);
-
-        robot.setLiftMotor(0.3, Constants.liftLow);
+        myRobot.setLiftMotor(1, Constants.liftHigh);
+        myRobot.setRotateMotor(0.5, -Constants.autoTurnFirstTall);
 
         encoderStraightDrive(33, 0.5);
-        sleep(500);
 
-        robot.setLiftMotor(0.5, Constants.liftHigh);
-        robot.setRotateMotor(0.5, Math.round(37 * Constants.rotMotorPosPerDegree));
-        sleep(2000);
-        robot.setSlideServo(Constants.autoSlideOut);
-        sleep(2000);
-        robot.setLiftMotor(0.3, Constants.liftHigh + 200);
+        myRobot.setSlideServo(Constants.autoSlideFirstTall);
         sleep(1000);
-        robot.setClawServo(Constants.clawOpen);
+        myRobot.setLiftMotor(0.3, Constants.liftHigh+200);
         sleep(1000);
-        robot.setSlideServo(Constants.slideIn);
-        robot.setRotateMotor(0.5, 0);
-
-        encoderStraightDrive(4, 0.5); // push signal cone ahead
+        myRobot.setClawServo(Constants.clawOpen);
+        sleep(1000);
+        myRobot.setSlideServo(Constants.slideIn);
         sleep(500);
+        myRobot.setRotateMotor(0.5, 0);
+        myRobot.setLiftMotor(1, 0);
+        encoderStraightDrive(-15, 0.5);
 
-        encoderStraightDrive(-4, 0.5); // move back
-        sleep(500);
-
-        robot.setLiftMotor(0.3, 0);
-        sleep(3000);
-
-        // Park
-        do {
-            if (runtime.seconds() >= 5) {
-                if (signal == 1) {
-                    encoderStrafeDriveInchesRight(-18, 0.5); // turn left
-                } else if (signal == 3) {
-                    encoderStrafeDriveInchesRight(18, 0.5); // turn right
-                }
-                sleep(3000);
-
-//                if (Constants.debugMode) {
-//                    sleep(2000);
-//                    encoderTurn(0, 0.5, 5);
-//                    // return to original, for testing purpose. REMOVE IT before competition!!!!
-//                    if (signal == 1) {
-//                        encoderStrafeDriveInchesRight(18, 0.5); // turn right
-//                    } else if (signal == 3) {
-//                        encoderStrafeDriveInchesRight(-18, 0.5); // turn left
-//                    }
-//                    encoderStraightDrive(-36, 0.5);
-//                }
-
-                break;
-            }
-        } while (opModeIsActive());
-
-        // Transition to Tele Op
-//        AutoTransitioner.transitionOnStop(this, "TeleOp");
+        if (signal == 3) {
+            encoderStrafeDriveInchesRight(20, 0.5);
+        } else if (signal == 1) {
+            encoderStrafeDriveInchesRight(-20, 0.5);
+        }
     }
 }

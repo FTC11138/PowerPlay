@@ -27,8 +27,6 @@ public class RightAuto extends AutonomousMethods{
 
     @Override
     public void runOpMode() throws InterruptedException {
-        telemetry.update();
-
         // Initialize all the parts of the robot
         initializeAuto(hardwareMap, telemetry);
 
@@ -56,7 +54,6 @@ public class RightAuto extends AutonomousMethods{
         }
         runtime.reset();
 
-        sleep(1000);
         myRobot.setLiftMotor(1, Constants.liftHigh);
         myRobot.setRotateMotor(0.5, Constants.autoTurnFirstTall);
 

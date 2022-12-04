@@ -9,8 +9,8 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
-@Autonomous(name = "Right Cycle", group = "Linear Opmode")
-public class RightCycleAuto extends AutonomousMethods {
+@Autonomous(name = "Right Red Cycle", group = "Linear Opmode")
+public class RightRedCycleAuto extends AutonomousMethods {
     static final int STREAM_WIDTH = 1920; // modify for your camera
     static final int STREAM_HEIGHT = 1080; // modify for your camera
 
@@ -29,7 +29,7 @@ public class RightCycleAuto extends AutonomousMethods {
         // Set up camera
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-        signalDetectionPipeline = new org.firstinspires.ftc.teamcode.powerplay.SignalDetectionPipeline();
+        signalDetectionPipeline = new SignalDetectionPipeline();
         webcam.setPipeline(signalDetectionPipeline);
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
@@ -68,18 +68,19 @@ public class RightCycleAuto extends AutonomousMethods {
         encoderStraightDrive(33, 0.5);
 
         myRobot.setSlideServo(Constants.autoSlideFirstTall);
-        sleep(1000);
+        sleep(750);
         myRobot.setLiftMotor(0.3, Constants.liftHigh + 200);
         sleep(1000);
         myRobot.setClawServo(Constants.clawOpen);
-        sleep(1000);
+        sleep(Constants.clawOpenDelay);
         myRobot.setSlideServo(Constants.slideIn);
-        sleep(500);
+        sleep(360);
         myRobot.setRotateMotor(0.5, Constants.rot90R);
         myRobot.setLiftMotor(1, 0);
         myRobot.setSlideServo(Constants.autoSlideCycle);
+        sleep(1000);
 
-        lineAlign(0);
+        lineAlign(0, true);
         encoderTurn(0, 0.3, 1);
 
         do {
