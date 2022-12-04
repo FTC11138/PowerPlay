@@ -71,7 +71,7 @@ public class LeftAuto extends AutonomousMethods{
         telemetry.update();
 
         robot.setClawServo(Constants.clawClose);
-        sleep(500);
+        sleep(Constants.clawCloseDelay);
         robot.setLiftMotor(0.1, -100);
         sleep(500);
 

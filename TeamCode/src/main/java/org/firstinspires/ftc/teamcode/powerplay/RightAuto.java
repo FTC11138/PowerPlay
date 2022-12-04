@@ -5,9 +5,13 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
-@Autonomous(name = "RightAuto", group = "Linear Opmode")
+@Autonomous(name = "Right Basic", group = "Linear Opmode")
 public class RightAuto extends AutonomousMethods{
 
     static final int STREAM_WIDTH = 1920; // modify for your camera
@@ -22,30 +26,57 @@ public class RightAuto extends AutonomousMethods{
     TelemetryPacket packet = new TelemetryPacket();
 
     @Override
-    public void runOpMode() throws InterruptedException {telemetry.update();
+    public void runOpMode() throws InterruptedException {
+        telemetry.update();
+
+        // Initialize all the parts of the robot
         initializeAuto(hardwareMap, telemetry);
-        waitForStart();
+        myRobot.setClawServo(Constants.clawClose);
+        myRobot.colorSensor.setGain(Constants.gain);
+
+        // Set up camera
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+        signalDetectionPipeline = new org.firstinspires.ftc.teamcode.powerplay.SignalDetectionPipeline();
+        webcam.setPipeline(signalDetectionPipeline);
+        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
+            @Override
+            public void onOpened() {
+                // Start showing the camera
+                webcam.startStreaming(STREAM_WIDTH, STREAM_HEIGHT, OpenCvCameraRotation.UPRIGHT);
+            }
+
+            @Override
+            public void onError(int errorCode) {
+            }
+        });
+
+        // Detect the number on the cone before start
+        while (!isStarted()) {
+            signal = signalDetectionPipeline.getCounter();
+            telemetry.addData("Signal", signal);
+            telemetry.update();
+        }
         runtime.reset();
 
-        myRobot.setClawServo(Constants.clawClose);
-        sleep(1000);
+        // Detect the number on the cone after start
+        signal = signalDetectionPipeline.getCounter();
+        telemetry.addData("Final Signal", signal);
+        telemetry.update();
 
-        dropCone(Constants.liftHigh, 4 * Constants.autoLiftCone + Constants.coneDodge, Constants.autoTurnTall, Constants.autoSlideTall);
-        resetCycle(3 * Constants.autoLiftCone, Constants.rot90R, Constants.autoSlideCycle);
-//        robot.setLiftMotor(1, Constants.liftHigh);
-//
-//        encoderStraightDrive(33, 0.5);
-//        sleep(500);
-//
-//        robot.setRotateMotor(0.5, Constants.autoTurnFirstTall);
-//        sleep(2000);
-//        robot.setSlideServo(Constants.autoSlideFirstTall);
-//        sleep(1000);
-//        robot.setClawServo(Constants.clawOpen);
-//        sleep(3000);
-//        robot.setSlideServo(Constants.slideIn);
-//        robot.setRotateMotor(0.5, 0);
-//        robot.setLiftMotor(1, 0);
-//        sleep(10000);
+        multitaskMovement(0, Constants.liftHigh, Constants.autoTurnFirstTall, Constants.autoSlideFirstTall, 33, 0.5);
+        sleep(500);
+        encoderTurn(0, 0.3, 1);
+        resetFront();
+        sleep(250);
+        encoderStraightDrive(-20, 0.5);
+        sleep(250);
+        encoderTurn(0, 0.3, 1);
+        sleep(250);
+        if (signal == 1) {
+            encoderStrafeDriveInchesRight(-24, 0.75);
+        } else if (signal == 3) {
+            encoderStrafeDriveInchesRight(24, 0.75);
+        }
     }
 }

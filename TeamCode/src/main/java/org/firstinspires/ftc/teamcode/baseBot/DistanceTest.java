@@ -32,7 +32,7 @@ public class DistanceTest extends AutonomousMethods {
         sleep(120);
 
         while (opModeIsActive()) {
-            telemetry.addData("Distance to stack: %f", myRobot.clawDistance.getDistance(DistanceUnit.MM));
+            telemetry.addData("Distance to stack: %f", myRobot.clawDistance.getDistance(DistanceUnit.INCH));
         }
 
 

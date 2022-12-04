@@ -10,22 +10,27 @@ public class Constants {
     public static double slideIn = 0.83;
 //    public static double slideSpin = 0.395;
     public static double slideOut = 0.15;
-    public static double slideMed = 0.375;
+    public static double slideMed = 0.35;
     public static double autoSlideTurn = 0.45;
-    public static double autoSlideFirstTall = 0.4;
+    public static double autoSlideFirstTall = 0.45;
     public static double autoSlideTall = 0.375;
     public static double autoSlideOut = 0.15;
     public static double autoSlideCycle = 0.28;
+    public static double slideCycleBack = 0.1;
     public static double autoDistCycle = 1.5; // inches to be away from cone
     public static double clawOpen = 0.4;
     public static double clawClose = 0.55;
-    public static double slideSpeed = -0.0075;
-    public static int slideWaitRatio = 1750;
+    public static double slideSpeed = -0.02;
+    public static int slideWaitRatio = 2500;
     public static int slideDelay = 1000;
+    public static int clawCloseDelay = 400;
+    public static int clawOpenDelay = 250;
 
     public static int autoLiftCone = -123; // encoder value to increase by per cone in stack
     public static double liftUpRatio = 1;
     public static double liftDownRatio = 0.8;
+    public static double liftSlow = -500;
+    public static double liftSlowRatio = 0.5;
     public static double setRotateMultiplier = 0.7;
     public static int rotMotorPosPerDegree = 13;
     public static int autoTurnFirstTall = -35 * rotMotorPosPerDegree;
@@ -117,7 +122,7 @@ public class Constants {
                                                  // 4: detect H vs V vs Diagonal
                                                  // 5: detect H vs V vs #
 
-    public static final int automationDelay = 48;
+    public static final int automationDelay = 25;
     public static final int autonomousAutomationDelay = 50;
     public static final int buttonDelay = 36;
 

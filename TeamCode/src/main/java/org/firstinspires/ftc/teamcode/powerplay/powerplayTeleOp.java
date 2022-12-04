@@ -250,6 +250,9 @@ public class powerplayTeleOp extends OpMode {
             if (currentLiftPosition < Constants.liftMin || !limits) {
                 useLiftPower = true;
                 liftPower = liftJoystick * Constants.liftDownRatio;
+                if (currentLiftPosition > Constants.liftSlow) {
+                    liftPower *= Constants.liftSlowRatio;
+                }
             } else {
                 liftPower = 0;
             }
@@ -388,6 +391,9 @@ public class powerplayTeleOp extends OpMode {
             newPower = Math.max(Math.abs(newPower), Constants.liftMinPow) * Math.signum(newPower);
             if (Math.signum(newPower) == 1) {
                 newPower = newPower * Constants.liftDownRatio;
+                if (currentLiftPosition > Constants.liftSlow) {
+                    newPower *= Constants.liftSlowRatio;
+                }
             }
             telemetry.addData("Lift Motor", newPower);
             myRobot.runLiftMotor(newPower);

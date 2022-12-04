@@ -8,8 +8,8 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
-@Autonomous(name = "RightAutoWithColor2", group = "Linear Opmode")
-public class RightBlueAuto extends AutonomousMethods {
+@Autonomous(name = "Right Cycle", group = "Linear Opmode")
+public class RightCycleAuto extends AutonomousMethods {
     static final int STREAM_WIDTH = 1920; // modify for your camera
     static final int STREAM_HEIGHT = 1080; // modify for your camera
 
@@ -68,13 +68,17 @@ public class RightBlueAuto extends AutonomousMethods {
         lineAlign(0);
         encoderTurn(0, 0.3, 1);
 
-        setLiftMotor(4 * Constants.autoLiftCone, 5);
-        myRobot.setLiftMotor(0.75, 4 * Constants.autoLiftCone);
-        toTargetDistance(Constants.autoDistCycle, true, 0.3, 5000, 25, 0.75);
-        myRobot.setClawServo(Constants.clawClose);
+        do {
+            setLiftMotor(4 * Constants.autoLiftCone, 5);
+            myRobot.setLiftMotor(0.75, 4 * Constants.autoLiftCone);
+            toTargetDistance(Constants.autoDistCycle, true, 0.3, 5000, 5, 0.5);
+        }
+        //todo add time limit thing here too
+        while ((dropCone(Constants.liftHigh, 4 * Constants.autoLiftCone + Constants.coneDodge, Constants.autoTurnTall, Constants.autoSlideTall) == -1)
+        && true);
         sleep(500);
-        dropCone(Constants.liftHigh, 4 * Constants.autoLiftCone + Constants.coneDodge, Constants.autoTurnTall, Constants.autoSlideTall);
-        resetCycle(4 * Constants.autoLiftCone, Constants.rot90R, Constants.autoSlideCycle);
+        resetCycle(3 * Constants.autoLiftCone, Constants.rot90R, Constants.autoSlideCycle + Constants.slideCycleBack);
+
 
         for (int i = 3; i >= 0 /* condition to check time left using runtime based on detection*/; i--) {
             // Reset to stack
