@@ -70,21 +70,15 @@ public class RightAuto extends AutonomousMethods{
         sleep(1000);
         myRobot.setSlideServo(Constants.slideIn);
         sleep(500);
-        myRobot.setRotateMotor(0.5, Constants.rot90R);
+        myRobot.setRotateMotor(0.5, 0);
         myRobot.setLiftMotor(1, 0);
-        myRobot.setSlideServo(Constants.autoSlideCycle);
-        lineAlign(0);
-        encoderTurn(0, 0.3, 1);
+        encoderStraightDrive(-15, 0.5);
 
-        do {
-            setLiftMotor(4 * Constants.autoLiftCone, 5);
-            myRobot.setLiftMotor(0.75, 4 * Constants.autoLiftCone);
-            toTargetDistance(Constants.autoDistCycle, true, 0.3, 5000, 5, 0.5);
+        if (signal == 3) {
+            encoderStrafeDriveInchesRight(20, 0.5);
+        } else if (signal == 1) {
+            encoderStrafeDriveInchesRight(-20, 0.5);
         }
-        //todo add time limit thing here too
-        while ((dropCone(Constants.liftHigh, 4 * Constants.autoLiftCone + Constants.coneDodge, Constants.autoTurnTall, Constants.autoSlideTall) == -1)
-                && true);
-        sleep(500);
-        resetCycle(3 * Constants.autoLiftCone, Constants.rot90R, Constants.autoSlideCycle + Constants.slideCycleBack);
+
     }
 }

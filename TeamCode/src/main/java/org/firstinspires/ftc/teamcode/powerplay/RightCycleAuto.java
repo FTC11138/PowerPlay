@@ -55,15 +55,22 @@ public class RightCycleAuto extends AutonomousMethods {
         telemetry.addData("Final Signal", signal);
         telemetry.update();
 
-        multitaskMovement(0, Constants.liftHigh, Constants.autoTurnFirstTall, Constants.autoSlideFirstTall, 33, 0.5);
+        sleep(1000);
+        myRobot.setLiftMotor(1, Constants.liftHigh);
+        myRobot.setRotateMotor(0.5, Constants.autoTurnFirstTall);
+
+        encoderStraightDrive(33, 0.5);
+
+        myRobot.setSlideServo(Constants.autoSlideFirstTall);
+        sleep(1000);
+        myRobot.setLiftMotor(0.3, Constants.liftHigh+200);
+        sleep(1000);
+        myRobot.setClawServo(Constants.clawOpen);
+        sleep(1000);
+        myRobot.setSlideServo(Constants.slideIn);
         sleep(500);
-        encoderTurn(0, 0.3, 1);
-
-        myRobot.setSlideServo(Constants.autoSlideTurn);
         myRobot.setRotateMotor(0.5, Constants.rot90R);
-        sleep(250);
-        setLiftMotor(0, Constants.liftTolerance);
-
+        myRobot.setLiftMotor(1, 0);
         myRobot.setSlideServo(Constants.autoSlideCycle);
         lineAlign(0);
         encoderTurn(0, 0.3, 1);
