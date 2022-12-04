@@ -7,22 +7,26 @@ import org.opencv.core.Scalar;
 @Config
 public class Constants {
     // PowerPlay Stuff
+    public static double parkBuffer = 2500;
+
     public static double slideIn = 0.83;
 //    public static double slideSpin = 0.395;
     public static double slideOut = 0.15;
     public static double slideMed = 0.35;
     public static double autoSlideTurn = 0.45;
-    public static double autoSlideFirstTall = 0.45;
+    public static double autoSlideFirstTall = 0.47;
     public static double autoSlideTall = 0.375;
     public static double autoSlideOut = 0.15;
     public static double autoSlideCycle = 0.28;
     public static double slideCycleBack = 0.1;
-    public static double autoDistCycle = 1.8; // inches to be away from cone
+    public static double autoDistCycle = 1.5; // inches to be away from cone
     public static double clawOpen = 0.4;
     public static double clawClose = 0.55;
     public static double slideSpeed = -0.02;
-    public static int slideWaitRatio = 2500;
+    public static int slideWaitRatio = 2500; // Adjusted value for slide movement to millseconds ratio (does not work well)
+    public static int slideWaitARatio = 1500; // Actual slide movement to milliseconds ratio
     public static int slideDelay = 1000;
+    public static double slideCycleShorten = 0.1;
     public static int clawCloseDelay = 400;
     public static int clawOpenDelay = 250;
 
@@ -34,7 +38,7 @@ public class Constants {
     public static double setRotateMultiplier = 0.7;
     public static int rotMotorPosPerDegree = 13;
     public static int autoTurnFirstTall = -35 * rotMotorPosPerDegree;
-    public static int autoTurnTall = -781;
+    public static int autoTurnTall = -700;
 
     // Lift Positions
     public static int liftHigh = -3050;

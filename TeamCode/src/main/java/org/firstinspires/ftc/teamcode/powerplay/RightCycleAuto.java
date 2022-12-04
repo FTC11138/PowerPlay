@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.powerplay;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.openftc.easyopencv.OpenCvCamera;
@@ -49,13 +50,18 @@ public class RightCycleAuto extends AutonomousMethods {
             telemetry.update();
         }
         runtime.reset();
+        double overallStart = runtime.milliseconds();
 
-        // Detect the number on the cone after start
-        signal = signalDetectionPipeline.getCounter();
-        telemetry.addData("Final Signal", signal);
-        telemetry.update();
-
-        sleep(1000);
+        {
+//        multitaskMovement(0, Constants.liftHigh, Constants.autoTurnFirstTall, Constants.autoSlideFirstTall, 33, 0.5);
+//        sleep(500);
+//        encoderTurn(0, 0.3, 1);
+//        myRobot.setSlideServo(Constants.autoSlideTurn);
+//        myRobot.setRotateMotor(0.5, Constants.rot90R);
+//        sleep(250);
+//        setLiftMotor(0, Constants.liftTolerance);
+//        myRobot.setSlideServo(Constants.autoSlideCycle);
+        }
         myRobot.setLiftMotor(1, Constants.liftHigh);
         myRobot.setRotateMotor(0.5, Constants.autoTurnFirstTall);
 
@@ -63,7 +69,7 @@ public class RightCycleAuto extends AutonomousMethods {
 
         myRobot.setSlideServo(Constants.autoSlideFirstTall);
         sleep(1000);
-        myRobot.setLiftMotor(0.3, Constants.liftHigh+200);
+        myRobot.setLiftMotor(0.3, Constants.liftHigh + 200);
         sleep(1000);
         myRobot.setClawServo(Constants.clawOpen);
         sleep(1000);
@@ -72,6 +78,7 @@ public class RightCycleAuto extends AutonomousMethods {
         myRobot.setRotateMotor(0.5, Constants.rot90R);
         myRobot.setLiftMotor(1, 0);
         myRobot.setSlideServo(Constants.autoSlideCycle);
+
         lineAlign(0);
         encoderTurn(0, 0.3, 1);
 
@@ -80,19 +87,44 @@ public class RightCycleAuto extends AutonomousMethods {
             myRobot.setLiftMotor(0.75, 4 * Constants.autoLiftCone);
             toTargetDistance(Constants.autoDistCycle, true, 0.3, 5000, 5, 0.5);
         }
-        //todo add time limit thing here too
         while ((dropCone(Constants.liftHigh, 4 * Constants.autoLiftCone + Constants.coneDodge, Constants.autoTurnTall, Constants.autoSlideTall) == -1)
-        && true);
+        && (30000 - (runtime.milliseconds() - overallStart)) > Constants.parkBuffer + 5000);
         sleep(500);
-        resetCycle(3 * Constants.autoLiftCone, Constants.rot90R, Constants.autoSlideCycle + Constants.slideCycleBack);
 
 
-        for (int i = 3; i >= 0 /* condition to check time left using runtime based on detection*/; i--) {
+        for (int i = 3; i >= 0 && ((30000 - (runtime.milliseconds() - overallStart)) > Constants.parkBuffer + 10000); i--) {
             // Reset to stack
+            resetCycle(i * Constants.autoLiftCone, Constants.rot90R, Constants.autoSlideCycle + Constants.slideCycleBack);
+            myRobot.setSlideServo(Constants.autoSlideCycle);
+            sleep((long)(Constants.slideCycleBack * Constants.slideWaitARatio));
             // Drop cone
+            while ((dropCone(Constants.liftHigh, i * Constants.autoLiftCone + Constants.coneDodge, Constants.autoTurnTall, Constants.autoSlideTall) == -1)
+                    && ((30000 - (runtime.milliseconds() - overallStart)) > Constants.parkBuffer + 5000)) {
+                myRobot.setSlideServo(Constants.autoSlideCycle - Constants.slideCycleBack);
+                myRobot.setClawServo(Constants.clawOpen);
+                setLiftMotor(i * Constants.autoLiftCone, 5);
+                myRobot.setLiftMotor(0.75, i * Constants.autoLiftCone);
+                myRobot.setSlideServo(Constants.autoSlideCycle);
+                sleep((long)(Constants.slideCycleBack * Constants.slideWaitARatio));
+            }
         }
+
         // Reset to front
+        myRobot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        resetFront();
+        encoderStraightDrive(5, 0.5);
+        encoderStraightDrive(-5, 0.5);
+
         // Park
+        if (signal == 1) {
+            encoderStrafeDriveInchesRight(-27, 0.75);
+        } else if (signal == 2) {
+            encoderStrafeDriveInchesRight(-8, 0.75);
+        } else {
+            encoderStrafeDriveInchesRight(11, 0.75);
+        }
+        myRobot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        setLiftMotor(0, 3);
 
 //        AutoTransitioner.transitionOnStop(this, "TeleOp");
     }
