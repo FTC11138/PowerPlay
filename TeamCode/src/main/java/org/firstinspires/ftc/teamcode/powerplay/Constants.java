@@ -17,7 +17,7 @@ public class Constants {
     public static double autoSlideOut = 0.15;
     public static double autoSlideCycle = 0.28;
     public static double slideCycleBack = 0.1;
-    public static double autoDistCycle = 1.5; // inches to be away from cone
+    public static double autoDistCycle = 1.8; // inches to be away from cone
     public static double clawOpen = 0.4;
     public static double clawClose = 0.55;
     public static double slideSpeed = -0.02;
@@ -44,6 +44,7 @@ public class Constants {
     public static int liftSpin = -400;
     public static int liftMax = -3100;
     public static int liftMin = 0;
+    public static int liftDrive = -500;
     public static double liftMinPow = 0.1;
     public static int liftkP = 10;
     public static int liftTolerance = 9;
@@ -82,7 +83,7 @@ public class Constants {
     public static double tskR = 0.03;
 
     public static double BlueThresh = 0.5;
-    public static double RedThresh = 0.3;
+    public static double RedThresh = 0.5;
     public static double ColorStripAlignmentSpeed = 0.4;
     public static int ColorStripAlignmentDelay = 5000;
     public static int gain = 150;
@@ -98,8 +99,8 @@ public class Constants {
     public static int middleLine = 735; // detection line y coordinate
 
 
-    public static int HVLeftBoundary = 890; // left side of detection zone
-    public static int HVRightBoundary = 990; // right side of detection zone
+    public static int HVLeftBoundary = 910; // left side of detection zone
+    public static int HVRightBoundary = 1010; // right side of detection zone
     public static int HVTopBoundary = 685; // top side of detection zone
     public static int HVBottomBoundary = 785; // bottom side of detection zone
 

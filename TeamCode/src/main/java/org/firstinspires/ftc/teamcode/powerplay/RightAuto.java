@@ -11,7 +11,7 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
-@Autonomous(name = "Right Basic", group = "Linear Opmode")
+@Autonomous(name = "RightAuto", group = "Linear Opmode")
 public class RightAuto extends AutonomousMethods{
 
     static final int STREAM_WIDTH = 1920; // modify for your camera
@@ -31,10 +31,7 @@ public class RightAuto extends AutonomousMethods{
 
         // Initialize all the parts of the robot
         initializeAuto(hardwareMap, telemetry);
-        myRobot.setClawServo(Constants.clawClose);
-        myRobot.colorSensor.setGain(Constants.gain);
 
-        // Set up camera
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         signalDetectionPipeline = new org.firstinspires.ftc.teamcode.powerplay.SignalDetectionPipeline();
@@ -51,7 +48,7 @@ public class RightAuto extends AutonomousMethods{
             }
         });
 
-        // Detect the number on the cone before start
+        myRobot.setClawServo(Constants.clawClose);
         while (!isStarted()) {
             signal = signalDetectionPipeline.getCounter();
             telemetry.addData("Signal", signal);
@@ -59,24 +56,35 @@ public class RightAuto extends AutonomousMethods{
         }
         runtime.reset();
 
-        // Detect the number on the cone after start
-        signal = signalDetectionPipeline.getCounter();
-        telemetry.addData("Final Signal", signal);
-        telemetry.update();
+        sleep(1000);
+        myRobot.setLiftMotor(1, Constants.liftHigh);
+        myRobot.setRotateMotor(0.5, Constants.autoTurnFirstTall);
 
-        multitaskMovement(0, Constants.liftHigh, Constants.autoTurnFirstTall, Constants.autoSlideFirstTall, 33, 0.5);
+        encoderStraightDrive(33, 0.5);
+
+        myRobot.setSlideServo(Constants.autoSlideFirstTall);
+        sleep(1000);
+        myRobot.setLiftMotor(0.3, Constants.liftHigh+200);
+        sleep(1000);
+        myRobot.setClawServo(Constants.clawOpen);
+        sleep(1000);
+        myRobot.setSlideServo(Constants.slideIn);
         sleep(500);
+        myRobot.setRotateMotor(0.5, Constants.rot90R);
+        myRobot.setLiftMotor(1, 0);
+        myRobot.setSlideServo(Constants.autoSlideCycle);
+        lineAlign(0);
         encoderTurn(0, 0.3, 1);
-        resetFront();
-        sleep(250);
-        encoderStraightDrive(-20, 0.5);
-        sleep(250);
-        encoderTurn(0, 0.3, 1);
-        sleep(250);
-        if (signal == 1) {
-            encoderStrafeDriveInchesRight(-24, 0.75);
-        } else if (signal == 3) {
-            encoderStrafeDriveInchesRight(24, 0.75);
+
+        do {
+            setLiftMotor(4 * Constants.autoLiftCone, 5);
+            myRobot.setLiftMotor(0.75, 4 * Constants.autoLiftCone);
+            toTargetDistance(Constants.autoDistCycle, true, 0.3, 5000, 5, 0.5);
         }
+        //todo add time limit thing here too
+        while ((dropCone(Constants.liftHigh, 4 * Constants.autoLiftCone + Constants.coneDodge, Constants.autoTurnTall, Constants.autoSlideTall) == -1)
+                && true);
+        sleep(500);
+        resetCycle(3 * Constants.autoLiftCone, Constants.rot90R, Constants.autoSlideCycle + Constants.slideCycleBack);
     }
 }

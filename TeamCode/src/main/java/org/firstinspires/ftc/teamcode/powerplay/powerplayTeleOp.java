@@ -234,6 +234,11 @@ public class powerplayTeleOp extends OpMode {
             liftTarget = 0;
         }
 
+        if (gamepad2.left_stick_button) {
+            useLiftPower = false;
+            liftTarget = Constants.liftDrive;
+        }
+
 
         // Raising lift by power
         double liftJoystick = gamepad2.left_stick_y;
