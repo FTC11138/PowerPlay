@@ -519,7 +519,7 @@ public abstract class AutonomousMethods extends LinearOpMode {
                 .addData("Blue 1", "%.1f", colors.blue);
         telemetry.update();
 
-        if (colors.red > Constants.RedThresh) {
+        if (colors.red >= Constants.RedThresh) {
             return true;
         } else {
             return false;
@@ -537,7 +537,7 @@ public abstract class AutonomousMethods extends LinearOpMode {
                 .addData("Blue 1", "%.1f", colors.blue);
         telemetry.update();
 
-        if (colors.blue > Constants.BlueThresh) {
+        if (colors.blue >= Constants.BlueThresh) {
             return true;
         } else {
             return false;

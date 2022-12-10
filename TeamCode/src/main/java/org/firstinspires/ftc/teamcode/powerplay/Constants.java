@@ -15,7 +15,7 @@ public class Constants {
     public static double slideMed = 0.35;
     public static double autoSlideTurn = 0.45;
     public static double autoSlideFirstTall = 0.47;
-    public static double autoSlideTall = 0.375;
+    public static double autoSlideTall = 0.35;
     public static double autoSlideOut = 0.15;
     public static double autoSlideCycle = 0.28;
     public static double slideCycleBack = 0.1;
@@ -29,6 +29,7 @@ public class Constants {
     public static double slideCycleShorten = 0.05;
     public static int clawCloseDelay = 400;
     public static int clawOpenDelay = 250;
+    public static double cycleTime = 7500;
 
     public static int autoLiftCone = -123; // encoder value to increase by per cone in stack
     public static double liftUpRatio = 1;
@@ -38,7 +39,7 @@ public class Constants {
     public static double setRotateMultiplier = 0.7;
     public static int rotMotorPosPerDegree = 13;
     public static int autoTurnFirstTall = -35 * rotMotorPosPerDegree;
-    public static int autoTurnTall = -744;
+    public static int autoTurnTall = -760;
 
     // Lift Positions
     public static int liftHigh = -3050;
@@ -86,7 +87,7 @@ public class Constants {
     public static double tkR = 0.03;
     public static double tskR = 0.03;
 
-    public static double BlueThresh = 0.5;
+    public static double BlueThresh = 0.7;
     public static double RedThresh = 0.5;
     public static double ColorStripAlignmentSpeed = 0.4;
     public static int ColorStripAlignmentDelay = 5000;

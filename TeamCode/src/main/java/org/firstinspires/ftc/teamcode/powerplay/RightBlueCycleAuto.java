@@ -23,13 +23,14 @@ public class RightBlueCycleAuto extends AutonomousMethods {
 
         // Initialize all the parts of the robot
         initializeAuto(hardwareMap, telemetry);
+        double parkBuffer = Constants.parkBuffer;
         myRobot.setClawServo(Constants.clawClose);
         myRobot.colorSensor.setGain(Constants.gain);
 
         // Set up camera
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-        signalDetectionPipeline = new org.firstinspires.ftc.teamcode.powerplay.SignalDetectionPipeline();
+        signalDetectionPipeline = new SignalDetectionPipeline();
         webcam.setPipeline(signalDetectionPipeline);
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
@@ -51,6 +52,9 @@ public class RightBlueCycleAuto extends AutonomousMethods {
         }
         runtime.reset();
         double overallStart = runtime.milliseconds();
+        if (signal == 1) {
+            parkBuffer += 1500;
+        }
 
         {
 //        multitaskMovement(0, Constants.liftHigh, Constants.autoTurnFirstTall, Constants.autoSlideFirstTall, 33, 0.5);
@@ -78,7 +82,7 @@ public class RightBlueCycleAuto extends AutonomousMethods {
         myRobot.setRotateMotor(0.5, Constants.rot90R);
         myRobot.setLiftMotor(1, 0);
         myRobot.setSlideServo(Constants.autoSlideCycle);
-        sleep(1000);
+        sleep(3000);
 
         lineAlign(0, false);
         encoderTurn(0, 0.3, 1);
@@ -86,21 +90,27 @@ public class RightBlueCycleAuto extends AutonomousMethods {
         do {
             setLiftMotor(4 * Constants.autoLiftCone, 5);
             myRobot.setLiftMotor(0.75, 4 * Constants.autoLiftCone);
+            myRobot.setSlideServo(Constants.autoSlideCycle);
+            sleep(250);
             toTargetDistance(Constants.autoDistCycle, true, 0.3, 5000, 5, 0.5);
         }
         while ((dropCone(Constants.liftHigh, 4 * Constants.autoLiftCone + Constants.coneDodge, Constants.autoTurnTall, Constants.autoSlideTall) == -1)
-        && (30000 - (runtime.milliseconds() - overallStart)) > Constants.parkBuffer + 5000);
+        && (30000 - (runtime.milliseconds() - overallStart)) > parkBuffer + 5000);
+//        setLiftMotor(4 * Constants.autoLiftCone, 5);
+//        myRobot.setLiftMotor(0.75, 4 * Constants.autoLiftCone);
+//        toTargetDistance(Constants.autoDistCycle, true, 0.3, 5000, 5, 0.5);
+//        dropCone(Constants.liftHigh, 4 * Constants.autoLiftCone + Constants.coneDodge, Constants.autoTurnTall, Constants.autoSlideTall);
         sleep(500);
 
 
-        for (int i = 3; i >= 0 && ((30000 - (runtime.milliseconds() - overallStart)) > Constants.parkBuffer + 10000); i--) {
+        for (int i = 3; i >= 0 && ((30000 - (runtime.milliseconds() - overallStart)) > parkBuffer + Constants.cycleTime); i--) {
             // Reset to stack
             resetCycle(i * Constants.autoLiftCone, Constants.rot90R, Constants.autoSlideCycle + Constants.slideCycleBack);
             myRobot.setSlideServo(Constants.autoSlideCycle);
             sleep((long)(Constants.slideCycleBack * Constants.slideWaitARatio));
             // Drop cone
             while ((dropCone(Constants.liftHigh, i * Constants.autoLiftCone + Constants.coneDodge, Constants.autoTurnTall, Constants.autoSlideTall) == -1)
-                    && ((30000 - (runtime.milliseconds() - overallStart)) > Constants.parkBuffer + 5000)) {
+                    && ((30000 - (runtime.milliseconds() - overallStart)) > parkBuffer + 5000)) {
                 myRobot.setSlideServo(Constants.autoSlideCycle - Constants.slideCycleBack);
                 myRobot.setClawServo(Constants.clawOpen);
                 setLiftMotor(i * Constants.autoLiftCone, 5);
@@ -108,6 +118,7 @@ public class RightBlueCycleAuto extends AutonomousMethods {
                 myRobot.setSlideServo(Constants.autoSlideCycle);
                 sleep((long)(Constants.slideCycleBack * Constants.slideWaitARatio));
             }
+//            dropCone(Constants.liftHigh, i * Constants.autoLiftCone + Constants.coneDodge, Constants.autoTurnTall, Constants.autoSlideTall);
         }
 
         // Reset to front
