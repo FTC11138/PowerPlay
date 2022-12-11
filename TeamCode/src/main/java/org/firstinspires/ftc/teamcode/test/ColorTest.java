@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.baseBot;
+package org.firstinspires.ftc.teamcode.test;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -6,20 +6,18 @@ import android.view.View;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
-import com.qualcomm.robotcore.util.ElapsedTime;
-
 import org.firstinspires.ftc.teamcode.powerplay.AutonomousMethods;
+
 import org.firstinspires.ftc.teamcode.powerplay.Constants;
 
-@Autonomous(name = "ColorStripAlignment", group = "Linear Opmode")
-@Disabled
-public class ColorStripAlignment extends AutonomousMethods {
+@Autonomous(name = "ColorTest", group = "Linear Opmode")
+public class ColorTest extends AutonomousMethods {
 
     private ElapsedTime runtime = new ElapsedTime();
-    NormalizedColorSensor colorSensor1;
-    NormalizedColorSensor colorSensor2;
+    NormalizedColorSensor colorSensor;
     View relativeLayout;
 
     @Override
@@ -39,12 +37,10 @@ public class ColorStripAlignment extends AutonomousMethods {
     }
 
     private void runSample() {
-        float gain = 30;
-        final float[] hsvValues1 = new float[3];
-        final float[] hsvValues2 = new float[3];
+        float gain = Constants.gain;
+        final float[] hsvValues = new float[3];
 
-        colorSensor1 = hardwareMap.get(NormalizedColorSensor.class, "sensor_color");
-        colorSensor2 = hardwareMap.get(NormalizedColorSensor.class, "sensor_color2");
+        colorSensor = hardwareMap.get(NormalizedColorSensor.class, "colorsensor");
 
         waitForStart();
 
@@ -56,23 +52,16 @@ public class ColorStripAlignment extends AutonomousMethods {
             }
             telemetry.addData("Gain", gain);
 
-            colorSensor1.setGain(gain);
-            colorSensor2.setGain(gain);
+            colorSensor.setGain(Constants.gain);
 
-            NormalizedRGBA colors1 = colorSensor1.getNormalizedColors();
-            NormalizedRGBA colors2 = colorSensor2.getNormalizedColors();
-            Color.colorToHSV(colors1.toColor(), hsvValues1);
-            Color.colorToHSV(colors2.toColor(), hsvValues2);
+            NormalizedRGBA colors1 = colorSensor.getNormalizedColors();
+            Color.colorToHSV(colors1.toColor(), hsvValues);
 
             telemetry.addLine()
                     .addData("Red 1", "%.1f", colors1.red)
                     .addData("Green 1", "%.1f", colors1.green)
                     .addData("Blue 1", "%.1f", colors1.blue);
-            telemetry.addLine()
-                    .addData("Red 2", "%.1f", colors2.red)
-                    .addData("Green 2", "%.1f", colors2.green)
-                    .addData("Blue 2", "%.1f", colors2.blue);
-            if (colors1.blue > Constants.BlueThresh && colors2.blue > Constants.BlueThresh) {
+            if (colors1.red > Constants.RedThresh || colors1.blue > Constants.BlueThresh) {
                 telemetry.addLine("ALIGNED");
             }
             telemetry.update();

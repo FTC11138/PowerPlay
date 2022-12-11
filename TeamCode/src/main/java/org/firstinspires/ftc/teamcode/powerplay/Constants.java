@@ -128,7 +128,7 @@ public class Constants {
                                                  // 4: detect H vs V vs Diagonal
                                                  // 5: detect H vs V vs #
 
-    public static final int automationDelay = 25;
+    public static final int automationDelay = 20;
     public static final int autonomousAutomationDelay = 50;
     public static final int buttonDelay = 36;
 
