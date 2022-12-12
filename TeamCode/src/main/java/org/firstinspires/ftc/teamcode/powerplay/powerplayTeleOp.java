@@ -1,7 +1,4 @@
 package org.firstinspires.ftc.teamcode.powerplay;
-
-import android.graphics.Color;
-import android.transition.AutoTransition;
 import android.util.Log;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -9,8 +6,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @TeleOp(name = "TeleOp", group = "Iterative Opmode")
 public class powerplayTeleOp extends OpMode {
@@ -30,6 +25,7 @@ public class powerplayTeleOp extends OpMode {
     private double cycleSlidePos = Constants.slideMed;
     private int cycleRPos = Constants.rot180R;
     private ElapsedTime posSave = new ElapsedTime();
+    private double retractWait = Double.MAX_VALUE;
 
     private boolean autoGrab = true;
     private boolean limits = true;
@@ -154,20 +150,12 @@ public class powerplayTeleOp extends OpMode {
                 rotateTarget = cycleRPos;
             }
             stage = 1;
-//            useLiftPower = false;
-//            liftTarget = Constants.liftMed;
             dpadrchill = 0;
         } else if (gamepad2.dpad_left && dpadlchill == Constants.buttonDelay) {
             slidePosition = Constants.slideIn;
             myRobot.setSlideServo(slidePosition);
-            // todo maybe add a bit of waiting to pull slides back
-            useRotatePower = false;
-            rotateTarget = 0;
-            useLiftPower = false;
-            liftTarget = Constants.liftSpin;
-
-//            useLiftPower = false;
-//            liftTarget = Constants.liftLow;
+            retractWait = runtime.milliseconds();
+            stage = -2;
             dpadlchill = 0;
         }
         if (dpadrchill < Constants.buttonDelay) {
@@ -175,6 +163,17 @@ public class powerplayTeleOp extends OpMode {
         }
         if (dpadlchill < Constants.buttonDelay) {
             dpadlchill++;
+        }
+        if ((retractWait != Double.MAX_VALUE) && (runtime.milliseconds() - retractWait >= Constants.slideRetractWait)) {
+            useRotatePower = false;
+            rotateTarget = 0;
+            useLiftPower = false;
+            liftTarget = Constants.liftSpin;
+            retractWait = Double.MAX_VALUE;
+        }
+        if ((stage == -2) && (Math.abs(currentRPosition) < Constants.rotFrontBuffer)){
+            liftTarget = 0;
+            stage = -1;
         }
 
         if (stage > 0) {
@@ -190,19 +189,15 @@ public class powerplayTeleOp extends OpMode {
                     break;
                 case 2:
                     // Turn arm
-                    if (Math.abs(currentRPosition - rotateTarget) <= 10) {
+                    if (Math.abs(currentRPosition - rotateTarget) <= Constants.rotExtendScale * Constants.rotTolerance) {
                         stage = 3;
                     } else {
                         useRotatePower = false;
                     }
                     break;
-                case Constants.automationDelay:
+                case 3:
                     slidePosition = cycleSlidePos;
                     stage = -1;
-                    break;
-                default:
-                    stage++;
-                    break;
             }
         }
 
@@ -445,16 +440,9 @@ public class powerplayTeleOp extends OpMode {
                 }
             }
             myRobot.runRotateMotor(newPower);
-
-            //Logging
-//                Log.d("AHHHHHH liftMotor", "error: " + (error * Constants.liftMax) + ", power: " + newPower + ", current position: " + currentPosition);
-//                return false;
         } else {
-//            rotateTarget = -1;
-//            setRotationPosition(0.25, position);
             useRotatePower = true;
             myRobot.runRotateMotor(0);
-//                return true;
         }
     }
 }

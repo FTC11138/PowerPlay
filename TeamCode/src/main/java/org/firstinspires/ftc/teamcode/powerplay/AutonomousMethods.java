@@ -162,7 +162,7 @@ public abstract class AutonomousMethods extends LinearOpMode {
         int currentRotTarget = rotTarget;
         int stage = 1;
         double startTime = 0;
-        double slideWait = Constants.slideWaitRatio * Math.abs(myRobot.getSlidePosition() - slideTarget);
+        double slideWait = Constants.slideWaitARatio * Math.abs(myRobot.getSlidePosition() - slideTarget);
         double rotWaitStart = Double.MAX_VALUE;
         while (stage <= 5 && opModeIsActive()) {
             switch (stage) {

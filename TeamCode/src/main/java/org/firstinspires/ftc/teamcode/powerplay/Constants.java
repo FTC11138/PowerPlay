@@ -26,7 +26,8 @@ public class Constants {
     public static double autoClawReset = 5;
     public static double slideSpeed = -0.02;
     public static int slideWaitRatio = 2500; // Adjusted value for slide movement to millseconds ratio (does not work well)
-    public static int slideWaitARatio = 1500; // Actual slide movement to milliseconds ratio
+    public static int slideWaitARatio = 715; // Actual slide movement to milliseconds ratio
+    public static int slideRetractWait = 200;
     public static int slideDelay = 1000;
     public static double slideCycleShorten = 0.05;
     public static int clawCloseDelay = 400;
@@ -54,16 +55,16 @@ public class Constants {
     public static int liftDrive = -500;
     public static double liftMinPow = 0.1;
     public static int liftkP = 10;
-    public static int liftTolerance = 9;
+    public static int liftTolerance = 15;
     public static int coneDodge = -375;
     public static int junctionDodge = 222;
-    public static double slideTolerance = 0.05;
 
     // Rotation Positions
     public static int rotRLimit = 4270;
     public static int rotMax = 8750;
     public static double rotMin = 0.05;
     public static double rotkP = 25;
+    public static int rotExtendScale = 5;
     public static int rot180L = -2125;
     public static int rot180R = 2125;
     public static int rot90L = -1081;
@@ -73,6 +74,7 @@ public class Constants {
     public static int rotDiagBackR = 1875;
     public static int rotDiagBackL = -1875;
     public static int rotTolerance = 25;
+    public static int rotFrontBuffer = 75;
     public static int autoRotTolerance = 125;
 
     // Drive motor
@@ -130,7 +132,7 @@ public class Constants {
                                                  // 4: detect H vs V vs Diagonal
                                                  // 5: detect H vs V vs #
 
-    public static final int automationDelay = 20;
+    public static final int automationDelay = 3;
     public static final int autonomousAutomationDelay = 50;
     public static final int buttonDelay = 36;
 
