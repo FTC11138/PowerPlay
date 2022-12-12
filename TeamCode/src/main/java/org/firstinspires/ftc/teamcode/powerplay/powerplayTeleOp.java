@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.powerplay;
 
 import android.graphics.Color;
+import android.transition.AutoTransition;
 import android.util.Log;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -16,7 +17,6 @@ public class powerplayTeleOp extends OpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
     private Attachments myRobot = new Attachments();
-    private String[] positions = {"LEFT", "CENTER", "RIGHT"};
 
     /* ------------------------------------- CONSTANTS ------------------------------------------ */
     // Motors
@@ -26,13 +26,16 @@ public class powerplayTeleOp extends OpMode {
     private double rotatePower = 0;
     private int rotateTarget = 0;
     private boolean useRotatePower = true;
+    private int cycleLiftPos = Constants.liftHigh;
+    private double cycleSlidePos = Constants.slideMed;
+    private int cycleRPos = Constants.rot180R;
+    private ElapsedTime posSave = new ElapsedTime();
 
-
+    private boolean autoGrab = true;
     private boolean limits = true;
 
     private double currentLiftPosition = 0;
     private double currentSlidePosition = Constants.slideIn;
-    private double currentClawPosition = Constants.clawClose;
     private double currentRPosition = 0;
 
     // Servos
@@ -44,7 +47,6 @@ public class powerplayTeleOp extends OpMode {
     private int dpadrchill = Constants.buttonDelay;
     private int dpadlchill = Constants.buttonDelay;
     private int stage = -1;
-    private int autoPosition = 100;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -86,8 +88,6 @@ public class powerplayTeleOp extends OpMode {
         currentLiftPosition = myRobot.getLiftMotorPosition();
         currentSlidePosition = myRobot.getSlidePosition();
         currentRPosition = myRobot.getRotationMotorPosition();
-        currentClawPosition = myRobot.getClawPosition();
-        int pos = autoPosition % 3;
 
         // Motors
         double lx = gamepad1.left_stick_x;
@@ -128,6 +128,13 @@ public class powerplayTeleOp extends OpMode {
 
 
         /* ------------------------------------ Change ------------------------------------ */
+        if ((myRobot.getClawDistance() <= Constants.autoClawClose) && (currentLiftPosition > Constants.liftFloor) && autoGrab) {
+            clawPosition = Constants.clawClose;
+            autoGrab = false;
+        }
+        if (!autoGrab && myRobot.getClawDistance() >= Constants.autoClawReset) {
+            autoGrab = true;
+        }
 
         if (gamepad2.right_bumper) {
             clawPosition = Constants.clawOpen;
@@ -137,16 +144,14 @@ public class powerplayTeleOp extends OpMode {
 
         if (gamepad2.dpad_right && dpadrchill == Constants.buttonDelay) {
             useRotatePower = true;
-            if (pos == 0) {
-                rotateTarget = Constants.rotDiagBackR;
-            } else if (pos == 1) {
+            if (cycleRPos == Constants.rot180R) {
                 if (Math.abs(currentRPosition - Constants.rot180L) < (Math.abs(currentRPosition - Constants.rot180R))) {
                     rotateTarget = Constants.rot180L;
                 } else {
                     rotateTarget = Constants.rot180R;
                 }
             } else {
-                rotateTarget = Constants.rotDiagBackL;
+                rotateTarget = cycleRPos;
             }
             stage = 1;
 //            useLiftPower = false;
@@ -157,13 +162,7 @@ public class powerplayTeleOp extends OpMode {
             myRobot.setSlideServo(slidePosition);
             // todo maybe add a bit of waiting to pull slides back
             useRotatePower = false;
-            if (pos == 0) {
-                rotateTarget = Constants.rot45R;
-            } else if (pos == 1) {
-                rotateTarget = 0;
-            } else {
-                rotateTarget = Constants.rot45L;
-            }
+            rotateTarget = 0;
             useLiftPower = false;
             liftTarget = Constants.liftSpin;
 
@@ -185,7 +184,7 @@ public class powerplayTeleOp extends OpMode {
                     if (currentLiftPosition < Constants.liftSpin) {
                         stage = 2;
                     } else {
-                        liftTarget = Constants.liftHigh;
+                        liftTarget = cycleLiftPos;
                         useLiftPower = false;
                     }
                     break;
@@ -198,7 +197,7 @@ public class powerplayTeleOp extends OpMode {
                     }
                     break;
                 case Constants.automationDelay:
-                    slidePosition = Constants.slideMed;
+                    slidePosition = cycleSlidePos;
                     stage = -1;
                     break;
                 default:
@@ -282,14 +281,16 @@ public class powerplayTeleOp extends OpMode {
         }
 
         if (gamepad2.left_trigger > 0.75 && ltrigchill == Constants.buttonDelay) {
-            autoPosition--;
-//            useRotatePower = false;
-//            rotateTarget = Constants.rotDiagBackL;
+            cycleLiftPos = (int)currentLiftPosition;
+            cycleRPos = (int)currentRPosition;
+            cycleSlidePos = currentSlidePosition;
+            posSave.reset();
             ltrigchill = 0;
         } else if (gamepad2.right_trigger > 0.75 && rtrigchill == Constants.buttonDelay) {
-            autoPosition++;
-//            useRotatePower = false;
-//            rotateTarget = Constants.rotDiagBackR;
+            cycleLiftPos = Constants.liftHigh;
+            cycleSlidePos = Constants.slideMed;
+            cycleRPos = Constants.rot180R;
+            posSave.reset();
             rtrigchill = 0;
         }
         if (ltrigchill < Constants.buttonDelay) {
@@ -363,18 +364,12 @@ public class powerplayTeleOp extends OpMode {
         /* ------------------------------------ Telemetry ------------------------------------ */
 
         // Telemetry is for debugging
-
         telemetry.addData("extension position", currentSlidePosition);
         telemetry.addData("lift position", currentLiftPosition);
         telemetry.addData("rotate position", currentRPosition);
         telemetry.addData("distance sensor", myRobot.getClawDistance());
-        NormalizedRGBA colors = myRobot.colorSensor.getNormalizedColors();
-        telemetry.addLine()
-                .addData("Red 1", "%.1f", colors.red)
-                .addData("Green 1", "%.1f", colors.green)
-                .addData("Blue 1", "%.1f", colors.blue);
-//        telemetry.addData("automation position", positions[pos]);
-//        telemetry.addData("stage", stage);
+        telemetry.addData("position last saved", posSave.seconds());
+        telemetry.addData("stage", stage);
         telemetry.addData("limits", limits);
         telemetry.update();
 

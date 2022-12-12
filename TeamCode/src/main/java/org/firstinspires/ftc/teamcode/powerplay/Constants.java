@@ -22,6 +22,8 @@ public class Constants {
     public static double autoDistCycle = 1.5; // inches to be away from cone
     public static double clawOpen = 0.4;
     public static double clawClose = 0.55;
+    public static double autoClawClose = 2.2;
+    public static double autoClawReset = 5;
     public static double slideSpeed = -0.02;
     public static int slideWaitRatio = 2500; // Adjusted value for slide movement to millseconds ratio (does not work well)
     public static int slideWaitARatio = 1500; // Actual slide movement to milliseconds ratio

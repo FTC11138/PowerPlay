@@ -72,8 +72,6 @@ public class ConeAlignment extends OpMode {
 
 class ConeAlignmentPipeline extends OpenCvPipeline {
     Mat HSV = new Mat();
-    static final int STREAM_WIDTH = Constants.imgWidth; // modify for your camera
-    static final int STREAM_HEIGHT = Constants.imgHeight; // modify for your camera
     FtcDashboard dashboard = FtcDashboard.getInstance();
     TelemetryPacket packet = new TelemetryPacket();
 
