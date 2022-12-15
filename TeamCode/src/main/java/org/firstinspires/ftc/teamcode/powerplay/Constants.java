@@ -103,6 +103,12 @@ public class Constants {
     public static int negChangeThresh = -128;
 
     // Camera stuff
+    public static int topAlignLine = 500;
+    public static int midAlignLine = 575;
+    public static int bottomAlignLine = 650;
+    public static int leftAlignStart = 350;
+    public static int rightAlignEnd = 1000;
+
     public static int leftBoundary = 940; // left side of detection zone
     public static int rightBoundary = 1010; // right side of detection zone
     public static int middleLine = 735; // detection line y coordinate
@@ -112,14 +118,7 @@ public class Constants {
     public static int HVRightBoundary = 1010; // right side of detection zone
     public static int HVTopBoundary = 685; // top side of detection zone
     public static int HVBottomBoundary = 785; // bottom side of detection zone
-
-    public static Scalar lowRed1 = new Scalar(0, 70, 50);
-    public static Scalar highRed1 = new Scalar(10, 255, 255);
-    public static Scalar lowRed2 = new Scalar(170, 70, 50);
-    public static Scalar highRed2 = new Scalar(180, 255, 255);
-
-    public static Scalar lowBlue = new Scalar(110, 70, 50);
-    public static Scalar highBlue = new Scalar(130, 255, 255);
+    public static int colorThresh = 160;
 
     public static int maskChangeThresh = 1;
     public static int negMaskChangeThresh = -1;
@@ -156,4 +155,6 @@ public class Constants {
     public static double setDiagonalMaxSpeed = 1;
     public static double setHorizontalDisCap = 24;
     public static double setVerticalDisCap = 36;
+    public static int test1 = 0;
+    public static int test2 = 0;
 }

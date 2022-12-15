@@ -84,7 +84,6 @@ public abstract class AutonomousMethods extends LinearOpMode {
     }
 
     public void encoderStraightDrive(double inches, double power) {
-
         double originalAngle = getHorizontalAngle();
         double currentAngle;
         double angleError;
