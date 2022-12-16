@@ -106,8 +106,10 @@ public class Constants {
     public static int topAlignLine = 500;
     public static int midAlignLine = 575;
     public static int bottomAlignLine = 650;
-    public static int leftAlignStart = 350;
-    public static int rightAlignEnd = 1000;
+    public static int leftAlignStart = 550;
+    public static int rightAlignEnd = 1250;
+    public static double alignRatio = -0.0170824;
+    public static int kernelSize = 7;
 
     public static int leftBoundary = 940; // left side of detection zone
     public static int rightBoundary = 1010; // right side of detection zone
@@ -124,7 +126,7 @@ public class Constants {
     public static int negMaskChangeThresh = -1;
     public static double slopeThresh = 100.0; // 100
     public static double negSlopeThresh = -100.0; // 100
-    public static boolean isDetectRed = true; // False: detect Blue
+    public static boolean isDetectRed = false; // False: detect Blue
     public static int signalDetectionMethod = 3; // 1: detect QR code
                                                  // 2: detect vertical 1, 2, 3 lines: require rigid alignment
                                                  // 3: detect H vs V vs Empty: best solution, require less alignment

@@ -42,12 +42,11 @@ public class ConeAlignmentV2 extends OpMode {
     public void init() {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-        pipeline = new ConeAlignmentPipelineV2();
+        pipeline = new ConeAlignmentPipelineV2(Constants.isDetectRed);
         webcam.setPipeline(pipeline);
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
             public void onOpened() {
-
                 webcam.startStreaming(STREAM_WIDTH, STREAM_HEIGHT, OpenCvCameraRotation.UPRIGHT);
                 dashboard.startCameraStream(webcam, 0);
             }
@@ -63,38 +62,43 @@ public class ConeAlignmentV2 extends OpMode {
 
     @Override
     public void loop() {
-//        telemetry.addData("Slope:", pipeline.getSlope());
-//        telemetry.update();
+        telemetry.addData("Middle:", pipeline.getMiddle());
+        telemetry.update();
 //
-//        TelemetryPacket pack = new TelemetryPacket();
-//        pack.put("Slope of middle line:", pipeline.getSlope());
+        TelemetryPacket pack = new TelemetryPacket();
+        pack.put("Middle line:", pipeline.getMiddle());
 //        pack.put("averageX1:", pipeline.getAverageX1());
 //        pack.put("averageX2:", pipeline.getAverageX2());
 //        pack.put("Cone middle X:", pipeline.getConeMiddleX());
-//        dashboard.sendTelemetryPacket(pack);
+        dashboard.sendTelemetryPacket(pack);
     }
 }
 
 class ConeAlignmentPipelineV2 extends OpenCvPipeline {
     Mat yCrCb = new Mat();
-    final Mat kernel = Mat.ones(5, 5, CV_32F);
+    final Mat kernel = Mat.ones(Constants.kernelSize, Constants.kernelSize, CV_32F);
     int middle;
+    boolean isDetectRed;
+
+    public ConeAlignmentPipelineV2(boolean isDetectRed) {
+        this.isDetectRed = isDetectRed;
+    }
 
     @Override
     public Mat processFrame(Mat input) {
         Imgproc.cvtColor(input, yCrCb, Imgproc.COLOR_RGB2YCrCb);
         Mat mask = new Mat();
         // Detect Red
-        if (Constants.isDetectRed) {
+        if (isDetectRed) {
             Core.inRange(yCrCb, new Scalar(0, Constants.colorThresh, 0), new Scalar(255, 255, 255), mask); // low luma from 75 to 50
         } else { // Detect Blue
             Core.inRange(yCrCb, new Scalar(0, 0, Constants.colorThresh), new Scalar(255, 255, 255), mask); // low luma from 75 to 50
         }
         Imgproc.morphologyEx(mask, mask, Imgproc.MORPH_OPEN, kernel);
         if (Constants.debugMode) {
-            Core.bitwise_or(input, input, input, mask);
-        } else {
             mask.copyTo(input);
+        } else {
+            Core.bitwise_or(input, input, input, mask);
         }
         detectCone(mask);
         yCrCb.release(); // don't leak memory!
@@ -104,9 +108,9 @@ class ConeAlignmentPipelineV2 extends OpenCvPipeline {
                 new Scalar(255, 0, 0), 2);
         Imgproc.line(input, new Point(middle, 0), new Point(middle, 1080),
                 new Scalar(0, 0, 0), 3);
-        Imgproc.rectangle(input, new Point(Constants.test1, Constants.test2),
-                new Point(Constants.test1, Constants.test2),
-                new Scalar(0, 255, 0), 5);
+//        Imgproc.rectangle(input, new Point(Constants.test1, Constants.test2),
+//                new Point(Constants.test1, Constants.test2),
+//                new Scalar(0, 255, 0), 5);
 
         return input;
     }
