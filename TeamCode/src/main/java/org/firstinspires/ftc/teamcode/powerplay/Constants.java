@@ -11,7 +11,7 @@ public class Constants {
 
     public static double slideIn = 0.83;
     public static double slideOut = 0.15;
-    public static double slideOpt = 0.64; // Optimal slide position for rotation
+    public static double slideOpt = 0.64; // Optimal slide position for rotation, 0.64?
     public static double slideMed = 0.35;
     public static double autoSlideTurn = 0.45;
     public static double autoSlideFirstTall = 0.567;

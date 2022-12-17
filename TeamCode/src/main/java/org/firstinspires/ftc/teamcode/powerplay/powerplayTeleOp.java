@@ -141,7 +141,7 @@ public class powerplayTeleOp extends OpMode {
 
         if (gamepad2.dpad_right && dpadrchill == Constants.buttonDelay) {
             useRotatePower = true;
-            slidePosition = Math.max(Constants.slideOpt, cycleSlidePos);
+            slidePosition = Math.max(Constants.slideIn, cycleSlidePos);
             myRobot.setSlideServo(slidePosition);
             if (cycleRPos == Constants.rot180R) {
                 if (Math.abs(currentRPosition - Constants.rot180L) < (Math.abs(currentRPosition - Constants.rot180R))) {
