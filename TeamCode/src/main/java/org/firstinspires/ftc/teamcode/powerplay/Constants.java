@@ -10,8 +10,8 @@ public class Constants {
     public static double parkBuffer = 2500;
 
     public static double slideIn = 0.83;
-//    public static double slideSpin = 0.395;
     public static double slideOut = 0.15;
+    public static double slideOpt = 0.64; // Optimal slide position for rotation
     public static double slideMed = 0.35;
     public static double autoSlideTurn = 0.45;
     public static double autoSlideFirstTall = 0.567;
@@ -22,9 +22,9 @@ public class Constants {
     public static double autoDistCycle = 1.5; // inches to be away from cone
     public static double clawOpen = 0.4;
     public static double clawClose = 0.55;
-    public static double autoClawClose = 2.2;
+    public static double autoClawClose = 2;
     public static double autoClawReset = 5;
-    public static double slideSpeed = -0.02;
+    public static double slideSpeed = -0.05;
     public static int slideWaitRatio = 2500; // Adjusted value for slide movement to millseconds ratio (does not work well)
     public static int slideWaitARatio = 715; // Actual slide movement to milliseconds ratio
     public static int slideRetractWait = 200;

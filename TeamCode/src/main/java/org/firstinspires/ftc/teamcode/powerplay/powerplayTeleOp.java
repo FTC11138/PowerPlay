@@ -24,6 +24,7 @@ public class powerplayTeleOp extends OpMode {
     private int cycleLiftPos = Constants.liftHigh;
     private double cycleSlidePos = Constants.slideMed;
     private int cycleRPos = Constants.rot180R;
+    private double cycleSlideGrabPos = Constants.slideMed;
     private ElapsedTime posSave = new ElapsedTime();
     private double retractWait = Double.MAX_VALUE;
 
@@ -140,6 +141,8 @@ public class powerplayTeleOp extends OpMode {
 
         if (gamepad2.dpad_right && dpadrchill == Constants.buttonDelay) {
             useRotatePower = true;
+            slidePosition = Math.max(Constants.slideOpt, cycleSlidePos);
+            myRobot.setSlideServo(slidePosition);
             if (cycleRPos == Constants.rot180R) {
                 if (Math.abs(currentRPosition - Constants.rot180L) < (Math.abs(currentRPosition - Constants.rot180R))) {
                     rotateTarget = Constants.rot180L;
@@ -203,7 +206,7 @@ public class powerplayTeleOp extends OpMode {
 
 
         if (gamepad2.a) {
-            slidePosition = Constants.slideOut;
+            slidePosition = cycleSlideGrabPos;
         } else if (gamepad2.b) {
             slidePosition = Constants.slideIn;
         }
@@ -282,10 +285,7 @@ public class powerplayTeleOp extends OpMode {
             posSave.reset();
             ltrigchill = 0;
         } else if (gamepad2.right_trigger > 0.75 && rtrigchill == Constants.buttonDelay) {
-            cycleLiftPos = Constants.liftHigh;
-            cycleSlidePos = Constants.slideMed;
-            cycleRPos = Constants.rot180R;
-            posSave.reset();
+            cycleSlideGrabPos = currentSlidePosition;
             rtrigchill = 0;
         }
         if (ltrigchill < Constants.buttonDelay) {
