@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.powerplay;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-@Autonomous(name = "Right Blue Cycle", group = "Linear Opmode")
+@Autonomous(name = "Right Blue Cycle", group = "Linear Opmode", preselectTeleOp = "TeleOp")
 public class RightBlueCycleAuto extends RightCycleAuto {
     @Override
     public boolean isRed() {

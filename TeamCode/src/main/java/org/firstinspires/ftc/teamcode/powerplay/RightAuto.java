@@ -11,7 +11,7 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
-@Autonomous(name = "RightAuto", group = "Linear Opmode")
+@Autonomous(name = "RightAuto", group = "Linear Opmode", preselectTeleOp = "TeleOp")
 public class RightAuto extends AutonomousMethods{
 
     static final int STREAM_WIDTH = 1920; // modify for your camera

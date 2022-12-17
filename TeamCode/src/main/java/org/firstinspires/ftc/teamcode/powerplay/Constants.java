@@ -158,13 +158,13 @@ public class Constants {
     public static double setDiagonalMaxSpeed = 1;
     public static double setHorizontalDisCap = 24;
     public static double setVerticalDisCap = 36;
-    public static double test1 = 0;
-    public static double test2 = 0;
+    public static double test1 = 48;
+    public static double test2 = 0.75;
 
     // PID stuff, max velocity of drive motors: 2640
-    public static double drivekP = 1.24;
-    public static double drivekI = 0.124;
+    public static double drivekP = 1.5;
+    public static double drivekI = 5;
     public static double drivekD = 0;
-    public static double drivekF = 12.41;
-    public static double drivePoskP = 5;
+    public static double drivekF = 20;
+    public static double drivePoskP = 7.5;
 }

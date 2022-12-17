@@ -55,6 +55,7 @@ public class powerplayTeleOp extends OpMode {
         currentSlidePosition = myRobot.slideServo.getPosition();
         slidePosition = myRobot.slideServo.getPosition();
         // Tell the driver that initialization is complete.
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         telemetry.addData("Status", "Initialized");
         telemetry.update();
     }
@@ -385,7 +386,7 @@ public class powerplayTeleOp extends OpMode {
         double error = -(position - currentLiftPosition) / Constants.liftMax;
         //Initial Time
         telemetry.addData("1", "error: " + error);
-        if (Math.abs(error) > (tolerance / -Constants.liftMax)) {
+        if (Math.abs(error) > (Constants.liftTolerance / -Constants.liftMax)) {
             //Setting p action
             newPower = Math.max(Math.min(error * Constants.liftkP, 1), -1);
 
