@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.baseBot;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -13,7 +14,7 @@ import org.firstinspires.ftc.teamcode.powerplay.Configuration;
 //import org.openftc.revextensions2.ExpansionHubMotor;
 
 public class Drivetrain {
-    public DcMotor lb, lf, rb, rf;
+    public DcMotorEx lb, lf, rb, rf;
     //public ExpansionHubMotor lbBR, lfBR, rbBR, rfBR;
     //public ExpansionHubEx expansionHub;
 //    public DistanceSensor leftDistance,backDistance, frontDistance;
@@ -25,13 +26,10 @@ public class Drivetrain {
     public Orientation angles;
     public void initializeDriveTrain(HardwareMap hardwareMap, Telemetry telemetry_){
         telemetry = telemetry_;
-        lb = hardwareMap.dcMotor.get(names.leftBackMotor);
-        lf = hardwareMap.dcMotor.get(names.leftFrontMotor);
-        rb = hardwareMap.dcMotor.get(names.rightBackMotor);
-        rf = hardwareMap.dcMotor.get(names.rightFrontMotor);
-        //leftDistance = hardwareMap.get(DistanceSensor.class, skystoneNames.leftDistance);
-        //backDistance = hardwareMap.get(DistanceSensor.class, skystoneNames.backDistance);
-        //frontDistance = hardwareMap.get(DistanceSensor.class, skystoneNames.frontDistance);
+        lb = hardwareMap.get(DcMotorEx.class, names.leftBackMotor);
+        lf = hardwareMap.get(DcMotorEx.class, names.leftFrontMotor);
+        rb = hardwareMap.get(DcMotorEx.class, names.rightBackMotor);
+        rf = hardwareMap.get(DcMotorEx.class, names.rightFrontMotor);
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;

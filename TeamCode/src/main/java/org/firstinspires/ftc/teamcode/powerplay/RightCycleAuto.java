@@ -133,7 +133,7 @@ public abstract class RightCycleAuto extends AutonomousMethods {
 //        }
 //
 //        // Reset to front
-//        myRobot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        myRobot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 //        resetFront();
 //        encoderStraightDrive(5, 0.5);
 //        encoderStraightDrive(-5, 0.5);
@@ -146,7 +146,7 @@ public abstract class RightCycleAuto extends AutonomousMethods {
 //        } else {
 //            encoderStrafeDriveInchesRight(11, 0.75);
 //        }
-//        myRobot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        myRobot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 //        setLiftMotor(0, 3);
 //
 ////        AutoTransitioner.transitionOnStop(this, "TeleOp");

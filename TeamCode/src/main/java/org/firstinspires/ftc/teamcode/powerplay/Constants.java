@@ -54,7 +54,7 @@ public class Constants {
     public static int liftMin = 0;
     public static int liftDrive = -500;
     public static double liftMinPow = 0.1;
-    public static int liftkP = 10;
+    public static int liftkPTele = 10;
     public static int liftTolerance = 15;
     public static int coneDodge = -375;
     public static int junctionDodge = 222;
@@ -129,10 +129,10 @@ public class Constants {
     public static double negSlopeThresh = -100.0; // 100
     public static boolean isDetectRed = false; // False: detect Blue
     public static int signalDetectionMethod = 3; // 1: detect QR code
-                                                 // 2: detect vertical 1, 2, 3 lines: require rigid alignment
-                                                 // 3: detect H vs V vs Empty: best solution, require less alignment
-                                                 // 4: detect H vs V vs Diagonal
-                                                 // 5: detect H vs V vs #
+    // 2: detect vertical 1, 2, 3 lines: require rigid alignment
+    // 3: detect H vs V vs Empty: best solution, require less alignment
+    // 4: detect H vs V vs Diagonal
+    // 5: detect H vs V vs #
 
     public static final int automationDelay = 3;
     public static final int autonomousAutomationDelay = 50;
@@ -145,7 +145,7 @@ public class Constants {
 
     //tensorflow constants
     public static double magnitude = 1;
-    public static double aspectRatio = 16.0/9.0;
+    public static double aspectRatio = 16.0 / 9.0;
     public static float minResultConfidence = 0.50f;
     public static float moveForward = 7.0f;
 
@@ -160,6 +160,12 @@ public class Constants {
     public static double setVerticalDisCap = 36;
     public static double test1 = 48;
     public static double test2 = 0.75;
+
+    // Lift PID
+    public static double liftkP = 0.005; // 10
+    public static double liftkI = 0;
+    public static double liftkD = 0.001;
+    public static double liftkF = 0.25;
 
     // PID stuff, max velocity of drive motors: 2640
     public static double drivekP = 1.5;

@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.powerplay;
 import android.util.Log;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -340,7 +342,7 @@ public class powerplayTeleOp extends OpMode {
 //                useLiftPower = true;
 //                liftPower = 0;
 //            } else {
-            setLiftMotor(liftTarget, Constants.liftTolerance);
+            setLiftMotor(liftTarget);
 //            }
         }
 
@@ -379,19 +381,20 @@ public class powerplayTeleOp extends OpMode {
     public void stop() {
     }
 
-    void setLiftMotor(int position, double tolerance) {
+    void setLiftMotor(int position) {
         //Undefined constants
-        double newPower;
+        double newPower, powDir;
         //Initial error
         double error = -(position - currentLiftPosition) / Constants.liftMax;
         //Initial Time
         telemetry.addData("1", "error: " + error);
         if (Math.abs(error) > (Constants.liftTolerance / -Constants.liftMax)) {
             //Setting p action
-            newPower = Math.max(Math.min(error * Constants.liftkP, 1), -1);
-
+            newPower = error * Constants.liftkPTele;
+            powDir = Math.signum(newPower);
+            newPower = Math.min(Math.abs(newPower), 1);
             //Set real power
-            newPower = Math.max(Math.abs(newPower), Constants.liftMinPow) * Math.signum(newPower);
+            newPower = Math.max(newPower, Constants.liftMinPow) * powDir;
             if (Math.signum(newPower) == 1) {
                 newPower = newPower * Constants.liftDownRatio;
                 if (currentLiftPosition > Constants.liftSlow) {

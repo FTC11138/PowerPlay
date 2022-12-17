@@ -35,10 +35,26 @@ public abstract class AutonomousMethods extends LinearOpMode {
     // Initializations
     public void initializeAutonomousDrivetrain(HardwareMap hardwareMap, Telemetry telemetry) {
         myRobot.initializeDriveTrain(hardwareMap, telemetry);
+        myRobot.lb.setVelocityPIDFCoefficients(Constants.drivekP, Constants.drivekI, Constants.drivekD, Constants.drivekF);
+        myRobot.lb.setPositionPIDFCoefficients(Constants.drivePoskP);
+        myRobot.lf.setVelocityPIDFCoefficients(Constants.drivekP, Constants.drivekI, Constants.drivekD, Constants.drivekF);
+        myRobot.lf.setPositionPIDFCoefficients(Constants.drivePoskP);
+        myRobot.rb.setVelocityPIDFCoefficients(Constants.drivekP, Constants.drivekI, Constants.drivekD, Constants.drivekF);
+        myRobot.rb.setPositionPIDFCoefficients(Constants.drivePoskP);
+        myRobot.rf.setVelocityPIDFCoefficients(Constants.drivekP, Constants.drivekI, Constants.drivekD, Constants.drivekF);
+        myRobot.rf.setPositionPIDFCoefficients(Constants.drivePoskP);
     }
 
     public void initializeAuto(HardwareMap hardwareMap, Telemetry telemetry) {
         myRobot.initialize(hardwareMap, telemetry);
+        myRobot.lb.setVelocityPIDFCoefficients(Constants.drivekP, Constants.drivekI, Constants.drivekD, Constants.drivekF);
+        myRobot.lb.setPositionPIDFCoefficients(Constants.drivePoskP);
+        myRobot.lf.setVelocityPIDFCoefficients(Constants.drivekP, Constants.drivekI, Constants.drivekD, Constants.drivekF);
+        myRobot.lf.setPositionPIDFCoefficients(Constants.drivePoskP);
+        myRobot.rb.setVelocityPIDFCoefficients(Constants.drivekP, Constants.drivekI, Constants.drivekD, Constants.drivekF);
+        myRobot.rb.setPositionPIDFCoefficients(Constants.drivePoskP);
+        myRobot.rf.setVelocityPIDFCoefficients(Constants.drivekP, Constants.drivekI, Constants.drivekD, Constants.drivekF);
+        myRobot.rf.setPositionPIDFCoefficients(Constants.drivePoskP);
     }
 
 //    public double autonomousGetAngle() {
@@ -94,16 +110,27 @@ public abstract class AutonomousMethods extends LinearOpMode {
         multiSetTargetPosition(inches * Constants.TICKS_PER_INCH, myRobot.lb, myRobot.lf, myRobot.rb, myRobot.rf);
         setModeAllDrive(DcMotor.RunMode.RUN_TO_POSITION);
         runMotors(power, power);
+        TelemetryPacket tp = new TelemetryPacket();
+
+
 //        Log.d("test test", "test");
         while (notCloseEnough(20, myRobot.lf, myRobot.rf, myRobot.lb, myRobot.rb) && /*time.milliseconds()<4000 &&*/ opModeIsActive()) {
             Log.d("Left Front: ", myRobot.lf.getCurrentPosition() + "beep");
             Log.d("Left Back: ", myRobot.lb.getCurrentPosition() + "beep");
             Log.d("Right Front: ", myRobot.rf.getCurrentPosition() + "beep");
             Log.d("Right Back: ", myRobot.rb.getCurrentPosition() + "beep");
+            tp.put("Left Front", myRobot.lf.getCurrentPosition());
+            tp.put("Left Back", myRobot.lb.getCurrentPosition());
+            tp.put("Right Front", myRobot.rf.getCurrentPosition());
+            tp.put("Right Back", myRobot.rb.getCurrentPosition());
+            tp.put("Target", inches * Constants.TICKS_PER_INCH);
+            dashboard.sendTelemetryPacket(tp);
 
-            currentAngle = getHorizontalAngle();
-            angleError = loopAround(currentAngle - originalAngle);
-            runMotors(power + angleError * Constants.tskR, power - angleError * Constants.tskR);
+//            currentAngle = getHorizontalAngle();
+//            angleError = loopAround(currentAngle - originalAngle);
+//            Log.d("Angle error", angleError + "beep");
+//            runMotors(power + angleError * Constants.tskR * Math.signum(inches), power - angleError * Constants.tskR * Math.signum(inches));
+            runMotors(power, power);
         }
 //        Log.d("test test", "test3");
         runMotors(0, 0);
@@ -111,7 +138,7 @@ public abstract class AutonomousMethods extends LinearOpMode {
     }
 
     void setLiftMotor(int position, double tolerance) {
-        myRobot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        myRobot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         boolean end = false;
         while (!end && opModeIsActive()) {
             int currentLiftPos = myRobot.getLiftMotorPosition();
@@ -155,7 +182,7 @@ public abstract class AutonomousMethods extends LinearOpMode {
         myRobot.setSlideServo(Constants.autoSlideCycle + Constants.slideCycleShorten);
         sleep((long)(Constants.slideCycleShorten * Constants.slideWaitARatio));
 
-        myRobot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        myRobot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         double currentLiftPosition, currentRPosition;
         double liftPower, liftError, rPower, rError;
         int currentRotTarget = rotTarget;
@@ -198,7 +225,7 @@ public abstract class AutonomousMethods extends LinearOpMode {
                             rotWaitStart = runtime.milliseconds();
                         } else if ((runtime.milliseconds() - rotWaitStart) >= (Constants.slideWaitARatio * (Constants.slideIn - Constants.autoSlideCycle + Constants.slideCycleShorten))) {
                             stage = 2;
-                            myRobot.rotateMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                            myRobot.rotateMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                         }
                     }
                     liftError = -((liftTarget) - currentLiftPosition) / Constants.liftMax;
@@ -238,7 +265,7 @@ public abstract class AutonomousMethods extends LinearOpMode {
                     myRobot.setLiftMotor(0.5, liftTarget + 250);
                     sleep(500);
                     myRobot.setClawServo(Constants.clawOpen);
-                    myRobot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                    myRobot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                     stage = 5 + 1;
                     break;
             }
@@ -360,7 +387,7 @@ public abstract class AutonomousMethods extends LinearOpMode {
         multiSetTargetPosition(inches * Constants.TICKS_PER_INCH, myRobot.lb, myRobot.lf, myRobot.rb, myRobot.rf);
         setModeAllDrive(DcMotor.RunMode.RUN_TO_POSITION);
         runMotors(power, power);
-        myRobot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        myRobot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 //        Log.d("test test", "test");
         while (notCloseEnough(20, myRobot.lf, myRobot.rf, myRobot.lb, myRobot.rb) && opModeIsActive()) {
             // Angle adjustment
@@ -386,7 +413,7 @@ public abstract class AutonomousMethods extends LinearOpMode {
                     currentLiftPosition = myRobot.getLiftMotorPosition();
                     if (stage == 1 && currentLiftPosition < Constants.liftSpin) {
                         stage = 2;
-                        myRobot.rotateMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                        myRobot.rotateMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                     }
                     liftError = -((liftTarget) - currentLiftPosition) / Constants.liftMax;
                     telemetry.addData("2 1", "lift error: " + liftError);
@@ -443,7 +470,7 @@ public abstract class AutonomousMethods extends LinearOpMode {
                     currentLiftPosition = myRobot.getLiftMotorPosition();
                     if (stage == 1 && currentLiftPosition < Constants.liftSpin) {
                         stage = 2;
-                        myRobot.rotateMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                        myRobot.rotateMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                     }
                     liftError = -((liftTarget) - currentLiftPosition) / Constants.liftMax;
                     telemetry.addData("2 1", "lift error: " + liftError);

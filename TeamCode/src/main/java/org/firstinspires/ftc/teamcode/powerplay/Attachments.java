@@ -6,6 +6,8 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -18,7 +20,7 @@ import org.firstinspires.ftc.teamcode.baseBot.Drivetrain;
 public class Attachments extends Drivetrain {
     private Telemetry telemetry;
     private ElapsedTime runtime = new ElapsedTime();
-    public DcMotor liftMotor, rotateMotor;
+    public DcMotorEx liftMotor, rotateMotor;
     public Servo clawServo, slideServo; //, camServo;
     public Rev2mDistanceSensor rightDistance, leftDistance, clawRightDistance, clawLeftDistance, clawDistance;
     public RevColorSensorV3 colorSensor;
@@ -28,8 +30,8 @@ public class Attachments extends Drivetrain {
         FtcDashboard dashboard = FtcDashboard.getInstance();
 
         // Motors
-        liftMotor = hardwareMap.get(DcMotor.class, names.liftMotor);
-        rotateMotor = hardwareMap.get(DcMotor.class, names.rotateMotor);
+        liftMotor = hardwareMap.get(DcMotorEx.class, names.liftMotor);
+        rotateMotor = hardwareMap.get(DcMotorEx.class, names.rotateMotor);
 
         // Servos
         clawServo = hardwareMap.get(Servo.class, names.clawServo);
@@ -49,9 +51,9 @@ public class Attachments extends Drivetrain {
         liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rotateMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rotateMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rotateMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rotateMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         initializeDriveTrain(hardwareMap, telemetry_);
     }
