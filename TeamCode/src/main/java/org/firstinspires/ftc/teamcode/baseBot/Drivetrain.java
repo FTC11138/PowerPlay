@@ -69,7 +69,7 @@ public class Drivetrain {
         lb.setDirection(DcMotorSimple.Direction.REVERSE);
         lf.setDirection(DcMotorSimple.Direction.REVERSE);
     }
-    void runMotors (double leftPower, double rightPower){
+    public void runMotors (double leftPower, double rightPower){
         lb.setPower(leftPower);
         lf.setPower(leftPower);
         rb.setPower(rightPower);

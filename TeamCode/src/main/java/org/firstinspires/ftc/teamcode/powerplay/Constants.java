@@ -14,7 +14,7 @@ public class Constants {
     public static double slideOut = 0.15;
     public static double slideMed = 0.35;
     public static double autoSlideTurn = 0.45;
-    public static double autoSlideFirstTall = 0.47;
+    public static double autoSlideFirstTall = 0.567;
     public static double autoSlideTall = 0.35;
     public static double autoSlideOut = 0.15;
     public static double autoSlideCycle = 0.28;
@@ -40,9 +40,9 @@ public class Constants {
     public static double liftSlow = -500;
     public static double liftSlowRatio = 0.5;
     public static double setRotateMultiplier = 0.7;
-    public static int rotMotorPosPerDegree = 13;
-    public static int autoTurnFirstTall = -35 * rotMotorPosPerDegree;
-    public static int autoTurnTall = -760;
+    public static int rotMotorPosPerDegree = 12;
+    public static int autoTurnFirstTall = 1628;
+    public static int autoTurnTall = 1392;
 
     // Lift Positions
     public static int liftHigh = -3050;
@@ -77,8 +77,8 @@ public class Constants {
     public static int rotFrontBuffer = 75;
     public static int autoRotTolerance = 125;
 
-    // Drive motor
-    public static final double TICKS_PER_REV = 751.8;
+    // Drive motor (5203 312 rpm)
+    public static final double TICKS_PER_REV = 537.7;
     public static final double CIRCUMFERENCE_IN_INCHES = 96 / 25.4 * Math.PI;
     public static final double TICKS_PER_INCH = TICKS_PER_REV / CIRCUMFERENCE_IN_INCHES;
     public static double moveSpeed = 1;
@@ -108,8 +108,9 @@ public class Constants {
     public static int bottomAlignLine = 650;
     public static int leftAlignStart = 550;
     public static int rightAlignEnd = 1250;
-    public static double alignRatio = -0.0170824;
+    public static double alignRatio = 0.0170824;
     public static int kernelSize = 7;
+    public static double cameraTolerance = 0.5;
 
     public static int leftBoundary = 940; // left side of detection zone
     public static int rightBoundary = 1010; // right side of detection zone
@@ -157,6 +158,13 @@ public class Constants {
     public static double setDiagonalMaxSpeed = 1;
     public static double setHorizontalDisCap = 24;
     public static double setVerticalDisCap = 36;
-    public static int test1 = 0;
-    public static int test2 = 0;
+    public static double test1 = 0;
+    public static double test2 = 0;
+
+    // PID stuff, max velocity of drive motors: 2640
+    public static double drivekP = 1.24;
+    public static double drivekI = 0.124;
+    public static double drivekD = 0;
+    public static double drivekF = 12.41;
+    public static double drivePoskP = 5;
 }

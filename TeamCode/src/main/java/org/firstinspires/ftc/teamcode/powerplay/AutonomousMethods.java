@@ -327,7 +327,7 @@ public abstract class AutonomousMethods extends LinearOpMode {
             angleError = loopAround(currentAngle - originalAngle); // Angle error
             power = Math.min(error, distanceCap) * maxSpeed / distanceCap; // Cap the power
             power = Math.max(Math.abs(power), minSpeed) * Math.signum(power); // Make sure it's above minimum
-            if (!isRight) {
+            if (isRight) {
                 power = -power;
             }
             strafePower(power, angleError * Constants.tkR);
