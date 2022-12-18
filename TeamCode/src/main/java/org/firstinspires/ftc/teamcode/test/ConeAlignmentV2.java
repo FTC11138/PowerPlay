@@ -29,6 +29,7 @@ import org.opencv.photo.Photo;
 import java.util.Arrays;
 
 @TeleOp(name = "Webcam Cone Alignment V2")
+@Disabled
 public class ConeAlignmentV2 extends OpMode {
     static final int STREAM_WIDTH = Constants.imgWidth; // modify for your camera
     static final int STREAM_HEIGHT = Constants.imgHeight; // modify for your camera

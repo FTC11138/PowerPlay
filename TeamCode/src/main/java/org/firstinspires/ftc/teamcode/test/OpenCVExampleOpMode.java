@@ -25,7 +25,7 @@ import org.openftc.easyopencv.OpenCvWebcam;
 import java.util.ArrayList;
 
 @TeleOp(name = "Webcam Color Test")
-//@Disabled
+@Disabled
 public class OpenCVExampleOpMode extends OpMode {
     static final int STREAM_WIDTH = 1920; // modify for your camera
     static final int STREAM_HEIGHT = 1080; // modify for your camera

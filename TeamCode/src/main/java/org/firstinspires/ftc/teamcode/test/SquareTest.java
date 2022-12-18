@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.powerplay.AutonomousMethods;
 import org.firstinspires.ftc.teamcode.powerplay.Constants;
 
 @Autonomous(name = "SquareTest", group = "Linear Opmode")
-//@Disabled
+@Disabled
 public class SquareTest extends AutonomousMethods {
 
     private ElapsedTime runtime = new ElapsedTime();

@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.powerplay.AutonomousMethods;
 import org.firstinspires.ftc.teamcode.powerplay.Constants;
 
 @Autonomous(name = "ColorTest", group = "Linear Opmode")
+@Disabled
 public class ColorTest extends AutonomousMethods {
 
     private ElapsedTime runtime = new ElapsedTime();

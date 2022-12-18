@@ -39,7 +39,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import org.openftc.easyopencv.OpenCvWebcam;
 
 @TeleOp
-//@Disabled
+@Disabled
 public class WebcamExample extends LinearOpMode
 {
     OpenCvWebcam webcam;
