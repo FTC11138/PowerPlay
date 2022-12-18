@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.powerplay;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -12,6 +13,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
 @Autonomous(name = "LeftAuto", group = "Linear Opmode", preselectTeleOp = "TeleOp")
+@Disabled
 public class LeftAuto extends AutonomousMethods{
 
     static final int STREAM_WIDTH = 1920; // modify for your camera

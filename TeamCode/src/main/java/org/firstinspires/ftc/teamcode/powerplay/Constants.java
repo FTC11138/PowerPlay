@@ -15,7 +15,7 @@ public class Constants {
     public static double slideMed = 0.35;
     public static double autoSlideTurn = 0.45;
     public static double autoSlideFirstTall = 0.58;
-    public static double autoSlideTall = 0.37;
+    public static double autoSlideTall = 0.39;
     public static double autoSlideOut = 0.15;
     public static double autoSlideCycle = 0.28;
     public static double slideCycleBack = 0.1;
@@ -41,8 +41,8 @@ public class Constants {
     public static double liftSlowRatio = 0.5;
     public static double setRotateMultiplier = 0.35;
     public static int rotMotorPosPerDegree = 12;
-    public static int autoTurnFirstTall = 1600;
-    public static int autoTurnTall = 1450;
+    public static int autoTurnFirstTall = 1650;
+    public static int autoTurnTall = 1250;
 
     // Lift Positions
     public static int liftHigh = -3050;

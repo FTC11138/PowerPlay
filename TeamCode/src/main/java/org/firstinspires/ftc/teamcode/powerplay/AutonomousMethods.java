@@ -208,7 +208,7 @@ public abstract class AutonomousMethods extends LinearOpMode {
         double startRPosition = myRobot.getRotationMotorPosition();
         double currentRPosition;
         myRobot.setSlideServo(Constants.slideOpt);
-        sleep(500);
+        sleep((long) Math.abs(Constants.autoSlideCycle + Constants.slideCycleShorten - Constants.slideOpt) * Constants.slideWaitARatio);
         myRobot.setRotateMotor(0.75, rotTarget);
         int stage = 1;
         while (opModeIsActive() && stage <= 4) {
@@ -243,7 +243,7 @@ public abstract class AutonomousMethods extends LinearOpMode {
 
     public void park(boolean isRight, int signal) {
         if ((isRight && signal == 1) || (!isRight && signal == 3)) {
-            encoderStrafeDriveInchesRight(27, 0.75);
+            encoderStrafeDriveInchesRight(33, 0.75);
         } else if (signal == 2) {
             encoderStrafeDriveInchesRight(8, 0.75);
         } else {
