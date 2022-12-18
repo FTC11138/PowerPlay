@@ -243,11 +243,11 @@ public abstract class AutonomousMethods extends LinearOpMode {
 
     public void park(boolean isRight, int signal) {
         if ((isRight && signal == 1) || (!isRight && signal == 3)) {
-            encoderStrafeDriveInchesRight(33, 0.75);
+            encoderStrafeDriveInchesRight(35, 0.75);
         } else if (signal == 2) {
             encoderStrafeDriveInchesRight(8, 0.75);
         } else {
-            encoderStrafeDriveInchesRight(-15, 0.75);
+            encoderStrafeDriveInchesRight(-14.5, 0.75);
         }
     }
 
