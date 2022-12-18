@@ -299,12 +299,12 @@ public class powerplayTeleOp extends OpMode {
         }
 
         double armRJoystick = gamepad2.right_stick_x;
-        if (armRJoystick > 0.25 && currentRPosition < Constants.rotRLimit) {
+        if (armRJoystick > 0.5 && currentRPosition < Constants.rotRLimit) {
             useRotatePower = true;
 //            armDirection = rotateD.RANDOM;
             myRobot.rotateMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rotatePower = armRJoystick * Constants.setRotateMultiplier;
-        } else if (armRJoystick < -0.25 && currentRPosition > -Constants.rotRLimit) {
+        } else if (armRJoystick < -0.5 && currentRPosition > -Constants.rotRLimit) {
             useRotatePower = true;
             myRobot.rotateMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rotatePower = armRJoystick * Constants.setRotateMultiplier;
@@ -391,15 +391,19 @@ public class powerplayTeleOp extends OpMode {
         if (Math.abs(error) > (Constants.liftTolerance / -Constants.liftMax)) {
             //Setting p action
             newPower = error * Constants.liftkPTele;
-            powDir = Math.signum(newPower);
+            powDir = Math.signum(error);
             newPower = Math.min(Math.abs(newPower), 1);
-            //Set real power
-            newPower = Math.max(newPower, Constants.liftMinPow) * powDir;
-            if (Math.signum(newPower) == 1) {
-                newPower = newPower * Constants.liftDownRatio;
+
+            // Going down
+            if (powDir == 1) {
+                newPower = Math.max(newPower * Constants.liftDownRatio, Constants.liftMinPow);
                 if (currentLiftPosition > Constants.liftSlow) {
                     newPower *= Constants.liftSlowRatio;
                 }
+            }
+            // Going up
+            else {
+                newPower = Math.min(-newPower, -Constants.liftMinPow - Constants.liftkF * currentLiftPosition / Constants.liftMax);
             }
             telemetry.addData("Lift Motor", newPower);
             myRobot.runLiftMotor(newPower);

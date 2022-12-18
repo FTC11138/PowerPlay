@@ -11,18 +11,18 @@ public class Constants {
 
     public static double slideIn = 0.83;
     public static double slideOut = 0.15;
-    public static double slideOpt = 0.64; // Optimal slide position for rotation, 0.64?
+    public static double slideOpt = 0.75; // Optimal slide position for rotation, 0.64?
     public static double slideMed = 0.35;
     public static double autoSlideTurn = 0.45;
-    public static double autoSlideFirstTall = 0.567;
-    public static double autoSlideTall = 0.35;
+    public static double autoSlideFirstTall = 0.58;
+    public static double autoSlideTall = 0.37;
     public static double autoSlideOut = 0.15;
     public static double autoSlideCycle = 0.28;
     public static double slideCycleBack = 0.1;
-    public static double autoDistCycle = 1.5; // inches to be away from cone
+    public static double autoDistCycle = 2.5; // inches to be away from cone
     public static double clawOpen = 0.4;
-    public static double clawClose = 0.55;
-    public static double autoClawClose = 2;
+    public static double clawClose = 0.54;
+    public static double autoClawClose = 2.5;
     public static double autoClawReset = 5;
     public static double slideSpeed = -0.05;
     public static int slideWaitRatio = 2500; // Adjusted value for slide movement to millseconds ratio (does not work well)
@@ -31,18 +31,18 @@ public class Constants {
     public static int slideDelay = 1000;
     public static double slideCycleShorten = 0.05;
     public static int clawCloseDelay = 400;
-    public static int clawOpenDelay = 250;
-    public static double cycleTime = 7500;
+    public static int clawOpenDelay = 200;
+    public static double cycleTime = 6000;
 
     public static int autoLiftCone = -123; // encoder value to increase by per cone in stack
     public static double liftUpRatio = 1;
     public static double liftDownRatio = 0.8;
     public static double liftSlow = -500;
     public static double liftSlowRatio = 0.5;
-    public static double setRotateMultiplier = 0.7;
+    public static double setRotateMultiplier = 0.35;
     public static int rotMotorPosPerDegree = 12;
-    public static int autoTurnFirstTall = 1628;
-    public static int autoTurnTall = 1392;
+    public static int autoTurnFirstTall = 1600;
+    public static int autoTurnTall = 1450;
 
     // Lift Positions
     public static int liftHigh = -3050;
@@ -68,7 +68,9 @@ public class Constants {
     public static int rot180L = -2125;
     public static int rot180R = 2125;
     public static int rot90L = -1081;
+    public static int rot90LLong = 4270-1081;
     public static int rot90R = 1081;
+    public static int rot90RLong = -4270+1081;
     public static int rot45L = -300;
     public static int rot45R = 300;
     public static int rotDiagBackR = 1875;
@@ -117,8 +119,8 @@ public class Constants {
     public static int middleLine = 735; // detection line y coordinate
 
 
-    public static int HVLeftBoundary = 910; // left side of detection zone
-    public static int HVRightBoundary = 1010; // right side of detection zone
+    public static int HVLeftBoundary = 930; // left side of detection zone
+    public static int HVRightBoundary = 1030; // right side of detection zone
     public static int HVTopBoundary = 685; // top side of detection zone
     public static int HVBottomBoundary = 785; // bottom side of detection zone
     public static int colorThresh = 160;
@@ -168,7 +170,7 @@ public class Constants {
     public static double liftkF = 0.25;
 
     // PID stuff, max velocity of drive motors: 2640
-    public static double drivekP = 1.5;
+    public static double drivekP = 5;
     public static double drivekI = 5;
     public static double drivekD = 0;
     public static double drivekF = 20;

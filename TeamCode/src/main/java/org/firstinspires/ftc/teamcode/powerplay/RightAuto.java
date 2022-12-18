@@ -12,7 +12,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
 @Autonomous(name = "RightAuto", group = "Linear Opmode", preselectTeleOp = "TeleOp")
-public class RightAuto extends AutonomousMethods{
+public class RightAuto extends AutonomousMethods {
 
     static final int STREAM_WIDTH = 1920; // modify for your camera
     static final int STREAM_HEIGHT = 1080; // modify for your camera
