@@ -128,13 +128,13 @@ public class powerplayTeleOp extends OpMode {
 
 
         /* ------------------------------------ Change ------------------------------------ */
-        if ((myRobot.getClawDistance() <= Constants.autoClawClose) && (currentLiftPosition > Constants.liftFloor) && autoGrab) {
-            clawPosition = Constants.clawClose;
-            autoGrab = false;
-        }
-        if (!autoGrab && myRobot.getClawDistance() >= Constants.autoClawReset) {
-            autoGrab = true;
-        }
+//        if ((myRobot.getClawDistance() <= Constants.autoClawClose) && (currentLiftPosition > Constants.liftFloor) && autoGrab) {
+//            clawPosition = Constants.clawClose;
+//            autoGrab = false;
+//        }
+//        if (!autoGrab && myRobot.getClawDistance() >= Constants.autoClawReset) {
+//            autoGrab = true;
+//        }
 
         if (gamepad2.right_bumper) {
             clawPosition = Constants.clawOpen;

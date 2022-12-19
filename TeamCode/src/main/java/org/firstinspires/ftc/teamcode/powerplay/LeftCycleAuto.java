@@ -141,9 +141,11 @@ public abstract class LeftCycleAuto extends AutonomousMethods {
 //
 //        // Park
         park(false, signal);
+        myRobot.setSlideServo(Constants.slideIn);
         myRobot.setLiftMotor(1, 0);
         while (myRobot.liftMotor.isBusy()) {
         }
+        myRobot.setSlideServo(Constants.slideIn);
     }
 
     public abstract boolean isRed();

@@ -19,7 +19,7 @@ public class Constants {
     public static double slideCycleBack = 0.1;
     public static double autoDistCycle = 2.5; // inches to be away from cone
     public static double clawOpen = 0.4;
-    public static double clawClose = 0.54;
+    public static double clawClose = 0.56;
     public static double autoClawClose = 2.5;
     public static double autoClawReset = 5;
     public static double slideSpeed = -0.05;
@@ -30,7 +30,7 @@ public class Constants {
     public static double slideCycleShorten = 0.05;
     public static int clawCloseDelay = 400;
     public static int clawOpenDelay = 200;
-    public static double cycleTime = 6000;
+    public static double cycleTime = 5500;
 
     public static int autoLiftCone = -123; // encoder value to increase by per cone in stack
     public static double liftUpRatio = 1;

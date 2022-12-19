@@ -9,7 +9,7 @@ public class LeftBlueCycleAuto extends LeftCycleAuto {
     public static double autoSlideFirstTall = 0.58;
     public static double autoSlideTall = 0.4;
     public static int autoTurnFirstTall = -1675;
-    public static int autoTurnTall = -1450;
+    public static int autoTurnTall = -1475;
     @Override
     public boolean isRed() {
         return false;

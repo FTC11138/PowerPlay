@@ -242,12 +242,22 @@ public abstract class AutonomousMethods extends LinearOpMode {
     }
 
     public void park(boolean isRight, int signal) {
-        if ((isRight && signal == 1) || (!isRight && signal == 3)) {
-            encoderStrafeDriveInchesRight(35, 0.75);
-        } else if (signal == 2) {
-            encoderStrafeDriveInchesRight(8, 0.75);
+        if (isRight) {
+            if (signal == 1) {
+                encoderStrafeDriveInchesRight(35, 1);
+            } else if (signal == 2) {
+                encoderStrafeDriveInchesRight(8, 1);
+            } else {
+                encoderStrafeDriveInchesRight(-17, 1);
+            }
         } else {
-            encoderStrafeDriveInchesRight(-14.5, 0.75);
+            if (signal == 1) {
+                encoderStrafeDriveInchesRight(17, 1);
+            } else if (signal == 2) {
+                encoderStrafeDriveInchesRight(-8, 1);
+            } else {
+                encoderStrafeDriveInchesRight(-35, 1);
+            }
         }
     }
 
