@@ -364,6 +364,7 @@ public class powerplayTeleOp extends OpMode {
         // Telemetry is for debugging
         telemetry.addData("extension position", currentSlidePosition);
         telemetry.addData("lift position", currentLiftPosition);
+        telemetry.addData("lift speed", myRobot.liftMotor.getVelocity());
         telemetry.addData("rotate position", currentRPosition);
         telemetry.addData("distance sensor", myRobot.getClawDistance());
         telemetry.addData("position last saved", posSave.seconds());
@@ -371,6 +372,7 @@ public class powerplayTeleOp extends OpMode {
         telemetry.addData("limits", limits);
         telemetry.update();
 
+        Log.d("lift speed", "" + myRobot.liftMotor.getVelocity());
 //        Log.d("AHHHHHH extender", String.valueOf(slidePosition));
 //        Log.d("AHHHHHH rotate", String.valueOf(currentRPosition));
 //        Log.d("AHHHHHH lift", String.valueOf(currentLiftPosition));

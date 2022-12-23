@@ -41,12 +41,13 @@ public class Constants {
     public static int rotMotorPosPerDegree = 12;
 
     // Lift Positions
-    public static int liftHigh = -3050;
+    public static double newLiftRatio = 145.1 / 384.5;
+    public static int liftHigh = (int)(-3050 * newLiftRatio);
     public static int liftMed = -2200;
     public static int liftLow = -1400;
     public static int liftFloor = -75;
     public static int liftSpin = -400;
-    public static int liftMax = -3100;
+    public static int liftMax = (int)(-3100 * newLiftRatio);
     public static int liftMin = 0;
     public static int liftDrive = -500;
     public static double liftMinPow = 0.1;
@@ -157,7 +158,7 @@ public class Constants {
     public static double setHorizontalDisCap = 24;
     public static double setVerticalDisCap = 36;
     public static double test1 = 48;
-    public static double test2 = 0.75;
+    public static double test2 = -1;
 
     // Lift PID
     public static double liftkP = 0.005; // 10

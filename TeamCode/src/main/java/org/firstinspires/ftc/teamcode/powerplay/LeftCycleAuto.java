@@ -94,10 +94,9 @@ public abstract class LeftCycleAuto extends AutonomousMethods {
         sleep(300);
         myRobot.setRotateMotor(0.75, Constants.rot90RLong);
         myRobot.setLiftMotor(1, 4 * Constants.autoLiftCone);
+        encoderTurn(0, 0.3, 1);
         while (myRobot.rotateMotor.isBusy() || myRobot.liftMotor.isBusy()) {
         }
-        encoderTurn(0, 0.3, 1);
-        sleep(250);
         do {
             myRobot.setLiftMotor(1, 4 * Constants.autoLiftCone);
             myRobot.setSlideServo(Constants.autoSlideCycle);
