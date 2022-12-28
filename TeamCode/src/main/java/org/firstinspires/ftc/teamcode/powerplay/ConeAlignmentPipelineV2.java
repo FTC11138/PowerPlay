@@ -34,7 +34,7 @@ class ConeAlignmentPipelineV2 extends OpenCvPipeline {
             Core.inRange(yCrCb, new Scalar(0, 0, Constants.colorThresh), new Scalar(255, 255, 255), mask); // low luma from 75 to 50
         }
         Imgproc.morphologyEx(mask, mask, Imgproc.MORPH_OPEN, kernel);
-        if (Constants.debugMode) {
+        if (!Constants.debugMode) {
             mask.copyTo(input);
         }
 //        else {

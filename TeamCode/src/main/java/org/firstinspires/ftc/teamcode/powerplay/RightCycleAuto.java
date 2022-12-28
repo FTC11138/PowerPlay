@@ -85,7 +85,7 @@ public abstract class RightCycleAuto extends AutonomousMethods {
         }
         myRobot.setSlideServo(autoSlideFirstTall);
         sleep(750);
-        myRobot.setLiftMotor(0.5, Constants.liftHigh + 200);
+        myRobot.setLiftMotor(0.5, Constants.liftHigh + 75);
         sleep(300);
         myRobot.setClawServo(Constants.clawOpen);
         sleep(Constants.clawOpenDelay);
