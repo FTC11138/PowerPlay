@@ -213,7 +213,7 @@ public class powerplayTeleOp extends OpMode {
         } else if (gamepad2.b) {
             slidePosition = Constants.slideIn;
         }
-        double extJoystick = -gamepad2.right_stick_y;
+        double extJoystick = gamepad2.right_stick_y;
         if (extJoystick > 0.2) {
             // User trying to slide out by pushing the joystick up
             if (slidePosition > Constants.slideOut) {

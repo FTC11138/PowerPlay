@@ -9,17 +9,17 @@ public class Constants {
     // PowerPlay Stuff
     public static double parkBuffer = 2500;
 
-    public static double slideIn = 0.83;
-    public static double slideOut = 0.15;
-    public static double slideOpt = 0.75; // Optimal slide position for rotation, 0.64?
-    public static double slideMed = 0.35;
-    public static double autoSlideTurn = 0.45;
-    public static double autoSlideOut = 0.15;
-    public static double autoSlideCycle = 0.28;
+    public static double slideIn = 0.1;
+    public static double slideOut = 1;
+    public static double slideOpt = 0.35; // Optimal slide position for rotation
+    public static double slideMed = 0.75;
+//    public static double autoSlideTurn = 0.45;
+//    public static double autoSlideOut = 0.15;
+    public static double autoSlideCycle = 0.86;
     public static double slideCycleBack = 0.1;
     public static double autoDistCycle = 2.5; // inches to be away from cone
     public static double clawOpen = 0.4;
-    public static double clawClose = 0.56;
+    public static double clawClose = 0.53;
     public static double autoClawClose = 2.5;
     public static double autoClawReset = 5;
     public static double slideSpeed = -0.05;
@@ -32,22 +32,22 @@ public class Constants {
     public static int clawOpenDelay = 200;
     public static double cycleTime = 5500;
 
-    public static int autoLiftCone = -123; // encoder value to increase by per cone in stack
+    public static int autoLiftCone = -41; // encoder value to increase by per cone in stack
     public static double liftUpRatio = 1;
     public static double liftDownRatio = 0.8;
     public static double liftSlow = -500;
-    public static double liftSlowRatio = 0.5;
+    public static double liftSlowRatio = 0.4;
     public static double setRotateMultiplier = 0.35;
     public static int rotMotorPosPerDegree = 12;
 
     // Lift Positions
     public static double newLiftRatio = 145.1 / 384.5;
-    public static int liftHigh = (int)(-3050 * newLiftRatio);
+    public static int liftHigh = -1100;
     public static int liftMed = -2200;
     public static int liftLow = -1400;
     public static int liftFloor = -75;
     public static int liftSpin = -400;
-    public static int liftMax = (int)(-3100 * newLiftRatio);
+    public static int liftMax = -1100;
     public static int liftMin = 0;
     public static int liftDrive = -500;
     public static double liftMinPow = 0.1;
