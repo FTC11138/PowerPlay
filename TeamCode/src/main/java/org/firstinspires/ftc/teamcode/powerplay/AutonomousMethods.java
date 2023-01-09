@@ -489,63 +489,6 @@ public abstract class AutonomousMethods extends LinearOpMode {
         setModeAllDrive(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    // while color sensor doesn't detect
-    public void lineAlign(double targetAngle, boolean isRed) {
-        double currentAngle, angleError;
-        while (opModeIsActive()) {
-            currentAngle = getHorizontalAngle();
-            angleError = loopAround(currentAngle - targetAngle);
-            runMotors(0.1 + angleError * Constants.tkR, 0.1 - angleError * Constants.tkR);
-            if (isRed) {
-                if (calculateRed()) {
-                    runMotors(0, 0);
-                    break;
-                }
-            } else {
-                if (calculateBlue()) {
-                    runMotors(0, 0);
-                    break;
-                }
-            }
-        }
-    }
-
-    boolean calculateRed() {
-//        final float[] hsvValues = new float[3];
-        NormalizedRGBA colors = myRobot.colorSensor.getNormalizedColors();
-//        Color.colorToHSV(colors.toColor(), hsvValues);
-
-        telemetry.addLine()
-                .addData("Red 1", "%.1f", colors.red)
-                .addData("Green 1", "%.1f", colors.green)
-                .addData("Blue 1", "%.1f", colors.blue);
-        telemetry.update();
-
-        if (colors.red >= Constants.RedThresh) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    boolean calculateBlue() {
-//        final float[] hsvValues = new float[3];
-        NormalizedRGBA colors = myRobot.colorSensor.getNormalizedColors();
-//        Color.colorToHSV(colors.toColor(), hsvValues);
-
-        telemetry.addLine()
-                .addData("Red 1", "%.1f", colors.red)
-                .addData("Green 1", "%.1f", colors.green)
-                .addData("Blue 1", "%.1f", colors.blue);
-        telemetry.update();
-
-        if (colors.blue >= Constants.BlueThresh) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     //Negative = Left, Positive = Right
     public void encoderStrafeDriveInchesRight(double inches, double power) {
         setModeAllDrive(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

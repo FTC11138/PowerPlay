@@ -23,7 +23,6 @@ public class Attachments extends Drivetrain {
     public DcMotorEx liftMotor, rotateMotor;
     public Servo clawServo, slideServo; //, camServo;
     public Rev2mDistanceSensor rightDistance, leftDistance, clawRightDistance, clawLeftDistance, clawDistance;
-    public RevColorSensorV3 colorSensor;
 
     public void initialize(HardwareMap hardwareMap, Telemetry telemetry_) {
         telemetry = telemetry_;
@@ -41,8 +40,6 @@ public class Attachments extends Drivetrain {
         // Sensors
 //        leftDistance = hardwareMap.get(Rev2mDistanceSensor.class, names.leftDistance);
 //        rightDistance = hardwareMap.get(Rev2mDistanceSensor.class, names.rightDistance);
-        colorSensor = hardwareMap.get(RevColorSensorV3.class, names.colorSensor);
-        colorSensor.setGain(Constants.gain);
         clawDistance = hardwareMap.get(Rev2mDistanceSensor.class, names.clawDistance);
 //        clawLeftDistance = hardwareMap.get(Rev2mDistanceSensor.class, names.clawLeftDistance);
 //        clawRightDistance = hardwareMap.get(Rev2mDistanceSensor.class, names.clawRightDistance);
@@ -64,8 +61,6 @@ public class Attachments extends Drivetrain {
 //    public double getClawRightDistance() {return clawRightDistance.getDistance(DistanceUnit.INCH)}
 //    public double getClawLeftDistance() {return clawLeftDistance.getDistance(DistanceUnit.INCH)}
     public double getClawDistance() {return clawDistance.getDistance(DistanceUnit.INCH);}
-
-    public NormalizedRGBA getColorValues() {return colorSensor.getNormalizedColors();}
 
     /* ---------------------------------------- SETTERS ---------------------------------------- */
     public void runLiftMotor(double power) {

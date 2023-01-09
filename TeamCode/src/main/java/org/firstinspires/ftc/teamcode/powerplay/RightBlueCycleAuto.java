@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 @Config
 public class RightBlueCycleAuto extends RightCycleAuto {
     public static double autoSlideFirstTall = 0.56;
-    public static double autoSlideTall = 0.9;
+    public static double autoSlideTall = 0.85;
     public static int autoTurnFirstTall = 1650;
     public static int autoTurnTall = 1475;
 
