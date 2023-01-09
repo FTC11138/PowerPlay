@@ -120,11 +120,57 @@ public abstract class AutonomousMethods extends LinearOpMode {
             tp.put("Target", inches * Constants.TICKS_PER_INCH);
             dashboard.sendTelemetryPacket(tp);
 
-            currentAngle = getHorizontalAngle();
-            angleError = loopAround(currentAngle - originalAngle);
-            Log.d("Angle error", angleError + "beep");
-            runMotors(power + angleError * Constants.tskR * Math.signum(inches), power - angleError * Constants.tskR * Math.signum(inches));
-            runMotors(power, power);
+            if (Constants.debugMode) {
+                currentAngle = getHorizontalAngle();
+                angleError = loopAround(currentAngle - originalAngle);
+                Log.d("Angle error", angleError + "beep");
+                runMotors(power + angleError * Constants.tskR * Math.signum(inches), power - angleError * Constants.tskR * Math.signum(inches));
+            } else {
+                runMotors(power, power);
+            }
+        }
+//        Log.d("test test", "test3");
+        runMotors(0, 0);
+        setModeAllDrive(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+    public void encoderStraightDrive(double inches, double power, double slowInch, double slowPow) {
+        double originalAngle = getHorizontalAngle();
+        double currentAngle;
+        double angleError;
+        boolean updated = false;
+
+        setModeAllDrive(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        Log.d("test test", "test2 " + (inches * Constants.TICKS_PER_INCH));
+        ElapsedTime time = new ElapsedTime();
+        multiSetTargetPosition(inches * Constants.TICKS_PER_INCH, myRobot.lb, myRobot.lf, myRobot.rb, myRobot.rf);
+        setModeAllDrive(DcMotor.RunMode.RUN_TO_POSITION);
+        runMotors(power, power);
+        TelemetryPacket tp = new TelemetryPacket();
+
+
+//        Log.d("test test", "test");
+        while (notCloseEnough(20, myRobot.lf, myRobot.rf, myRobot.lb, myRobot.rb) && /*time.milliseconds()<4000 &&*/ opModeIsActive()) {
+            tp.put("Left Front", myRobot.lf.getCurrentPosition());
+            tp.put("Left Back", myRobot.lb.getCurrentPosition());
+            tp.put("Right Front", myRobot.rf.getCurrentPosition());
+            tp.put("Right Back", myRobot.rb.getCurrentPosition());
+            tp.put("Target", inches * Constants.TICKS_PER_INCH);
+            dashboard.sendTelemetryPacket(tp);
+
+            if ((myRobot.lf.getCurrentPosition()/Constants.TICKS_PER_INCH > inches - slowInch) && !updated){
+                power = slowPow;
+                updated = true;
+            }
+
+            if (Constants.debugMode) {
+                currentAngle = getHorizontalAngle();
+                angleError = loopAround(currentAngle - originalAngle);
+                Log.d("Angle error", angleError + "beep");
+                runMotors(power + angleError * Constants.tskR * Math.signum(inches), power - angleError * Constants.tskR * Math.signum(inches));
+            } else {
+                runMotors(power, power);
+            }
         }
 //        Log.d("test test", "test3");
         runMotors(0, 0);
@@ -268,7 +314,7 @@ public abstract class AutonomousMethods extends LinearOpMode {
 //        double currentLiftPosition, currentRPosition;
         myRobot.setSlideServo(Constants.slideIn);
         myRobot.setRotateMotor(0.75, 0);
-        myRobot.setLiftMotor(1,Constants.liftDrive);
+        myRobot.setLiftMotor(1, Constants.liftDrive);
 //        while (opModeIsActive()) {
 //            currentRPosition = myRobot.getRotationMotorPosition();
 //            if (Math.abs(currentRPosition) <= 10) {

@@ -159,6 +159,8 @@ public class Constants {
     public static double setVerticalDisCap = 36;
     public static double test1 = 48;
     public static double test2 = -1;
+    public static double test3 = 5;
+    public static double test4 = -0.5;
 
     // Lift PID
     public static double liftkP = 0.005; // 10

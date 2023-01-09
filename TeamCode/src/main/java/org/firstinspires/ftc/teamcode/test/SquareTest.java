@@ -24,18 +24,10 @@ public class SquareTest extends AutonomousMethods {
 
 //        encoderStrafeDriveInchesRight(50, 0.5);
         while (opModeIsActive()) {
-            myRobot.lb.setVelocityPIDFCoefficients(Constants.drivekP, Constants.drivekI, Constants.drivekD, Constants.drivekF);
-            myRobot.lb.setPositionPIDFCoefficients(Constants.drivePoskP);
-            myRobot.lf.setVelocityPIDFCoefficients(Constants.drivekP, Constants.drivekI, Constants.drivekD, Constants.drivekF);
-            myRobot.lf.setPositionPIDFCoefficients(Constants.drivePoskP);
-            myRobot.rb.setVelocityPIDFCoefficients(Constants.drivekP, Constants.drivekI, Constants.drivekD, Constants.drivekF);
-            myRobot.rb.setPositionPIDFCoefficients(Constants.drivePoskP);
-            myRobot.rf.setVelocityPIDFCoefficients(Constants.drivekP, Constants.drivekI, Constants.drivekD, Constants.drivekF);
-            myRobot.rf.setPositionPIDFCoefficients(Constants.drivePoskP);
-            encoderStraightDrive(Constants.test1, Constants.test2);
+            encoderStraightDrive(Constants.test1, Constants.test2, Constants.test3, Constants.test4);
             encoderTurn(0, 0.3, 1);
             sleep(1000);
-            encoderStraightDrive(-Constants.test1, Constants.test2);
+            encoderStraightDrive(-Constants.test1, Constants.test2, Constants.test3, Constants.test4);
             encoderTurn(0, 0.3, 1);
             sleep(1000);
         }
