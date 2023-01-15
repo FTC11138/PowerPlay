@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.powerplay.AutonomousMethods;
 import org.firstinspires.ftc.teamcode.powerplay.Constants;
 
 @Autonomous(name = "SquareTest", group = "Linear Opmode")
-@Disabled
+//@Disabled
 public class SquareTest extends AutonomousMethods {
 
     private ElapsedTime runtime = new ElapsedTime();
@@ -22,15 +22,18 @@ public class SquareTest extends AutonomousMethods {
 
         sleep(120);
 
+        encoderStraightDrive(Constants.test1, Constants.test2, Constants.test3, Constants.test4);
+        encoderTurn(0, 0.5, 1);
+        sleep(1000);
 //        encoderStrafeDriveInchesRight(50, 0.5);
-        while (opModeIsActive()) {
-            encoderStraightDrive(Constants.test1, Constants.test2, Constants.test3, Constants.test4);
-            encoderTurn(0, 0.3, 1);
-            sleep(1000);
-            encoderStraightDrive(-Constants.test1, Constants.test2, Constants.test3, Constants.test4);
-            encoderTurn(0, 0.3, 1);
-            sleep(1000);
-        }
+//        for (int i = 0; i < 3 && opModeIsActive(); i++) {
+//            encoderStraightDrive(Constants.test1, Constants.test2, Constants.test3, Constants.test4);
+//            encoderTurn(0, 0.3, 1);
+//            sleep(1000);
+//            encoderStraightDrive(-Constants.test1, Constants.test2, Constants.test3, Constants.test4);
+//            encoderTurn(0, 0.3, 1);
+//            sleep(1000);
+//        }
         //        encoderStrafeDriveInchesRight(-50, 0.5);
 //        encoderStraightDrive(22,0.5);
     }

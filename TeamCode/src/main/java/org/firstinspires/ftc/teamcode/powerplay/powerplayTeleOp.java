@@ -144,7 +144,7 @@ public class powerplayTeleOp extends OpMode {
 
         if (gamepad2.dpad_right && dpadrchill == Constants.buttonDelay) {
             useRotatePower = true;
-            slidePosition = Math.max(Constants.slideIn, cycleSlidePos);
+            slidePosition = Math.min(Constants.slideIn, cycleSlidePos);
             myRobot.setSlideServo(slidePosition);
             if (cycleRPos == Constants.rot180R) {
                 if (Math.abs(currentRPosition - Constants.rot180L) < (Math.abs(currentRPosition - Constants.rot180R))) {
@@ -216,13 +216,13 @@ public class powerplayTeleOp extends OpMode {
         double extJoystick = gamepad2.right_stick_y;
         if (extJoystick > 0.2) {
             // User trying to slide out by pushing the joystick up
-            if (slidePosition > Constants.slideOut) {
-                slidePosition += Constants.slideSpeed * extJoystick;
+            if (slidePosition < Constants.slideOut) {
+                slidePosition -= Constants.slideSpeed * extJoystick;
             }
         } else if (extJoystick < -0.2) {
             // User trying to slide in by pushing the joystick down
-            if (slidePosition < Constants.slideIn) {
-                slidePosition += Constants.slideSpeed * extJoystick;
+            if (slidePosition > Constants.slideIn) {
+                slidePosition -= Constants.slideSpeed * extJoystick;
             }
         }
 

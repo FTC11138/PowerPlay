@@ -71,8 +71,8 @@ public abstract class RightCycleAuto extends AutonomousMethods {
         {
             myRobot.setLiftMotor(1, Constants.liftHigh);
             myRobot.setRotateMotor(0.75, Constants.rot90R);
-            encoderStraightDrive(-48, 0.5);
-            encoderTurn(0, 0.3, 1);
+            encoderStraightDrive(-48, 1, 10, 0.75);
+            encoderTurn(0, 0.5, 1);
         }
         while (myRobot.rotateMotor.isBusy()) {
         }
@@ -94,14 +94,15 @@ public abstract class RightCycleAuto extends AutonomousMethods {
         sleep(300);
         myRobot.setRotateMotor(0.75, Constants.rot90LLong);
         myRobot.setLiftMotor(1, 4 * Constants.autoLiftCone);
-        encoderTurn(0, 0.3, 1);
+        encoderTurn(0, 0.5, 1);
         while (myRobot.rotateMotor.isBusy() || myRobot.liftMotor.isBusy()) {
         }
         do {
             myRobot.setLiftMotor(1, 4 * Constants.autoLiftCone);
+//            myRobot.setSlideServo(Constants.autoSlideCycle - 0.2);
+//            while (myRobot.liftMotor.isBusy()) {
+//            }
             myRobot.setSlideServo(Constants.autoSlideCycle);
-            while (myRobot.liftMotor.isBusy()) {
-            }
             toTargetDistance(Constants.autoDistCycle, true, 0.5, 5000, 15, 0.5);
         }
         while ((dropCone(Constants.liftHigh, 4 * Constants.autoLiftCone + Constants.coneDodge, autoTurnTall, autoSlideTall) == -1)

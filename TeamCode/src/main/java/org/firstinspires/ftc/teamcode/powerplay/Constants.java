@@ -22,8 +22,8 @@ public class Constants {
     public static double clawClose = 0.53;
     public static double autoClawClose = 2.5;
     public static double autoClawReset = 5;
-    public static double slideSpeed = -0.05;
-    public static int slideWaitRatio = 2500; // Adjusted value for slide movement to millseconds ratio (does not work well)
+    public static double slideSpeed = 0.05;
+    public static int slideWaitRatio = 2500; // Adjusted value for slide movement to milliseconds ratio (does not work well)
     public static int slideWaitARatio = 715; // Actual slide movement to milliseconds ratio
     public static int slideRetractWait = 200;
     public static int slideDelay = 1000;
@@ -32,7 +32,7 @@ public class Constants {
     public static int clawOpenDelay = 200;
     public static double cycleTime = 5500;
 
-    public static int autoLiftCone = -41; // encoder value to increase by per cone in stack
+    public static int autoLiftCone = -15; // encoder value to increase by per cone in stack
     public static double liftUpRatio = 1;
     public static double liftDownRatio = 0.8;
     public static double liftSlow = -500;
@@ -53,7 +53,7 @@ public class Constants {
     public static double liftMinPow = 0.1;
     public static int liftkPTele = 10;
     public static int liftTolerance = 15;
-    public static int coneDodge = -375;
+    public static int coneDodge = -142;
     public static int junctionDodge = 222;
 
     // Rotation Positions
@@ -140,7 +140,7 @@ public class Constants {
     public static double straightTestDist = 75;
     public static double straightTestPow = 0.7;
 
-    public static boolean debugMode = true; // Change it to FALSE before the competition!!!!
+    public static boolean debugMode = false; // Change it to FALSE before the competition!!!!
 
     //tensorflow constants
     public static double magnitude = 1;
@@ -157,10 +157,10 @@ public class Constants {
     public static double setDiagonalMaxSpeed = 1;
     public static double setHorizontalDisCap = 24;
     public static double setVerticalDisCap = 36;
-    public static double test1 = 48;
-    public static double test2 = -1;
-    public static double test3 = 5;
-    public static double test4 = -0.5;
+    public static double test1 = -48;
+    public static double test2 = 1;
+    public static double test3 = 0;
+    public static double test4 = 1;
 
     // Lift PID
     public static double liftkP = 0.005; // 10

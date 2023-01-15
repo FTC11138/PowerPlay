@@ -98,46 +98,10 @@ public abstract class AutonomousMethods extends LinearOpMode {
     }
 
     public void encoderStraightDrive(double inches, double power) {
-        double originalAngle = getHorizontalAngle();
-        double currentAngle;
-        double angleError;
-
-        setModeAllDrive(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        Log.d("test test", "test2 " + (inches * Constants.TICKS_PER_INCH));
-        ElapsedTime time = new ElapsedTime();
-        multiSetTargetPosition(inches * Constants.TICKS_PER_INCH, myRobot.lb, myRobot.lf, myRobot.rb, myRobot.rf);
-        setModeAllDrive(DcMotor.RunMode.RUN_TO_POSITION);
-        runMotors(power, power);
-        TelemetryPacket tp = new TelemetryPacket();
-
-
-//        Log.d("test test", "test");
-        while (notCloseEnough(20, myRobot.lf, myRobot.rf, myRobot.lb, myRobot.rb) && /*time.milliseconds()<4000 &&*/ opModeIsActive()) {
-            tp.put("Left Front", myRobot.lf.getCurrentPosition());
-            tp.put("Left Back", myRobot.lb.getCurrentPosition());
-            tp.put("Right Front", myRobot.rf.getCurrentPosition());
-            tp.put("Right Back", myRobot.rb.getCurrentPosition());
-            tp.put("Target", inches * Constants.TICKS_PER_INCH);
-            dashboard.sendTelemetryPacket(tp);
-
-            if (Constants.debugMode) {
-                currentAngle = getHorizontalAngle();
-                angleError = loopAround(currentAngle - originalAngle);
-                Log.d("Angle error", angleError + "beep");
-                runMotors(power + angleError * Constants.tskR * Math.signum(inches), power - angleError * Constants.tskR * Math.signum(inches));
-            } else {
-                runMotors(power, power);
-            }
-        }
-//        Log.d("test test", "test3");
-        runMotors(0, 0);
-        setModeAllDrive(DcMotor.RunMode.RUN_USING_ENCODER);
+        encoderStraightDrive(inches, power, 0, power);
     }
 
     public void encoderStraightDrive(double inches, double power, double slowInch, double slowPow) {
-        double originalAngle = getHorizontalAngle();
-        double currentAngle;
-        double angleError;
         boolean updated = false;
 
         setModeAllDrive(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -158,19 +122,11 @@ public abstract class AutonomousMethods extends LinearOpMode {
             tp.put("Target", inches * Constants.TICKS_PER_INCH);
             dashboard.sendTelemetryPacket(tp);
 
-            if ((myRobot.lf.getCurrentPosition()/Constants.TICKS_PER_INCH > inches - slowInch) && !updated){
+            if ((Math.abs(myRobot.lf.getCurrentPosition()) / Constants.TICKS_PER_INCH > Math.abs(inches) - slowInch) && !updated) {
                 power = slowPow;
                 updated = true;
             }
-
-            if (Constants.debugMode) {
-                currentAngle = getHorizontalAngle();
-                angleError = loopAround(currentAngle - originalAngle);
-                Log.d("Angle error", angleError + "beep");
-                runMotors(power + angleError * Constants.tskR * Math.signum(inches), power - angleError * Constants.tskR * Math.signum(inches));
-            } else {
-                runMotors(power, power);
-            }
+            runMotors(power, power);
         }
 //        Log.d("test test", "test3");
         runMotors(0, 0);
@@ -219,7 +175,7 @@ public abstract class AutonomousMethods extends LinearOpMode {
     public int dropCone(int liftTarget, int rotStart, int rotTarget, double slideTarget) {
         myRobot.setClawServo(Constants.clawClose);
         sleep(Constants.clawCloseDelay);
-        myRobot.setSlideServo(Constants.autoSlideCycle + Constants.slideCycleShorten);
+        myRobot.setSlideServo(Constants.autoSlideCycle - Constants.slideCycleShorten);
         sleep((long) (Constants.slideCycleShorten * Constants.slideWaitARatio));
 
         myRobot.setLiftMotor(1, liftTarget);
@@ -234,7 +190,7 @@ public abstract class AutonomousMethods extends LinearOpMode {
             return -1;
         } else {
             myRobot.setSlideServo(Constants.slideOpt);
-            sleep((long) Math.abs(Constants.autoSlideCycle + Constants.slideCycleShorten - Constants.slideOpt) * Constants.slideWaitARatio);
+            sleep((long) Math.abs(Constants.autoSlideCycle - Constants.slideCycleShorten - Constants.slideOpt) * Constants.slideWaitARatio);
             myRobot.setRotateMotor(0.75, rotTarget);
             while (myRobot.rotateMotor.isBusy()) {
             }
