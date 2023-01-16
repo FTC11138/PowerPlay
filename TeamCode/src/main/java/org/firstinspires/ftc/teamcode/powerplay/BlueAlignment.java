@@ -51,11 +51,24 @@ public class BlueAlignment extends AutonomousMethods {
         waitForStart();
         runtime.reset();
 
+//        cameraError = (coneAlignPipeline.getMiddle() - 960) * Constants.alignRatio;
+//        encoderStraightDrive(cameraError, 0.3);
+//        telemetry.addData("Middle", coneAlignPipeline.getMiddle());
+//        telemetry.addData("Traveling", cameraError);
+//        telemetry.update();
+//        sleep(2500);
+
+        {
+            myRobot.setLiftMotor(1, Constants.liftHigh);
+            myRobot.setRotateMotor(0.75, Constants.rot90R);
+            encoderStraightDrive(-48, 1, 16, 0.5);
+            encoderTurn(0, 0.5, 1);
+        }
+        while (myRobot.rotateMotor.isBusy()) {
+        }
+        sleep(500);
         cameraError = (coneAlignPipeline.getMiddle() - 960) * Constants.alignRatio;
         encoderStraightDrive(cameraError, 0.3);
-        telemetry.addData("Middle", coneAlignPipeline.getMiddle());
-        telemetry.addData("Traveling", cameraError);
-        telemetry.update();
-        sleep(2500);
+        sleep(5000);
     }
 }

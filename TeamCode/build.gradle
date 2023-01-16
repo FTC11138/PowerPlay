@@ -21,18 +21,6 @@ android {
     packagingOptions {
         jniLibs.useLegacyPackaging true
     }
-
-    // todo old stuff
-//    packagingOptions {
-//        jniLibs {
-//            pickFirsts += ['**/*.so', '**/*.so']
-//        }
-//    }
-//    namespace = 'org.firstinspires.ftc.teamcode'
-//    buildToolsVersion '33.0.0'
-//    androidResources {
-//        noCompress 'tflite'
-//    }
 }
 
 dependencies {
