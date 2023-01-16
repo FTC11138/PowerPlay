@@ -71,7 +71,7 @@ public abstract class RightCycleAuto extends AutonomousMethods {
         {
             myRobot.setLiftMotor(1, Constants.liftHigh);
             myRobot.setRotateMotor(0.75, Constants.rot90R);
-            encoderStraightDrive(-48, 1, 10, 0.75);
+            encoderStraightDrive(-48, 1, 16, 0.5);
             encoderTurn(0, 0.5, 1);
         }
         while (myRobot.rotateMotor.isBusy()) {
@@ -90,8 +90,8 @@ public abstract class RightCycleAuto extends AutonomousMethods {
         myRobot.setClawServo(Constants.clawOpen);
         sleep(Constants.clawOpenDelay);
 
-        myRobot.setSlideServo(Constants.slideOpt);
-        sleep(300);
+        myRobot.setSlideServo(Constants.autoSlideCycle - Constants.slideCycleBack);
+        sleep(100);
         myRobot.setRotateMotor(0.75, Constants.rot90LLong);
         myRobot.setLiftMotor(1, 4 * Constants.autoLiftCone);
         encoderTurn(0, 0.5, 1);
@@ -122,7 +122,7 @@ public abstract class RightCycleAuto extends AutonomousMethods {
             // Drop cone
             while ((dropCone(Constants.liftHigh, i * Constants.autoLiftCone + Constants.coneDodge, autoTurnTall, autoSlideTall) == -1)
                     && ((30000 - (runtime.milliseconds() - overallStart)) > parkBuffer + 5000)) {
-                myRobot.setSlideServo(Constants.autoSlideCycle + Constants.slideCycleBack);
+                myRobot.setSlideServo(Constants.autoSlideCycle - Constants.slideCycleBack);
                 myRobot.setClawServo(Constants.clawOpen);
                 myRobot.setLiftMotor(1, i * Constants.autoLiftCone);
                 while (myRobot.liftMotor.isBusy()) {

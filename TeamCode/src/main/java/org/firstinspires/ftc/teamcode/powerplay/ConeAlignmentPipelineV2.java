@@ -36,9 +36,10 @@ class ConeAlignmentPipelineV2 extends OpenCvPipeline {
         Imgproc.morphologyEx(mask, mask, Imgproc.MORPH_OPEN, kernel);
         if (Constants.debugMode) {
             mask.copyTo(input);
-        } else {
-            Core.bitwise_or(input, input, input, mask);
         }
+//        else {
+//            Core.bitwise_or(input, input, input, mask);
+//        }
         detectCone(mask);
         yCrCb.release(); // don't leak memory!
         mask.release();

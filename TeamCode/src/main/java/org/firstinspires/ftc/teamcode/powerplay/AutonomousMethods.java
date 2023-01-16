@@ -189,13 +189,20 @@ public abstract class AutonomousMethods extends LinearOpMode {
             sleep(Constants.clawOpenDelay);
             return -1;
         } else {
-            myRobot.setSlideServo(Constants.slideOpt);
-            sleep((long) Math.abs(Constants.autoSlideCycle - Constants.slideCycleShorten - Constants.slideOpt) * Constants.slideWaitARatio);
+//            myRobot.setSlideServo(Constants.slideIn);
+//            sleep((long) Math.abs(Constants.autoSlideCycle - Constants.slideCycleShorten - Constants.slideIn) * Constants.slideWaitARatio);
             myRobot.setRotateMotor(0.75, rotTarget);
             while (myRobot.rotateMotor.isBusy()) {
+                myRobot.setLiftMotor(0.5, liftTarget);
+                if (myRobot.getClawDistance() > 4) {
+                    myRobot.setClawServo(Constants.clawOpen);
+                    myRobot.runLiftMotor(0);
+                    sleep(Constants.clawOpenDelay);
+                    return -2;
+                }
             }
             myRobot.setSlideServo(slideTarget);
-            sleep(750);
+            sleep(250);
             myRobot.setLiftMotor(1, liftTarget + 200);
             sleep(300);
             myRobot.setClawServo(Constants.clawOpen);
@@ -209,8 +216,8 @@ public abstract class AutonomousMethods extends LinearOpMode {
     public void resetCycle(int liftTarget, int rotTarget, double slideTarget) {
         double startRPosition = myRobot.getRotationMotorPosition();
         double currentRPosition;
-        myRobot.setSlideServo(Constants.slideOpt);
-        sleep((long) Math.abs(Constants.autoSlideCycle + Constants.slideCycleShorten - Constants.slideOpt) * Constants.slideWaitARatio);
+        myRobot.setSlideServo(slideTarget);
+        sleep(250);
         myRobot.setRotateMotor(0.75, rotTarget);
         int stage = 1;
         while (opModeIsActive() && stage <= 4) {
@@ -235,12 +242,12 @@ public abstract class AutonomousMethods extends LinearOpMode {
                     stage = 4 + 1;
             }
         }
+//        myRobot.setSlideServo(slideTarget);
         while (myRobot.rotateMotor.isBusy()) {
         }
-        myRobot.setSlideServo(slideTarget);
         while (myRobot.liftMotor.isBusy()) {
         }
-        sleep(250);
+//        sleep(250);
     }
 
     public void park(boolean isRight, int signal) {

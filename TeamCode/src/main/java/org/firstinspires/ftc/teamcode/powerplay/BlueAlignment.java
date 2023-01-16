@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.powerplay;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
@@ -10,7 +12,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
 @Autonomous
-@Disabled
+//@Disabled
 public class BlueAlignment extends AutonomousMethods {
     static final int STREAM_WIDTH = 1920; // modify for your camera
     static final int STREAM_HEIGHT = 1080; // modify for your camera
@@ -24,6 +26,7 @@ public class BlueAlignment extends AutonomousMethods {
     public void runOpMode() throws InterruptedException {
         // Initialize all the parts of the robot
         initializeAuto(hardwareMap, telemetry);
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         // Set up camera
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -50,6 +53,9 @@ public class BlueAlignment extends AutonomousMethods {
 
         cameraError = (coneAlignPipeline.getMiddle() - 960) * Constants.alignRatio;
         encoderStraightDrive(cameraError, 0.3);
+        telemetry.addData("Middle", coneAlignPipeline.getMiddle());
+        telemetry.addData("Traveling", cameraError);
+        telemetry.update();
         sleep(2500);
     }
 }

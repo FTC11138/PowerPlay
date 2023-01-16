@@ -121,7 +121,7 @@ public abstract class LeftCycleAuto extends AutonomousMethods {
             // Drop cone
             while ((dropCone(Constants.liftHigh, i * Constants.autoLiftCone + Constants.coneDodge, autoTurnTall, autoSlideTall) == -1)
                     && ((30000 - (runtime.milliseconds() - overallStart)) > parkBuffer + 5000)) {
-                myRobot.setSlideServo(Constants.autoSlideCycle + Constants.slideCycleBack);
+                myRobot.setSlideServo(Constants.autoSlideCycle - Constants.slideCycleBack);
                 myRobot.setClawServo(Constants.clawOpen);
                 myRobot.setLiftMotor(1, i * Constants.autoLiftCone);
                 while (myRobot.liftMotor.isBusy()) {
