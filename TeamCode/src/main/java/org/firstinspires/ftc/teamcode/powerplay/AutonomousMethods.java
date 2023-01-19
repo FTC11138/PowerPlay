@@ -76,10 +76,10 @@ public abstract class AutonomousMethods extends LinearOpMode {
     }
 
     public void runMotors(double leftPower, double rightPower) {
-        myRobot.lb.setPower(leftPower);
         myRobot.lf.setPower(leftPower);
-        myRobot.rb.setPower(rightPower);
         myRobot.rf.setPower(rightPower);
+        myRobot.rb.setPower(rightPower);
+        myRobot.lb.setPower(leftPower);
     }
 
     private void multiSetTargetPosition(double ticks, DcMotor... motors) {
