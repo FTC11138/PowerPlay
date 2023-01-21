@@ -71,7 +71,7 @@ public abstract class RightCycleAuto extends AutonomousMethods {
         {
             myRobot.setLiftMotor(1, Constants.liftHigh);
             myRobot.setRotateMotor(0.75, Constants.rot90R);
-            encoderStraightDrive(-48, 1, 16, 0.5);
+            encoderStraightDrive(-48, 1, 24, 0.5);
             encoderTurn(0, 0.5, 1);
         }
         while (myRobot.rotateMotor.isBusy()) {
