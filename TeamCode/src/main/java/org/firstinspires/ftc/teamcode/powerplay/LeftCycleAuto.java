@@ -71,8 +71,8 @@ public abstract class LeftCycleAuto extends AutonomousMethods {
         {
             myRobot.setLiftMotor(1, Constants.liftHigh);
             myRobot.setRotateMotor(0.75, Constants.rot90L);
-            encoderStraightDrive(-48, 0.5);
-            encoderTurn(0, 0.3, 1);
+            encoderStraightDrive(-48, 1, 24, 0.5);
+            encoderTurn(0, 0.5, 1);
         }
         while (myRobot.rotateMotor.isBusy()) {
         }
@@ -90,18 +90,16 @@ public abstract class LeftCycleAuto extends AutonomousMethods {
         myRobot.setClawServo(Constants.clawOpen);
         sleep(Constants.clawOpenDelay);
 
-        myRobot.setSlideServo(Constants.slideOpt);
-        sleep(300);
+        myRobot.setSlideServo(Constants.autoSlideCycle - Constants.slideCycleBack);
+        sleep(100);
         myRobot.setRotateMotor(0.75, Constants.rot90RLong);
         myRobot.setLiftMotor(1, 4 * Constants.autoLiftCone);
-        encoderTurn(0, 0.3, 1);
+        encoderTurn(0, 0.5, 1);
         while (myRobot.rotateMotor.isBusy() || myRobot.liftMotor.isBusy()) {
         }
         do {
             myRobot.setLiftMotor(1, 4 * Constants.autoLiftCone);
             myRobot.setSlideServo(Constants.autoSlideCycle);
-            while (myRobot.liftMotor.isBusy()) {
-            }
             toTargetDistance(Constants.autoDistCycle, false, 0.5, 5000, 15, 0.5);
         }
         while ((dropCone(Constants.liftHigh, 4 * Constants.autoLiftCone + Constants.coneDodge, autoTurnTall, autoSlideTall) == -1)

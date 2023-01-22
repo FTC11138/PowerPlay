@@ -99,9 +99,6 @@ public abstract class RightCycleAuto extends AutonomousMethods {
         }
         do {
             myRobot.setLiftMotor(1, 4 * Constants.autoLiftCone);
-//            myRobot.setSlideServo(Constants.autoSlideCycle - 0.2);
-//            while (myRobot.liftMotor.isBusy()) {
-//            }
             myRobot.setSlideServo(Constants.autoSlideCycle);
             toTargetDistance(Constants.autoDistCycle, true, 0.5, 5000, 15, 0.5);
         }

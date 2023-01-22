@@ -217,12 +217,12 @@ public class powerplayTeleOp extends OpMode {
         if (extJoystick > 0.2) {
             // User trying to slide out by pushing the joystick up
             if (slidePosition < Constants.slideOut) {
-                slidePosition -= Constants.slideSpeed * extJoystick;
+                slidePosition += Constants.slideSpeed * extJoystick;
             }
         } else if (extJoystick < -0.2) {
             // User trying to slide in by pushing the joystick down
             if (slidePosition > Constants.slideIn) {
-                slidePosition -= Constants.slideSpeed * extJoystick;
+                slidePosition += Constants.slideSpeed * extJoystick;
             }
         }
 
