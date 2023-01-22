@@ -9,19 +9,19 @@ public class Constants {
     // PowerPlay Stuff
     public static double parkBuffer = 2500;
 
-    public static double slideIn = 0.1;
+    public static double slideIn = 0.305;
     public static double slideOut = 1;
     public static double slideOpt = 0.35; // Optimal slide position for rotation
     public static double slideMed = 0.75;
 //    public static double autoSlideTurn = 0.45;
 //    public static double autoSlideOut = 0.15;
-    public static double autoSlideCycle = 0.86;
-    public static double slideCycleBack = 0.3;
+    public static double autoSlideCycle = 0.85;
+    public static double slideCycleBack = 0.15;
     public static double autoDistCycle = 2.5; // inches to be away from cone
     public static double clawOpen = 0.4;
-    public static double clawClose = 0.52;
-    public static double autoClawClose = 2.5;
-    public static double autoClawReset = 5;
+    public static double clawClose = 0.54; // old claw was 0.53
+//    public static double autoClawClose = 2.5;
+//    public static double autoClawReset = 5;
     public static double slideSpeed = 0.05;
     public static int slideWaitRatio = 2500; // Adjusted value for slide movement to milliseconds ratio (does not work well)
     public static int slideWaitARatio = 715; // Actual slide movement to milliseconds ratio
@@ -30,7 +30,7 @@ public class Constants {
     public static double slideCycleShorten = 0.05;
     public static int clawCloseDelay = 400;
     public static int clawOpenDelay = 200;
-    public static double cycleTime = 5500;
+    public static double cycleTime = 5000;
 
     public static int autoLiftCone = -45; // encoder value to increase by per cone in stack
     public static double liftUpRatio = 1;
@@ -42,12 +42,12 @@ public class Constants {
 
     // Lift Positions
     public static double newLiftRatio = 145.1 / 384.5;
-    public static int liftHigh = -1100;
-    public static int liftMed = -2200;
-    public static int liftLow = -1400;
+    public static int liftHigh = -1125;
+//    public static int liftMed = -2200;
+//    public static int liftLow = -1400;
     public static int liftFloor = -75;
     public static int liftSpin = -400;
-    public static int liftMax = -1100;
+    public static int liftMax = -1175;
     public static int liftMin = 0;
     public static int liftDrive = -500;
     public static double liftMinPow = 0.1;
@@ -68,6 +68,7 @@ public class Constants {
     public static int rot90LLong = 4270-1081;
     public static int rot90R = 1081;
     public static int rot90RLong = -4270+1081;
+    public static int earlyRotDrop = 225;
     public static int rot45L = -300;
     public static int rot45R = 300;
     public static int rotDiagBackR = 1875;

@@ -191,9 +191,10 @@ public abstract class AutonomousMethods extends LinearOpMode {
         } else {
 //            myRobot.setSlideServo(Constants.slideIn);
 //            sleep((long) Math.abs(Constants.autoSlideCycle - Constants.slideCycleShorten - Constants.slideIn) * Constants.slideWaitARatio);
-            myRobot.setRotateMotor(0.75, rotTarget);
-            while (myRobot.rotateMotor.isBusy()) {
-                myRobot.setLiftMotor(0.5, liftTarget);
+            myRobot.setSlideServo(slideTarget);
+            sleep(250);
+            myRobot.setRotateMotor(0.5, rotTarget);
+            while (Math.abs(myRobot.rotateMotor.getCurrentPosition() - rotTarget) > Constants.earlyRotDrop) {
                 if (myRobot.getClawDistance() > 4) {
                     myRobot.setClawServo(Constants.clawOpen);
                     myRobot.runLiftMotor(0);
@@ -201,10 +202,7 @@ public abstract class AutonomousMethods extends LinearOpMode {
                     return -2;
                 }
             }
-            myRobot.setSlideServo(slideTarget);
-            sleep(250);
             myRobot.setLiftMotor(1, liftTarget + 200);
-            sleep(300);
             myRobot.setClawServo(Constants.clawOpen);
             sleep(Constants.clawOpenDelay);
             return 0;
@@ -239,13 +237,12 @@ public abstract class AutonomousMethods extends LinearOpMode {
                     break;
                 case 4:
                     myRobot.setLiftMotor(1, liftTarget);
+                    myRobot.setSlideServo(slideTarget + Constants.slideCycleBack);
                     stage = 4 + 1;
             }
         }
 //        myRobot.setSlideServo(slideTarget);
-        while (myRobot.rotateMotor.isBusy()) {
-        }
-        while (myRobot.liftMotor.isBusy()) {
+        while (myRobot.rotateMotor.isBusy() || myRobot.liftMotor.isBusy()) {
         }
 //        sleep(250);
     }
