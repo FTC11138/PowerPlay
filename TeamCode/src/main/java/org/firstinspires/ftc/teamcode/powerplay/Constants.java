@@ -19,6 +19,7 @@ public class Constants {
     public static double slideCycleBack = 0.15;
     public static double autoDistCycle = 2.5; // inches to be away from cone
     public static double clawOpen = 0.4;
+    public static double clawFurtherOpen = 0.25;
     public static double clawClose = 0.54; // old claw was 0.53
 //    public static double autoClawClose = 2.5;
 //    public static double autoClawReset = 5;
@@ -46,10 +47,10 @@ public class Constants {
 //    public static int liftMed = -2200;
 //    public static int liftLow = -1400;
     public static int liftFloor = -75;
-    public static int liftSpin = -400;
+    public static int liftSpin = -175;
     public static int liftMax = -1175;
     public static int liftMin = 0;
-    public static int liftDrive = -500;
+    public static int liftDrive = -250;
     public static double liftMinPow = 0.1;
     public static int liftkPTele = 10;
     public static int liftTolerance = 15;
@@ -68,7 +69,7 @@ public class Constants {
     public static int rot90LLong = 4270-1081;
     public static int rot90R = 1081;
     public static int rot90RLong = -4270+1081;
-    public static int earlyRotDrop = 225;
+    public static int earlyRotDrop = 25;
     public static int rot45L = -300;
     public static int rot45R = 300;
     public static int rotDiagBackR = 1875;

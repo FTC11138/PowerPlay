@@ -202,8 +202,11 @@ public abstract class AutonomousMethods extends LinearOpMode {
                     return -2;
                 }
             }
+            myRobot.setSlideServo(slideTarget);
+            sleep(750);
             myRobot.setLiftMotor(1, liftTarget + 200);
-            myRobot.setClawServo(Constants.clawOpen);
+            sleep(250);
+            myRobot.setClawServo(Constants.clawFurtherOpen);
             sleep(Constants.clawOpenDelay);
             return 0;
         }
@@ -228,6 +231,7 @@ public abstract class AutonomousMethods extends LinearOpMode {
                     break;
                 case 2:
                     myRobot.setLiftMotor(1, liftTarget + Constants.coneDodge);
+                    myRobot.setClawServo(Constants.clawOpen);
                     stage++;
                     break;
                 case 3:
@@ -273,8 +277,9 @@ public abstract class AutonomousMethods extends LinearOpMode {
 //        double startRPosition = myRobot.getRotationMotorPosition();
 //        double currentLiftPosition, currentRPosition;
         myRobot.setSlideServo(Constants.slideIn);
+        myRobot.setClawServo(Constants.clawOpen);
         myRobot.setRotateMotor(0.75, 0);
-        myRobot.setLiftMotor(1, Constants.liftDrive);
+        myRobot.setLiftMotor(1, Constants.liftSpin);
 //        while (opModeIsActive()) {
 //            currentRPosition = myRobot.getRotationMotorPosition();
 //            if (Math.abs(currentRPosition) <= 10) {

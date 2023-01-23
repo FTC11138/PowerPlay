@@ -6,10 +6,10 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 @Autonomous(name = "Right Blue Cycle", group = "Linear Opmode", preselectTeleOp = "TeleOp")
 @Config
 public class RightBlueCycleAuto extends RightCycleAuto {
-    public static double autoSlideFirstTall = 0.68;
-    public static double autoSlideTall = 0.85;
-    public static int autoTurnFirstTall = 1580;
-    public static int autoTurnTall = 1465;
+    public static double autoSlideFirstTall = 0.625;
+    public static double autoSlideTall = 0.78;
+    public static int autoTurnFirstTall = 1565;
+    public static int autoTurnTall = 1435;
 
     @Override
     public boolean isRed() {
