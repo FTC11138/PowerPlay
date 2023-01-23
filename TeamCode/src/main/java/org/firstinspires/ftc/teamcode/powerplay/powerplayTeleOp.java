@@ -20,6 +20,7 @@ public class powerplayTeleOp extends OpMode {
     private double liftPower = 0;
     private int liftTarget = 0;
     private boolean useLiftPower = true;
+    private boolean liftModeUpdate = false;
     private double rotatePower = 0;
     private int rotateTarget = 0;
     private boolean useRotatePower = true;
@@ -45,6 +46,7 @@ public class powerplayTeleOp extends OpMode {
     private int rtrigchill = Constants.buttonDelay;
     private int dpadrchill = Constants.buttonDelay;
     private int dpadlchill = Constants.buttonDelay;
+    private int limitbumpchill = Constants.buttonDelay;
     private int stage = -1;
 
     /*
@@ -272,17 +274,22 @@ public class powerplayTeleOp extends OpMode {
         }
 
 
-        // Rotating turntable by position
+        // Reset lift encoder or hold lift in place
         if (gamepad2.x) {
-            useRotatePower = false;
-            if (Math.abs(currentRPosition - Constants.rot180L) < (Math.abs(currentRPosition - Constants.rot180R))) {
-                rotateTarget = Constants.rot180L;
-            } else {
-                rotateTarget = Constants.rot180R;
-            }
+            useLiftPower = true;
+            myRobot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            myRobot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//            useRotatePower = false;
+//            if (Math.abs(currentRPosition - Constants.rot180L) < (Math.abs(currentRPosition - Constants.rot180R))) {
+//                rotateTarget = Constants.rot180L;
+//            } else {
+//                rotateTarget = Constants.rot180R;
+//            }
         } else if (gamepad2.y) {
-            useRotatePower = false;
-            rotateTarget = 0;
+            useLiftPower = false;
+            liftTarget = (int) currentLiftPosition;
+//            useRotatePower = false;
+//            rotateTarget = 0;
         }
 
         if (gamepad2.left_trigger > 0.75 && ltrigchill == Constants.buttonDelay) {
@@ -328,8 +335,12 @@ public class powerplayTeleOp extends OpMode {
         }
 
         // Commented so the robot doesnt EXPLODE mid game
-        if (gamepad1.right_bumper) {
+        if (gamepad1.right_bumper && limitbumpchill == Constants.buttonDelay) {
             limits = !limits;
+            limitbumpchill = 0;
+        }
+        if (limitbumpchill < Constants.buttonDelay) {
+            limitbumpchill++;
         }
 
         /* ------------------------------------ Action ------------------------------------ */
@@ -339,6 +350,10 @@ public class powerplayTeleOp extends OpMode {
         myRobot.setSlideServo(slidePosition);
 
         if (useLiftPower) {
+            if (liftModeUpdate) {
+                myRobot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                liftModeUpdate = false;
+            }
             myRobot.runLiftMotor(liftPower);
         } else {
             // Limit so the lift doesnt go down ontop of the base
@@ -413,6 +428,9 @@ public class powerplayTeleOp extends OpMode {
             }
             telemetry.addData("Lift Motor", newPower);
             myRobot.runLiftMotor(newPower);
+        } else if (position != 0) {
+            myRobot.setLiftMotor(0.5, position);
+            liftModeUpdate = true;
         } else {
             myRobot.runLiftMotor(0);
         }
