@@ -21,6 +21,7 @@ public class powerplayTeleOp extends OpMode {
     private int liftTarget = 0;
     private boolean useLiftPower = true;
     private boolean liftModeUpdate = false;
+    private boolean liftUseEnc = true;
     private double rotatePower = 0;
     private int rotateTarget = 0;
     private boolean useRotatePower = true;
@@ -177,10 +178,12 @@ public class powerplayTeleOp extends OpMode {
             rotateTarget = 0;
             useLiftPower = false;
             liftTarget = Constants.liftSpin;
+            liftUseEnc = true;
             retractWait = Double.MAX_VALUE;
         }
         if ((stage == -2) && (Math.abs(currentRPosition) < Constants.rotFrontBuffer)){
             liftTarget = 0;
+            liftUseEnc = true;
             stage = -1;
         }
 
@@ -193,6 +196,7 @@ public class powerplayTeleOp extends OpMode {
                     } else {
                         liftTarget = cycleLiftPos;
                         useLiftPower = false;
+                        liftUseEnc = true;
                     }
                     break;
                 case 2:
@@ -237,20 +241,24 @@ public class powerplayTeleOp extends OpMode {
         if (gamepad2.dpad_up) {
             useLiftPower = false;
             liftTarget = Constants.liftHigh;
+            liftUseEnc = true;
         } else if (gamepad2.dpad_down) {
             useLiftPower = false;
             liftTarget = 0;
+            liftUseEnc = true;
         }
 
         if (gamepad2.left_stick_button) {
             useLiftPower = false;
             liftTarget = Constants.liftDrive;
+            liftUseEnc = true;
         }
 
 
         // Raising lift by power
         double liftJoystick = gamepad2.left_stick_y;
         if (liftJoystick < -0.12) {
+            liftUseEnc = true;
             // user trying to lift up
             if (currentLiftPosition > Constants.liftMax || !limits) {
                 useLiftPower = true;
@@ -259,6 +267,7 @@ public class powerplayTeleOp extends OpMode {
                 liftPower = 0;
             }
         } else if (liftJoystick > 0.12) {
+            liftUseEnc = true;
             // user trying to lift down
             if (currentLiftPosition < Constants.liftMin || !limits) {
                 useLiftPower = true;
@@ -276,6 +285,7 @@ public class powerplayTeleOp extends OpMode {
 
         // Reset lift encoder or hold lift in place
         if (gamepad2.x) {
+            liftUseEnc = true;
             useLiftPower = true;
             myRobot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             myRobot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -287,6 +297,7 @@ public class powerplayTeleOp extends OpMode {
 //            }
         } else if (gamepad2.y) {
             useLiftPower = false;
+            liftUseEnc = true;
             liftTarget = (int) currentLiftPosition;
 //            useRotatePower = false;
 //            rotateTarget = 0;
@@ -329,6 +340,7 @@ public class powerplayTeleOp extends OpMode {
             useRotatePower = true;
             rotatePower = 0;
             useLiftPower = true;
+            liftUseEnc = true;
             liftPower = 0;
             stage = -1;
             slidePosition = currentSlidePosition;
@@ -349,11 +361,12 @@ public class powerplayTeleOp extends OpMode {
         myRobot.setClawServo(clawPosition);
         myRobot.setSlideServo(slidePosition);
 
+        if (liftModeUpdate && liftUseEnc) {
+            myRobot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            liftModeUpdate = false;
+        }
+
         if (useLiftPower) {
-            if (liftModeUpdate) {
-                myRobot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                liftModeUpdate = false;
-            }
             myRobot.runLiftMotor(liftPower);
         } else {
             // Limit so the lift doesnt go down ontop of the base
@@ -428,10 +441,11 @@ public class powerplayTeleOp extends OpMode {
             }
             telemetry.addData("Lift Motor", newPower);
             myRobot.runLiftMotor(newPower);
-        } else if (position != 0) {
+        } else if (position != 0 && !liftModeUpdate) {
             myRobot.setLiftMotor(0.5, position);
             liftModeUpdate = true;
-        } else {
+            liftUseEnc = false;
+        } else if (!liftModeUpdate){
             myRobot.runLiftMotor(0);
         }
     }
