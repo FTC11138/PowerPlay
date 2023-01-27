@@ -173,7 +173,7 @@ public abstract class AutonomousMethods extends LinearOpMode {
 
     // Drop cone
     public int dropCone(int liftTarget, int rotStart, int rotTarget, double slideTarget) {
-        myRobot.setClawServo(Constants.clawClose);
+        myRobot.setClawServo(Constants.autoClawClose);
         sleep(Constants.clawCloseDelay);
         myRobot.setSlideServo(Constants.autoSlideCycle - Constants.slideCycleShorten);
         sleep((long) (Constants.slideCycleShorten * Constants.slideWaitARatio));
@@ -186,7 +186,6 @@ public abstract class AutonomousMethods extends LinearOpMode {
         if (myRobot.getClawDistance() > 4) {
             myRobot.setClawServo(Constants.clawOpen);
             myRobot.runLiftMotor(0);
-            sleep(Constants.clawOpenDelay);
             return -1;
         } else {
 //            myRobot.setSlideServo(Constants.slideIn);
@@ -196,22 +195,65 @@ public abstract class AutonomousMethods extends LinearOpMode {
             myRobot.setRotateMotor(0.5, rotTarget);
             while (Math.abs(myRobot.rotateMotor.getCurrentPosition() - rotTarget) > Constants.earlyRotDrop) {
                 if (myRobot.getClawDistance() > 4) {
+                    myRobot.setRotateMotor(0.5, rotStart);
                     myRobot.setClawServo(Constants.clawOpen);
                     myRobot.runLiftMotor(0);
-                    sleep(Constants.clawOpenDelay);
                     return -2;
                 }
             }
             myRobot.setSlideServo(slideTarget);
             sleep(750);
-            myRobot.setLiftMotor(1, liftTarget + 200);
-            sleep(250);
+            myRobot.setLiftMotor(1, liftTarget + 100);
+            sleep(150);
             myRobot.setClawServo(Constants.clawFurtherOpen);
             sleep(Constants.clawOpenDelay);
             return 0;
         }
     }
 
+    // Reset cycle to grab
+    public void resetMedCycle(int liftTarget, int rotTarget, double slideTarget) {
+        double startRPosition = myRobot.getRotationMotorPosition();
+        double currentRPosition;
+        myRobot.setSlideServo(slideTarget);
+        sleep(250);
+        myRobot.setRotateMotor(0.75, rotTarget);
+        int stage = 1;
+        while (opModeIsActive() && stage <= 5) {
+            currentRPosition = myRobot.getRotationMotorPosition();
+            switch (stage) {
+                case 1:
+                    if (Math.abs(currentRPosition - startRPosition) >= Constants.junctionDodge) {
+                        stage = 2;
+                    }
+                    break;
+                case 2:
+                    myRobot.setLiftMotor(1, Constants.liftLow);
+                    myRobot.setClawServo(Constants.clawOpen);
+                    stage = 3;
+                    break;
+                case 3:
+                    if (Math.abs(currentRPosition - startRPosition) >= Constants.lowJuncDodge) {
+                        myRobot.setLiftMotor(1, liftTarget + Constants.coneDodge);
+                        stage = 4;
+                    }
+                    break;
+                case 4:
+                    if (Math.abs(currentRPosition - rotTarget) <= 10) {
+                        stage = 5;
+                    }
+                    break;
+                case 5:
+                    myRobot.setLiftMotor(1, liftTarget);
+                    myRobot.setSlideServo(slideTarget + Constants.slideCycleBack);
+                    stage = 5 + 1;
+            }
+        }
+//        myRobot.setSlideServo(slideTarget);
+        while (myRobot.rotateMotor.isBusy() || myRobot.liftMotor.isBusy()) {
+        }
+//        sleep(250);
+    }
 
     // Reset cycle to grab
     public void resetCycle(int liftTarget, int rotTarget, double slideTarget) {

@@ -8,7 +8,7 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
-public abstract class RightHighAuto extends AutonomousMethods {
+public abstract class RightMedAuto extends AutonomousMethods {
     static final int STREAM_WIDTH = 1920; // modify for your camera
     static final int STREAM_HEIGHT = 1080; // modify for your camera
 
@@ -18,10 +18,10 @@ public abstract class RightHighAuto extends AutonomousMethods {
     int signal = 3;
     double cameraError = 100;
 
-    double autoSlideFirstTall = getAutoSlideFirstTall();
-    double autoSlideTall = getAutoSlideTall();
-    int autoTurnFirstTall = getAutoTurnFirstTall();
-    int autoTurnTall = getAutoTurnTall();
+    double autoSlideFirstMed = getAutoSlideFirstMed();
+    double autoSlideMed = getAutoSlideMed();
+    int autoTurnFirstMed = getAutoTurnFirstMed();
+    int autoTurnMed = getAutoTurnMed();
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -64,13 +64,13 @@ public abstract class RightHighAuto extends AutonomousMethods {
         webcam.setPipeline(coneAlignPipeline);
 
 //        {
-//            multitaskMovement(0, Constants.liftHigh, Constants.rot90R, Constants.slideOpt, -48, 0.6);
+//            multitaskMovement(0, Constants.liftMed, Constants.rot90R, Constants.slideOpt, -48, 0.6);
 //            encoderTurn(0, 0.3, 1);
 //        }
         {
-            myRobot.setLiftMotor(1, Constants.liftHigh);
+            myRobot.setLiftMotor(1, Constants.liftMed);
             myRobot.setRotateMotor(0.75, Constants.rot90R);
-            encoderStraightDrive(-48, 1, 24, 0.5);
+            encoderStraightDrive(-48, 0.5);
 //            encoderStraightDrive(-48, 0.5);
             encoderTurn(0, 0.5, 1);
         }
@@ -80,61 +80,79 @@ public abstract class RightHighAuto extends AutonomousMethods {
         cameraError = (coneAlignPipeline.getMiddle() - 960) * Constants.alignRatio;
         encoderStraightDrive(cameraError, 0.25);
 
-        myRobot.setRotateMotor(0.5, autoTurnFirstTall);
+        myRobot.setRotateMotor(0.5, autoTurnFirstMed);
         while (myRobot.rotateMotor.isBusy()) {
         }
         encoderTurn(0, 0.5, 1);
-        myRobot.setSlideServo(autoSlideFirstTall);
+        myRobot.setSlideServo(autoSlideFirstMed);
         sleep(600);
-        myRobot.setLiftMotor(1, Constants.liftHigh + 100);
+        myRobot.setLiftMotor(1, Constants.liftMed + 100);
         sleep(150);
         myRobot.setClawServo(Constants.clawFurtherOpen);
         myRobot.setSlideServo(Constants.autoSlideCycle - Constants.slideCycleBack);
         sleep(Constants.clawOpenDelay);
         sleep(100);
-        myRobot.setRotateMotor(0.75, Constants.rot90LLong);
-        while (Math.abs(myRobot.rotateMotor.getCurrentPosition() - autoTurnFirstTall) < Constants.junctionDodge){
+        myRobot.setRotateMotor(0.75, Constants.rot90L);
+        int currentRPosition, stage = 1;
+        int startRPosition = myRobot.getRotationMotorPosition();
+        while (opModeIsActive() && stage <= 3) {
+            currentRPosition = myRobot.getRotationMotorPosition();
+            switch (stage) {
+                case 1:
+                    if (Math.abs(currentRPosition - startRPosition) >= Constants.junctionDodge) {
+                        stage = 2;
+                    }
+                    break;
+                case 2:
+                    myRobot.setLiftMotor(1, Constants.liftLow);
+                    myRobot.setClawServo(Constants.clawOpen);
+                    stage = 3;
+                    break;
+                case 3:
+                    if (Math.abs(currentRPosition - startRPosition) >= Constants.lowJuncDodgeFirst) {
+                        myRobot.setLiftMotor(1, 4 * Constants.autoLiftCone);
+                        stage = 4;
+                    }
+            }
+        }
+        while (myRobot.rotateMotor.isBusy() || myRobot.liftMotor.isBusy()){
         }
 
-        myRobot.setLiftMotor(1, 4 * Constants.autoLiftCone);
         encoderTurn(0, 0.5, 1);
-        myRobot.setClawServo(Constants.clawOpen);
-        while (myRobot.rotateMotor.isBusy()) {
-        }
 
         do {
             myRobot.setSlideServo(Constants.autoSlideCycle);
             myRobot.setLiftMotor(1, 4 * Constants.autoLiftCone);
             toTargetDistance(Constants.autoDistCycle, true, 0.5, 5000, 15, 0.25);
         }
-        while ((dropCone(Constants.liftHigh, 4 * Constants.autoLiftCone + Constants.coneDodge, autoTurnTall, autoSlideTall) == -1)
+        while ((dropCone(Constants.liftMed, 4 * Constants.autoLiftCone + Constants.coneDodge, autoTurnMed, autoSlideMed) == -1)
                 && (30000 - (runtime.milliseconds() - overallStart) > parkBuffer + 5000) && opModeIsActive());
 //        myRobot.setLiftMotor(1, 4 * Constants.autoLiftCone);
 //        myRobot.setSlideServo(Constants.autoSlideCycle);
 //        while (myRobot.liftMotor.isBusy()) {}
 //        toTargetDistance(Constants.autoDistCycle, true, 0.3, 5000, 5, 0.5);
-//        dropCone(Constants.liftHigh, 4 * Constants.autoLiftCone + Constants.coneDodge, Constants.autoTurnTall, Constants.autoSlideTall);
+//        dropCone(Constants.liftMed, 4 * Constants.autoLiftCone + Constants.coneDodge, Constants.autoTurnTall, Constants.autoSlideTall);
 
         for (int i = 3; i >= 0 && ((30000 - (runtime.milliseconds() - overallStart)) > parkBuffer + Constants.cycleTime); i--) {
             // Reset to stack
-            resetCycle(i * Constants.autoLiftCone, Constants.rot90LLong, Constants.autoSlideCycle - Constants.slideCycleBack);
+            resetMedCycle(i * Constants.autoLiftCone, Constants.rot90L, Constants.autoSlideCycle - Constants.slideCycleBack);
 //                myRobot.setSlideServo(Constants.autoSlideCycle);
 ////            while (myRobot.getClawDistance() > Constants.autoDistCycle + 0.5) {
 ////            }
 //                sleep(100);
 
             // Drop cone
-            while ((dropCone(Constants.liftHigh, i * Constants.autoLiftCone + Constants.coneDodge, autoTurnTall, autoSlideTall) == -1)
+            while ((dropCone(Constants.liftMed, i * Constants.autoLiftCone + Constants.coneDodge, autoTurnMed, autoSlideMed) == -1)
                     && ((30000 - (runtime.milliseconds() - overallStart)) > parkBuffer + 5000)) {
                 myRobot.setSlideServo(Constants.autoSlideCycle - Constants.slideCycleBack);
                 myRobot.setClawServo(Constants.clawOpen);
                 myRobot.setLiftMotor(1, i * Constants.autoLiftCone);
-                while (myRobot.liftMotor.isBusy()) {
+                while (myRobot.rotateMotor.isBusy() || myRobot.liftMotor.isBusy()) {
                 }
                 myRobot.setSlideServo(Constants.autoSlideCycle);
-                sleep((long) (Constants.slideCycleBack * Constants.slideWaitARatio));
+                sleep(250);
             }
-//            dropCone(Constants.liftHigh, i * Constants.autoLiftCone + Constants.coneDodge, Constants.autoTurnTall, Constants.autoSlideTall);
+//            dropCone(Constants.liftMed, i * Constants.autoLiftCone + Constants.coneDodge, Constants.autoTurnTall, Constants.autoSlideTall);
         }
 
         // Reset to front
@@ -154,11 +172,11 @@ public abstract class RightHighAuto extends AutonomousMethods {
 
     public abstract boolean isRed();
 
-    public abstract double getAutoSlideFirstTall();
+    public abstract double getAutoSlideFirstMed();
 
-    public abstract double getAutoSlideTall();
+    public abstract double getAutoSlideMed();
 
-    public abstract int getAutoTurnFirstTall();
+    public abstract int getAutoTurnFirstMed();
 
-    public abstract int getAutoTurnTall();
+    public abstract int getAutoTurnMed();
 }

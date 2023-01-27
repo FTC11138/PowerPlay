@@ -21,7 +21,7 @@ public class Constants {
     public static double clawOpen = 0.4;
     public static double clawFurtherOpen = 0.25;
     public static double clawClose = 0.54; // old claw was 0.53
-//    public static double autoClawClose = 2.5;
+    public static double autoClawClose = 0.52;
 //    public static double autoClawReset = 5;
     public static double slideSpeed = 0.05;
     public static int slideWaitRatio = 2500; // Adjusted value for slide movement to milliseconds ratio (does not work well)
@@ -44,8 +44,8 @@ public class Constants {
     // Lift Positions
     public static double newLiftRatio = 145.1 / 384.5;
     public static int liftHigh = -1125;
-//    public static int liftMed = -2200;
-//    public static int liftLow = -1400;
+    public static int liftMed = -830;
+    public static int liftLow = -528;
     public static int liftFloor = -75;
     public static int liftSpin = -175;
     public static int liftMax = -1175;
@@ -55,7 +55,9 @@ public class Constants {
     public static int liftkPTele = 10;
     public static int liftTolerance = 15;
     public static int coneDodge = -142;
-    public static int junctionDodge = 222;
+    public static int junctionDodge = 275; // 236 without furtheropen claw
+    public static int lowJuncDodgeFirst = 1325;
+    public static int lowJuncDodge = 1050;
 
     // Rotation Positions
     public static int rotRLimit = 4270;
