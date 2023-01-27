@@ -3,16 +3,17 @@ package org.firstinspires.ftc.teamcode.powerplay;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-@Autonomous(name = "Left Red Cycle", group = "Linear Opmode", preselectTeleOp = "TeleOp")
+@Autonomous(name = "Right Blue High", group = "Linear Opmode", preselectTeleOp = "TeleOp")
 @Config
-public class LeftRedCycleAuto extends LeftCycleAuto {
-    public static double autoSlideFirstTall = 0.58;
-    public static double autoSlideTall = 0.4;
-    public static int autoTurnFirstTall = -1675;
-    public static int autoTurnTall = -1450;
+public class RightBlueHighAuto extends RightHighAuto {
+    public static double autoSlideFirstTall = 0.625;
+    public static double autoSlideTall = 0.78;
+    public static int autoTurnFirstTall = 1565;
+    public static int autoTurnTall = 1435;
+
     @Override
     public boolean isRed() {
-        return true;
+        return false;
     }
 
     @Override
