@@ -251,7 +251,7 @@ public abstract class AutonomousMethods extends LinearOpMode {
         }
 //        myRobot.setSlideServo(slideTarget);
         currentRPosition = myRobot.getRotationMotorPosition();
-        while (currentRPosition > (rotTarget + Constants.rotTolerance) || myRobot.liftMotor.isBusy()) {
+        while ((Math.abs(currentRPosition - rotTarget) < 15) || Math.abs(myRobot.liftMotor.getCurrentPosition() - liftTarget) < 20) {
             currentRPosition = myRobot.getRotationMotorPosition();
         }
 //        sleep(250);

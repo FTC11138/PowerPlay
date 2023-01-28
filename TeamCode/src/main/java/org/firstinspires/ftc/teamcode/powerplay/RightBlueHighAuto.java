@@ -2,9 +2,11 @@ package org.firstinspires.ftc.teamcode.powerplay;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 @Autonomous(name = "Right Blue High", group = "Linear Opmode", preselectTeleOp = "TeleOp")
 @Config
+
 public class RightBlueHighAuto extends RightHighAuto {
     public static double autoSlideFirstTall = 0.625;
     public static double autoSlideTall = 0.78;
