@@ -115,7 +115,7 @@ public abstract class RightHighAuto extends AutonomousMethods {
 //        toTargetDistance(Constants.autoDistCycle, true, 0.3, 5000, 5, 0.5);
 //        dropCone(Constants.liftHigh, 4 * Constants.autoLiftCone + Constants.coneDodge, Constants.autoTurnTall, Constants.autoSlideTall);
 
-        for (int i = 3; i >= 0 && ((30000 - (runtime.milliseconds() - overallStart)) > parkBuffer + Constants.cycleTime); i--) {
+        for (int i = 3; i >= 0 && ((30000 - (runtime.milliseconds() - overallStart)) > parkBuffer + Constants.cycleTimeHigh); i--) {
             // Reset to stack
             resetCycle(i * Constants.autoLiftCone, Constants.rot90LLong, Constants.autoSlideCycle - Constants.slideCycleBack);
 //                myRobot.setSlideServo(Constants.autoSlideCycle);

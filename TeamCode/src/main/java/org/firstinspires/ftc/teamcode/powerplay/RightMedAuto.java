@@ -70,7 +70,7 @@ public abstract class RightMedAuto extends AutonomousMethods {
         {
             myRobot.setLiftMotor(1, Constants.liftMed);
             myRobot.setRotateMotor(0.75, Constants.rot90R);
-            encoderStraightDrive(-48, 0.5);
+            encoderStraightDrive(-48, Constants.autoDriveSpeed);
 //            encoderStraightDrive(-48, 0.5);
             encoderTurn(0, 0.5, 1);
         }
@@ -133,7 +133,7 @@ public abstract class RightMedAuto extends AutonomousMethods {
 //        toTargetDistance(Constants.autoDistCycle, true, 0.3, 5000, 5, 0.5);
 //        dropCone(Constants.liftMed, 4 * Constants.autoLiftCone + Constants.coneDodge, Constants.autoTurnTall, Constants.autoSlideTall);
 
-        for (int i = 3; i >= 0 && ((30000 - (runtime.milliseconds() - overallStart)) > parkBuffer + Constants.cycleTime); i--) {
+        for (int i = 3; i >= 0 && ((30000 - (runtime.milliseconds() - overallStart)) > parkBuffer + Constants.cycleTimeMed); i--) {
             // Reset to stack
             resetMedCycle(i * Constants.autoLiftCone, Constants.rot90L, Constants.autoSlideCycle - Constants.slideCycleBack);
 //                myRobot.setSlideServo(Constants.autoSlideCycle);

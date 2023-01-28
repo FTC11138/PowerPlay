@@ -7,9 +7,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 @Config
 public class RightBlueMedAuto extends RightMedAuto {
     public static double autoSlideFirstMed = 0.61;
-    public static double autoSlideMed = 0.82;
-    public static int autoTurnFirstMed = 620;
-    public static int autoTurnMed = 745;
+    public static double autoSlideMed = 0.78;
+    public static int autoTurnFirstMed = 600;
+    public static int autoTurnMed = 730;
 
     @Override
     public boolean isRed() {

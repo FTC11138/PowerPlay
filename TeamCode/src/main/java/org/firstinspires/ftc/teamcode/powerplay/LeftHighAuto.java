@@ -111,7 +111,7 @@ public abstract class LeftHighAuto extends AutonomousMethods {
 //        dropCone(Constants.liftHigh, 4 * Constants.autoLiftCone + Constants.coneDodge, Constants.autoTurnTall, Constants.autoSlideTall);
 
 
-        for (int i = 3; i >= 0 && ((30000 - (runtime.milliseconds() - overallStart)) > parkBuffer + Constants.cycleTime); i--) {
+        for (int i = 3; i >= 0 && ((30000 - (runtime.milliseconds() - overallStart)) > parkBuffer + Constants.cycleTimeHigh); i--) {
             // Reset to stack
             resetCycle(i * Constants.autoLiftCone, Constants.rot90RLong, Constants.autoSlideCycle - Constants.slideCycleBack);
             myRobot.setSlideServo(Constants.autoSlideCycle);

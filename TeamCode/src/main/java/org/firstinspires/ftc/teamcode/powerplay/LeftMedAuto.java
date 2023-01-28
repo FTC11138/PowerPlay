@@ -133,7 +133,7 @@ public abstract class LeftMedAuto extends AutonomousMethods {
 //        toTargetDistance(Constants.autoDistCycle, false, 0.3, 5000, 5, 0.5);
 //        dropCone(Constants.liftMed, 4 * Constants.autoLiftCone + Constants.coneDodge, Constants.autoTurnTall, Constants.autoSlideTall);
 
-        for (int i = 3; i >= 0 && ((30000 - (runtime.milliseconds() - overallStart)) > parkBuffer + Constants.cycleTime); i--) {
+        for (int i = 3; i >= 0 && ((30000 - (runtime.milliseconds() - overallStart)) > parkBuffer + Constants.cycleTimeMed); i--) {
             // Reset to stack
             resetMedCycle(i * Constants.autoLiftCone, Constants.rot90R, Constants.autoSlideCycle - Constants.slideCycleBack);
 //                myRobot.setSlideServo(Constants.autoSlideCycle);

@@ -2,8 +2,6 @@ package org.firstinspires.ftc.teamcode.powerplay;
 
 import com.acmerobotics.dashboard.config.Config;
 
-import org.opencv.core.Scalar;
-
 @Config
 public class Constants {
     // PowerPlay Stuff
@@ -20,7 +18,7 @@ public class Constants {
     public static double autoDistCycle = 2.5; // inches to be away from cone
     public static double clawOpen = 0.4;
     public static double clawFurtherOpen = 0.25;
-    public static double clawClose = 0.54; // old claw was 0.53
+    public static double clawClose = 0.56; // old claw was 0.53
     public static double autoClawClose = 0.52;
 //    public static double autoClawReset = 5;
     public static double slideSpeed = 0.05;
@@ -31,7 +29,8 @@ public class Constants {
     public static double slideCycleShorten = 0.05;
     public static int clawCloseDelay = 400;
     public static int clawOpenDelay = 200;
-    public static double cycleTime = 5000;
+    public static double cycleTimeHigh = 5000;
+    public static double cycleTimeMed = 4000;
 
     public static int autoLiftCone = -45; // encoder value to increase by per cone in stack
     public static double liftUpRatio = 1;
@@ -79,6 +78,8 @@ public class Constants {
     public static int rotTolerance = 25;
     public static int rotFrontBuffer = 75;
     public static int autoRotTolerance = 125;
+
+    public static double autoRotSpeed = 0.8;
 
     // Drive motor (5203 312 rpm)
     public static final double TICKS_PER_REV = 537.7;
@@ -178,4 +179,5 @@ public class Constants {
     public static double drivekD = 0;
     public static double drivekF = 20;
     public static double drivePoskP = 7.5;
+    public static double autoDriveSpeed = 0.7;
 }
